@@ -1,0 +1,3 @@
+production:
+  driver: postgres
+  open: $DATABASE_URL
