@@ -104,8 +104,6 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	fmt.Println(user.Password + passwordSalt)
-	fmt.Println(passwordHash)
 	err = bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(user.Password + passwordSalt))
 	if err != nil {
 		w.WriteHeader(http.StatusForbidden)
