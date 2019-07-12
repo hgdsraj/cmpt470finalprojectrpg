@@ -33,7 +33,6 @@ func (c *DatabaseConfig) setupConfig() error {
 	dbyml := DataBaseYamlParsing{}
 	err = yaml.Unmarshal(yamlFile, &dbyml)
 	c.Open = dbyml.Development.Open
-	c.Open += " host=localhost port=5432"
 
 	if err != nil {
 		log.Fatalf("Unmarshal: %v", err)
@@ -73,9 +72,11 @@ func OpenDb() *sql.DB {
 		} else {
 			log.Fatalf("error: no database settings or DATABASE_URL was provided")
 		}
+	} else {
+		connection += " host=localhost port=5432"
 	}
 
-	db, err := sql.Open("postgres", connection)
+	db, err := sql.Open("postgres", connection )
 	if err != nil {
 		log.Fatalf("database opening error:%v", err)
 	}
