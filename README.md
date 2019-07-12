@@ -26,3 +26,9 @@
 - Run `sh scripts/local.sh`
 - Visit localhost:8000 in your browser. Voila!
 
+### When deploying
+- you must run ./scripts/heroku_migrate.sh for any migrations after pushing to Heroku
+- you must have a file db/prod.yml that looks has the correct authenticated postgresURL like:
+    production:
+        driver: postgres
+        open: postgresURL
