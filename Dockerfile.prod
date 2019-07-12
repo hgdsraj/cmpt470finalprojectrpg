@@ -4,7 +4,7 @@ LABEL version="1.0"
 RUN mkdir -p /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
 RUN go get -u github.com/golang/dep/cmd/dep
-RUN go get -u bitbucket.org/liamstask/goose
+RUN go get -u bitbucket.org/liamstask/goose/cmd/goose
 
 COPY . /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
