@@ -4,16 +4,11 @@ LABEL version="1.0"
 RUN mkdir -p /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
 RUN go get -u github.com/golang/dep/cmd/dep
-RUN go get -u bitbucket.org/liamstask/goose/cmd/goose
 
 COPY . /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
 WORKDIR /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
-RUN cp db/production.yml db/dbconf.yml
-RUN echo $DATABASE_URL
-RUN cat db/dbconf.yml
-RUN goose -env production up
 
 RUN dep ensure
 
@@ -23,5 +18,8 @@ EXPOSE $PORT
 
 ### Put the binary onto Heroku image
 FROM heroku/heroku:18
+
 COPY --from=build /go/src/sfu.ca/apruner/cmpt470finalprojectrpg .
+RUN echo $DATABASE_URL
+
 CMD ["./main"]
