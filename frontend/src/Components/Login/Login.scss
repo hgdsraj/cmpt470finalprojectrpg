@@ -12,4 +12,11 @@
     font-size: calc(10px + 2vmin);
     color: white;
 }
+
+.login-input-group {
+    max-width: 300px;
+    .username {
+        margin-bottom: 10px;
+    }
+}
   
