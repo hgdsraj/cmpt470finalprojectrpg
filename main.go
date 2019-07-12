@@ -26,7 +26,7 @@ func main() {
 	r.HandleFunc("/api/users/login", handlers.HandleUserLogin)
 	r.HandleFunc("/api/users/create", handlers.HandleUserCreate)
 
-	r.PathPrefix("/").Handler(http.FileServer(http.Dir("." + STATIC)))
+	// r.PathPrefix("/").Handler(http.FileServer(http.Dir("." + STATIC)))
 
 	// Start listening for incoming chat messages
 	//go handlers.HandleMessages()
