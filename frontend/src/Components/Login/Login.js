@@ -1,13 +1,12 @@
 import React from 'react';
+import "./Login.css";
 
 class Login extends React.Component {
   render () {
     return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-              Hello World!
-          </p>
+      <div className="login-page">
+        <header className="login-header">
+          <h1>Welcome to RPG470!</h1>
         </header>
       </div>
     );
