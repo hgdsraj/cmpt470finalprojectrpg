@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  name = "github.com/google/uuid"
+  packages = ["."]
+  revision = "0cd6bf5da1e1c83f8b45653022c74f71af0538a4"
+  version = "v1.1.1"
+
+[[projects]]
   name = "github.com/gorilla/mux"
   packages = ["."]
   revision = "ed099d42384823742bba0bf9a72b53b55c9e2e38"
@@ -20,6 +26,12 @@
   version = "v1.1.1"
 
 [[projects]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["bcrypt","blowfish"]
+  revision = "4def268fd1a49955bfb3dda92fe3db4f924f2285"
+
+[[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
@@ -28,6 +40,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0c2a6e92461b0077a34ae89b2954e0408dda267f839104a4fed33f49d6709cc4"
+  inputs-digest = "676f46461d66138181b8acf881522adabb62452e4bc7c794888500f3ebdf465d"
   solver-name = "gps-cdcl"
   solver-version = 1
