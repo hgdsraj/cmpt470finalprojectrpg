@@ -6,13 +6,11 @@ import (
 	"html/template"
 	"sync"
 
-	"database/sql"
 	"encoding/json"
 	"net/http"
 
 	"fmt"
 	"log"
-	"os"
 	"time"
 )
 

@@ -1,10 +1,6 @@
 package handlers
 
 import (
-	"github.com/gorilla/mux"
-	"github.com/gorilla/websocket"
-	"html/template"
-	"sync"
 
 	"database/sql"
 	"encoding/json"
@@ -13,7 +9,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 )
 
 var Database *sql.DB
