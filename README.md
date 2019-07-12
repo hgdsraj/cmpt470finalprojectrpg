@@ -26,4 +26,3 @@
 - Run `sh scripts/local.sh`
 - Visit localhost:8000 in your browser. Voila!
 
-Chat taken from tutorial here https://scotch.io/bar-talk/build-a-realtime-chat-server-with-go-and-websockets
