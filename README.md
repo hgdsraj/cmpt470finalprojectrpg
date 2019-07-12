@@ -1,8 +1,8 @@
-# CMPT 470 Demo Site
+# CMPT 470 Final Project - MMORPG Game
 
 ## How to build and run the app locally
 
-- After cloning, make sure this project is in "$GOPATH/src/sfu.ca/rmahey/cmpt470project", otherwise you will run into issues
+- After cloning, make sure this project is in "$GOPATH/src/sfu.ca/apruner/cmpt470project", otherwise you will run into issues
 
 ### Dependencies
 - need go > 1.10
@@ -25,9 +25,5 @@
 ### To build and run the app locally (using go build, recommended for development)
 - Run `sh scripts/local.sh`
 - Visit localhost:8000 in your browser. Voila!
-
-\[\[constraint\]\]
-  branch = "master"
-  name = "bitbucket.org/liamstask/goose"
 
 Chat taken from tutorial here https://scotch.io/bar-talk/build-a-realtime-chat-server-with-go-and-websockets
