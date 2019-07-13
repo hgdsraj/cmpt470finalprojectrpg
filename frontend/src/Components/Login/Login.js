@@ -21,9 +21,18 @@ class Login extends React.Component {
     console.log('Signup button pressed');
   }
 
-  handleLogin = (event) => {
+  handleLogin = async (event) => {
     event.preventDefault();
-    console.log('Login button pressed');
+    let response = await fetch('http://localhost:8000/api/users/login', {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      })
+    });
+    let body = await response.json();
+    console.log(body);
   }
 
   handleChangeUsername = (event) => {
