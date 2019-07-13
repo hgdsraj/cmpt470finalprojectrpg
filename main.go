@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gorilla/mux"
-	"sfu.ca/rmahey/cmpt470project/db"
-	"sfu.ca/rmahey/cmpt470project/handlers"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/db"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/handlers"
 
 	"fmt"
 	"log"
@@ -36,14 +36,13 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		log.Println("no port supplied. defaulting to 8000")
-
 		port = "8000"
+		log.Printf("no port supplied. defaulting to %v\n", port)
 	}
 	host := os.Getenv("HOST")
 	if host == "" {
-		log.Println("no HOST supplied. defaulting to 0.0.0.0")
 		host = "0.0.0.0"
+		log.Printf("no HOST supplied. defaulting to %v\n", host)
 	}
 	srv := &http.Server{
 		Handler:      r,

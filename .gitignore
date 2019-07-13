@@ -18,4 +18,5 @@
 server
 
 db/dbconf.yml
+db/prod.yml
 .idea

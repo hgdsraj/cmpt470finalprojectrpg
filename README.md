@@ -2,7 +2,7 @@
 
 ## How to build and run the app locally
 
-- After cloning, make sure this project is in "$GOPATH/src/sfu.ca/apruner/cmpt470project", otherwise you will run into issues
+- After cloning, make sure this project is in "$GOPATH/src/sfu.ca/apruner/cmpt470finalprojectrpg", otherwise you will run into issues
 
 ### Dependencies
 - need go > 1.10

@@ -25,7 +25,7 @@
 #   unused-packages = true
 
 #[metadata.heroku]
-#  root-package = "sfu.ca/rmahey/cmpt470project"
+#  root-package = "sfu.ca/apruner/cmpt470finalprojectrpg"
 #  go-version = "go1.12"
 
 [[constraint]]

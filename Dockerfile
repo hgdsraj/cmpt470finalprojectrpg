@@ -1,13 +1,13 @@
 FROM golang:latest
 LABEL version="1.0"
 
-RUN mkdir -p /go/src/sfu.ca/rmahey/cmpt470project
+RUN mkdir -p /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
 RUN go get -u github.com/golang/dep/cmd/dep
 
-COPY . /go/src/sfu.ca/rmahey/cmpt470project
+COPY . /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
-WORKDIR /go/src/sfu.ca/rmahey/cmpt470project
+WORKDIR /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
 
 RUN dep ensure
