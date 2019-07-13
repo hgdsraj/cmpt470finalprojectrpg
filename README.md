@@ -17,7 +17,7 @@
   - Run `goose up`
 - Voila! You are ready to build with either docker or go build
 
-### Build the app with docker (recommended for deployment)
+### Build the app with docker (CURRENTLY NOT WORKING, IGNORE THIS)
 - Ensure you have docker installed (`brew install docker` or `sudo apt-get install docker`)
 - Run `sudo sh scripts/docker.sh`
 - Visit localhost:8000 in your browser. Voila!
@@ -25,5 +25,6 @@
 ### To build and run the app locally (using go build, recommended for development)
 - Run `sh scripts/local.sh`
 - Visit localhost:8000 in your browser. Voila!
+- Note: If you are running into odd db issues with the API, go into postgres and drop all tables manually in the cmpt470 db. Then run `goose down` and then `goose up`
 
 Chat taken from tutorial here https://scotch.io/bar-talk/build-a-realtime-chat-server-with-go-and-websockets
