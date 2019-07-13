@@ -50,23 +50,23 @@ class Login extends React.Component {
   render () {
     return (
       <div className="login-page">
-        <header className="login-header">
+        <header className="header login-header">
           <h1 className="login-header-text">Welcome to RPG470!</h1>
           <Form onSubmit={this.handleLogin}>
             <FormGroup className="login-form-group">
-              <Label for="username" className="login-form-label">Username</Label>
+              <Label for="username" className="form-label login-form-label">Username</Label>
               <Input type="username" id="username" onChange={this.handleChangeUsername}/>
             </FormGroup>
             <FormGroup className="login-form-group">
-              <Label for="password" className="login-form-label">Password</Label>
+              <Label for="password" className="form-label login-form-label">Password</Label>
               <Input type="password" id="password" onChange={this.handleChangePassword}/>
             </FormGroup>
             <Button color="primary" className="login-button">
               Login
             </Button>
           </Form>
-          <h3 className="signup-header">Don't have an account?
-            <Button color="primary" className="signup-button" onClick={this.handleSignup}>
+          <h3 className="signup-message-header">Don't have an account?
+            <Button color="primary" className="signup-message-button" onClick={this.handleSignup}>
               Sign up
             </Button>
           </h3>
