@@ -81,12 +81,18 @@ type User struct {
 }
 
 type Character struct {
-	CharacterID   int    `json:"id"`
+	CharacterId   int    `json:"id"`
 	CharacterName string `json:"name"`
 	Attack        int    `json:"attack"`
 	Defense       int    `json:"defense"`
 	Health        int    `json:"health"`
-	UserID        int    `json:"uid"`
+	UserId        int    `json:"uid"`
+}
+
+type Item struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+	Type string `json:"type"`
 }
 
 func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
