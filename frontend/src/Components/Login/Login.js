@@ -6,14 +6,14 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import "./Login.scss";
+import './Login.scss';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: ""
+      username: '',
+      password: ''
     }
   }
 
