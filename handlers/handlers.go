@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
+	"strings"
 
 	"fmt"
 	"log"
@@ -143,6 +144,7 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+	user.Username = strings.ToLower(user.Username) // Lowercase the username
 	row := Database.QueryRow("SELECT 1 FROM users WHERE username = $1", user.Username)
 	var temp int
 	err = row.Scan(&temp)
