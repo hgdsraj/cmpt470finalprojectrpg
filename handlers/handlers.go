@@ -50,7 +50,7 @@ func HandleConfig(w http.ResponseWriter, r *http.Request) {
 }
 
 func TestDatabase(w http.ResponseWriter, r *http.Request) {
-	_, err := Database.Query("SELECT 1 FROM users")
+	_, err := Database.Query("SELECT 1 FROM Users")
 	if err != nil {
 		log.Printf("error querying database: %v", err);
 		_, err := w.Write([]byte("Database is not connected!"))

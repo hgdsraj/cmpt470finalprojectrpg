@@ -65,7 +65,7 @@ func OpenDb() *sql.DB {
 	if connection == "" {
 		url := os.Getenv("DATABASE_URL")
 		if url != "" {
-			connection, err := pq.ParseURL(url)
+			connection, err = pq.ParseURL(url)
 			if err != nil {
 				log.Fatalf("error setting up database %v", err)
 			}
