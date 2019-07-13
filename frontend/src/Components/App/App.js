@@ -4,8 +4,8 @@ import Signup from '../Signup/Signup';
 
 function App() {
   return (
-    <Login />
-    // <Signup />
+    // <Login />
+    <Signup />
   );
 }
 

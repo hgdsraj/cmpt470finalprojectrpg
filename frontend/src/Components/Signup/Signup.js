@@ -19,19 +19,36 @@ class Signup extends React.Component {
   }
 
   handleChangeUsername = (event) => {
-
+    this.setState({
+      username: event.target.value
+    });
   }
 
   handleChangePassword = (event) => {
-
+    this.setState({
+      password: event.target.value
+    });
   }
 
   handleChangeFullname = (event) => {
-
+    this.setState({
+      fullname: event.target.value
+    });
   }
 
-  handleSignup = (event) => {
+  handleSignup = async (event) => {
     event.preventDefault();
+    let response = await fetch('http://localhost:8000/api/users/create', {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password,
+        fullname: this.state.fullname
+      })
+    });
+    let body = await response.json();
+    console.log(body);
   }
 
   render () {
