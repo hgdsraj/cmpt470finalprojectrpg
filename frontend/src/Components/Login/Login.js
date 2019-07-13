@@ -17,8 +17,13 @@ class Login extends React.Component {
     }
   }
 
-  handleLogin = () => {
-    console.log('we got here');
+  handleSignup = () => {
+    console.log('Signup button pressed');
+  }
+
+  handleLogin = (event) => {
+    event.preventDefault();
+    console.log('Login button pressed');
   }
 
   handleChangeUsername = (event) => {
@@ -37,20 +42,25 @@ class Login extends React.Component {
     return (
       <div className="login-page">
         <header className="login-header">
-          <h1>Welcome to RPG470!</h1>
+          <h1 className="login-header-text">Welcome to RPG470!</h1>
           <Form onSubmit={this.handleLogin}>
-            <FormGroup>
+            <FormGroup className="login-form-group">
               <Label for="username" className="login-form-label">Username</Label>
               <Input type="username" id="username" onChange={this.handleChangeUsername}/>
             </FormGroup>
-            <FormGroup>
+            <FormGroup className="login-form-group">
               <Label for="password" className="login-form-label">Password</Label>
               <Input type="password" id="password" onChange={this.handleChangePassword}/>
             </FormGroup>
-            <Button color="primary">
-              Play RPG470
+            <Button color="primary" className="login-button">
+              Login
             </Button>
           </Form>
+          <h3 className="signup-header">Don't have an account?
+            <Button color="primary" className="signup-button" onClick={this.handleSignup}>
+              Sign up
+            </Button>
+          </h3>
         </header>
       </div>
     );

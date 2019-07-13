@@ -8,8 +8,22 @@
     font-size: calc(10px + 2vmin);
     color: white;
 
+    .login-form-group {
+        margin-bottom: 10px;
+    }
+
     .login-form-label {
         font-size: 18px;
     }
+
+    .signup-header {
+        margin-top: 30px;
+
+        .signup-button {
+            margin-left: 10px;
+        }
+    }
+
+    
 }
   
