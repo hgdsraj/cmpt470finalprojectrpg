@@ -1,7 +1,9 @@
 import React from 'react';
 import {
   Button,
-  InputGroup,
+  Form,
+  FormGroup,
+  Label,
   Input
 } from 'reactstrap';
 import "./Login.scss";
@@ -15,12 +17,20 @@ class Login extends React.Component {
     }
   }
 
-  handleChangeUsername (event) {
-    console.log(event);
+  handleLogin = () => {
+    console.log('we got here');
   }
 
-  handleChangePassword (event) {
-    console.log(event);
+  handleChangeUsername = (event) => {
+    this.setState({
+      username: event.target.value
+    });
+  }
+
+  handleChangePassword = (event) => {
+    this.setState({
+      password: event.target.value
+    });
   }
 
   render () {
@@ -28,13 +38,19 @@ class Login extends React.Component {
       <div className="login-page">
         <header className="login-header">
           <h1>Welcome to RPG470!</h1>
-          <InputGroup className="login-input-group username">
-            <Input placeholder="Username" onChange={this.handleChangeUsername}/>
-          </InputGroup>
-          <InputGroup className="login-input-group password">
-            <Input placeholder="Password" onChange={this.handleChangePassword}/>
-          </InputGroup>
-          <Button onClick={this.login}/>
+          <Form onSubmit={this.handleLogin}>
+            <FormGroup>
+              <Label for="username" className="login-form-label">Username</Label>
+              <Input type="username" id="username" onChange={this.handleChangeUsername}/>
+            </FormGroup>
+            <FormGroup>
+              <Label for="password" className="login-form-label">Password</Label>
+              <Input type="password" id="password" onChange={this.handleChangePassword}/>
+            </FormGroup>
+            <Button color="primary">
+              Play RPG470
+            </Button>
+          </Form>
         </header>
       </div>
     );
