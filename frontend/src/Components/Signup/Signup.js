@@ -1,5 +1,8 @@
 import React from 'react';
 import {
+  Link
+} from 'react-router-dom';
+import {
   Form,
   FormGroup,
   Label,
@@ -70,7 +73,7 @@ class Signup extends React.Component {
               <Input type="fullname" id="fullname" onChange={this.handleChangeFullname}/>
             </FormGroup>
             <Button color="primary" className="signup-button">
-              Sign up
+                Sign up
             </Button>
           </Form>
         </header>

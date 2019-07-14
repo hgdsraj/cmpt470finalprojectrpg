@@ -1,5 +1,8 @@
 import React from 'react';
 import {
+  Link
+} from 'react-router-dom';
+import {
   Button,
   Form,
   FormGroup,
@@ -66,9 +69,11 @@ class Login extends React.Component {
             </Button>
           </Form>
           <h3 className="signup-message-header">Don't have an account?
-            <Button color="primary" className="signup-message-button" onClick={this.handleSignup}>
-              Sign up
-            </Button>
+            <Link to="/signup">
+              <Button color="primary" className="signup-message-button" onClick={this.handleSignup}>
+                Sign up
+              </Button>
+            </Link>
           </h3>
         </header>
       </div>
