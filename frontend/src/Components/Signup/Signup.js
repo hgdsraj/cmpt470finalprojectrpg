@@ -75,7 +75,7 @@ class Signup extends React.Component {
     this.setState({
       username: username,
       isUsernameTaken: username ? !this.checkIfUsernameExists(event.target.value) : false,
-      isUsernameLongEnough: username ? username.length >= 8 : false
+      isUsernameLongEnough: username ? username.length >= 4 : false
     });
   }
 
@@ -109,7 +109,7 @@ class Signup extends React.Component {
   renderUsernameAlertList = () => {
     let messages = [];
     if (!this.state.isUsernameLongEnough) {
-      messages.push("Username needs to be 8 characters long");
+      messages.push("Username needs to be 4 characters long");
     } else if (this.state.isUsernameTaken) {
       messages.push("This username is taken");
     } else {
