@@ -117,7 +117,6 @@ class Login extends React.Component {
   }
 
   render () {
-
     return (
       <div className="login-page">
         <header className="header login-header">
@@ -136,7 +135,8 @@ class Login extends React.Component {
             </Button>
             {this.renderLoginPopover()}
           </Form>
-          <h3 className="signup-message-header">Don't have an account?
+          <h3 className="signup-message-header">
+            Don't have an account?
             <Link to="/signup">
               <Button color="primary" className="signup-message-button" onClick={this.handleSignup}>
                 Sign up
