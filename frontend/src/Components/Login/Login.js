@@ -19,10 +19,10 @@ class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
-      isUsernameValid: false,
-      isPasswordValid: false,
-      isLoginPopoverOpen: false,
-      lastLoginStatus: 0
+      lastLoginStatus: 0,
+      isUsernameLongEnough: false,
+      isPasswordLongEnough: false,
+      isLoginPopoverOpen: false
     }
   }
 
@@ -66,13 +66,15 @@ class Login extends React.Component {
 
   handleChangeUsername = (event) => {
     this.setState({
-      username: event.target.value
+      username: event.target.value,
+      isUsernameLongEnough: event.target.value.length >= 6
     });
   }
 
   handleChangePassword = (event) => {
     this.setState({
-      password: event.target.value
+      password: event.target.value,
+      isPasswordLongEnough: event.target.value.length >= 8
     });
   }
 
@@ -90,6 +92,7 @@ class Login extends React.Component {
   }
 
   renderLoginPopover = () => {
+    // TODO: Break strings out into constants file
     let loginPopoverHeaderMessage = 'Login unsuccessful';
     let loginPopoverBodyMessage;
     if (this.state.lastLoginStatus === 403) {
@@ -132,7 +135,12 @@ class Login extends React.Component {
               <Label for="password" className="form-label login-form-label">Password</Label>
               <Input type="password" id="password" onChange={this.handleChangePassword}/>
             </FormGroup>
-            <Button color="primary" id="login" className="login-button">
+            <Button
+              color="primary"
+              disabled={!(this.state.isUsernameLongEnough && this.state.isPasswordLongEnough)}
+              id="login"
+              className="login-button"
+            >
               Login
             </Button>
             {this.renderLoginPopover()}

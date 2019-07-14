@@ -10,6 +10,7 @@ import {
   Button
 } from 'reactstrap';
 import CustomPopover from '../CustomPopover/CustomPopover';
+import AlertList from '../AlertList/AlertList';
 import './Signup.scss';
 
 class Signup extends React.Component {
@@ -19,6 +20,9 @@ class Signup extends React.Component {
       username: '',
       password: '',
       fullname: '',
+      isUsernameTaken: true,
+      isUsernameLongEnough: false,
+      isPasswordLongEnough: false,
       isSignupPopoverOpen: false,
       lastSignupStatus: 0
     }
@@ -54,6 +58,10 @@ class Signup extends React.Component {
     // TODO: Redirect to create character page (once it is built)
   }
 
+  checkIfUsernameExists = async (username) => {
+    return await fetch(`http://localhost:8000/api/users/${username}`).status === 200;
+  }
+
   // Small util function to handle clicks outside of the popover
   handleClick = (event) => {
     if (this.popover.contains(event.target)) {
@@ -63,14 +71,19 @@ class Signup extends React.Component {
   }
 
   handleChangeUsername = (event) => {
+    let username = event.target.value;
     this.setState({
-      username: event.target.value
+      username: username,
+      isUsernameTaken: username ? !this.checkIfUsernameExists(event.target.value) : false,
+      isUsernameLongEnough: username ? username.length >= 8 : false
     });
   }
 
   handleChangePassword = (event) => {
+    let password = event.target.value;
     this.setState({
-      password: event.target.value
+      password: password,
+      isPasswordLongEnough: password.length >= 8
     });
   }
 
@@ -91,6 +104,32 @@ class Signup extends React.Component {
     this.setState({
       isSignupPopoverOpen: false
     });
+  }
+
+  renderUsernameAlertList = () => {
+    let messages = [];
+    if (!this.state.isUsernameLongEnough) {
+      messages.push("Username needs to be 8 characters long");
+    } else if (this.state.isUsernameTaken) {
+      messages.push("This username is taken");
+    } else {
+      return null;
+    }
+    return (
+      <AlertList messages={messages} isErrorAlertList={true} />
+    );
+  }
+
+  renderPasswordAlertList = () => {
+    let messages = [];
+    if (!this.state.isPasswordLongEnough) {
+      messages.push("Password needs to be 8 characters long");
+    } else {
+      return null;
+    }
+    return (
+      <AlertList messages={messages} isErrorAlertList={true} />
+    );
   }
 
   renderSignupPopover = () => {
@@ -126,19 +165,27 @@ class Signup extends React.Component {
           <Form onSubmit={this.handleSignup}>
             <FormGroup className="signup-form-group">
               <Label for="username" className="form-label signup-form-label">Username</Label>
-              <Input type="username" id="username" onChange={this.handleChangeUsername}/>
+              <Input type="username" id="username" onChange={this.handleChangeUsername} />
+              {this.renderUsernameAlertList()}
             </FormGroup>
             <FormGroup className="signup-form-group">
               <Label for="password" className="form-label signup-form-label">Password</Label>
-              <Input type="password" id="password" onChange={this.handleChangePassword}/>
+              <Input type="password" id="password" onChange={this.handleChangePassword} />
+              {this.renderPasswordAlertList()}
             </FormGroup>
             <FormGroup className="login-form-group">
               <Label for="fullname" className="form-label signup-form-label">Full Name</Label>
-              <Input type="fullname" id="fullname" onChange={this.handleChangeFullname}/>
+              <Input type="fullname" id="fullname" onChange={this.handleChangeFullname} />
             </FormGroup>
             <div className="signup-button-row">
-              <Button color="primary" id="signup" className="signup-button">
-                  Sign up
+              <Button
+                color="primary"
+                disabled={this.state.isUsernameTaken ||
+                  !(this.state.isUsernameLongEnough && this.state.isPasswordLongEnough)}
+                id="signup"
+                className="signup-button"
+              >
+                Sign up
               </Button>
               {this.renderSignupPopover()}
               <Link to="/">

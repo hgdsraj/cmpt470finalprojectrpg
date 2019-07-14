@@ -1,0 +1,35 @@
+.alert-list-container {
+  padding-bottom: 2px;
+
+  .alert-list {
+    padding: 0;
+    margin: 0;
+
+    .alert-list-li {
+
+      .alert-list-li-div {
+
+        .alert-list-error-list-style {
+          margin-top: 5px;
+        }
+
+        .alert-list-text {
+          display: inline-block;
+          font-size: 14px;
+          margin: 0 0 4px 0;
+          color: #000000;
+        }
+
+        .alert-list-error-text {
+          color: #d9534f;
+        }
+      }
+
+    }
+  }
+
+  .alert-list-error {
+    list-style: none;
+  }
+
+}
