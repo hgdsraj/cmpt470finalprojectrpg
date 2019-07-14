@@ -19,6 +19,8 @@ class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
+      isUsernameValid: false,
+      isPasswordValid: false,
       isLoginPopoverOpen: false,
       lastLoginStatus: 0
     }
