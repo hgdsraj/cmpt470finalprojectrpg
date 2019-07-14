@@ -56,7 +56,7 @@ class Signup extends React.Component {
       <div className="signup-page">
         <header className="header signup-header">
           <h1>Sign up!</h1>
-          <Form>
+          <Form onSubmit={this.handleSignup}>
             <FormGroup className="signup-form-group">
               <Label for="username" className="form-label signup-form-label">Username</Label>
               <Input type="username" id="username" onChange={this.handleChangeUsername}/>
