@@ -64,10 +64,11 @@ class Login extends React.Component {
     this.handleCloseLoginPopover();
   }
 
+  // TODO: Break up Constants into a new file
   handleChangeUsername = (event) => {
     this.setState({
       username: event.target.value,
-      isUsernameLongEnough: event.target.value.length >= 6
+      isUsernameLongEnough: event.target.value.length >= 4
     });
   }
 
