@@ -11,9 +11,9 @@ import { ReactComponent as Clear } from '../../Assets/CloseIcon24px.svg';
 // Functional wrapper component for the reactstrap popover
 function CustomPopover(props) {
   let closeButton = null;
-  let popoverBodyClassName = ''
+  let popoverHeaderClassName = 'popover-header'
   if (props.isErrorPopover) {
-    popoverBodyClassName = 'popover-body-error'
+    popoverHeaderClassName = 'popover-header popover-header-error'
   }
   if (props.hasCloseButton) {
     closeButton = <Button className="popover-close-button" onClick={props.handleClose}>
@@ -22,12 +22,12 @@ function CustomPopover(props) {
   }
   return (
     <Popover placement={props.placement} target={props.target} className={props.className} isOpen={props.isOpen}>
-      <PopoverHeader className="popover-header">
+      <PopoverHeader className={popoverHeaderClassName}>
         {props.headerMessage}
         {/* TODO: (MINOR) fix close button spacing in the header, it's a few pixels off */}
         {closeButton}
       </PopoverHeader>
-      <PopoverBody className={popoverBodyClassName}>
+      <PopoverBody>
         {props.bodyMessage}
       </PopoverBody>
     </Popover>
