@@ -7,16 +7,21 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Popover,
+  PopoverHeader,
+  PopoverBody
 } from 'reactstrap';
 import './Login.scss';
+import { ReactComponent as Clear } from '../../Assets/CloseIcon24px.svg';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      showForbiddenPopover: false
     }
   }
 
@@ -30,6 +35,13 @@ class Login extends React.Component {
         password: this.state.password
       })
     });
+    if (response.status !== 200) {
+      if (response.status === 403) {
+        this.toggleForbiddenPopover();
+        return;
+      }
+      return;
+    }
     let body = await response.json();
     console.log(body);
   }
@@ -43,6 +55,18 @@ class Login extends React.Component {
   handleChangePassword = (event) => {
     this.setState({
       password: event.target.value
+    });
+  }
+
+  openForbiddenPopover = () => {
+    this.setState({
+      showForbiddenPopover: true
+    });
+  }
+
+  closeForbiddenPopover = () => {
+    this.setState({
+      showForbiddenPopover: false
     });
   }
 
@@ -60,9 +84,20 @@ class Login extends React.Component {
               <Label for="password" className="form-label login-form-label">Password</Label>
               <Input type="password" id="password" onChange={this.handleChangePassword}/>
             </FormGroup>
-            <Button color="primary" className="login-button">
+            <Button color="primary" id="login" className="login-button">
               Login
             </Button>
+            <Popover placement="bottom" target="login" toggle={this.openForbiddenPopover} isOpen={this.state.showForbiddenPopover}>
+              <PopoverHeader className="forbidden-popover-header">
+                Login unsuccessful
+                <Button className="forbidden-popover-close">
+                  <Clear onClick={this.closeForbiddenPopover} />
+                </Button>
+              </PopoverHeader>
+              <PopoverBody>
+                It appears you have entered an incorrect username or password! Please check your credentials and try logging in again
+              </PopoverBody>
+            </Popover>
           </Form>
           <h3 className="signup-message-header">Don't have an account?
             <Link to="/signup">
