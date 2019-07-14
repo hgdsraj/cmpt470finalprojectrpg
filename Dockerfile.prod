@@ -9,6 +9,7 @@ COPY . /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
 WORKDIR /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
+
 RUN dep ensure
 
 RUN go build main.go
@@ -17,5 +18,8 @@ EXPOSE $PORT
 
 ### Put the binary onto Heroku image
 FROM heroku/heroku:18
+
 COPY --from=build /go/src/sfu.ca/apruner/cmpt470finalprojectrpg .
+RUN echo $DATABASE_URL
+
 CMD ["./main"]

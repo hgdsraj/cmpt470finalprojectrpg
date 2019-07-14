@@ -23,6 +23,8 @@ func main() {
 	// Configure websocket route
 	r.HandleFunc("/{name}/ws", handlers.HandleConnections)
 	r.HandleFunc("/chat/{name}", handlers.HandleChatroom)
+	r.HandleFunc("/api/users/login", handlers.HandleUserLogin)
+	r.HandleFunc("/api/users/create", handlers.HandleUserCreate)
 
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("." + STATIC)))
 

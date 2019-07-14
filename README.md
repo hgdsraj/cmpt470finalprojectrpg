@@ -27,4 +27,9 @@
 - Visit localhost:8000 in your browser. Voila!
 - Note: If you are running into odd db issues with the API, go into postgres and drop all tables manually in the cmpt470 db. Then run `goose down` and then `goose up`
 
-Chat taken from tutorial here https://scotch.io/bar-talk/build-a-realtime-chat-server-with-go-and-websockets
+### When deploying
+- you must run ./scripts/heroku_migrate.sh for any migrations after pushing to Heroku
+- you must have a file db/prod.yml that looks has the correct authenticated postgresURL like:
+    production:
+        driver: postgres
+        open: postgresURL

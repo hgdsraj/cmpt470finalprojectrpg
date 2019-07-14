@@ -15,6 +15,8 @@ import (
 
 type DatabaseConfig struct {
 	Open string `yaml:"open"`
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
 	User string `yaml:"user"`
 	Password string `yaml:"password"`
 	DbName string `yaml:"dbname"`
@@ -31,6 +33,7 @@ func (c *DatabaseConfig) setupConfig() error {
 	dbyml := DataBaseYamlParsing{}
 	err = yaml.Unmarshal(yamlFile, &dbyml)
 	c.Open = dbyml.Development.Open
+	c.Open += " host=localhost port=5432"
 
 	if err != nil {
 		log.Fatalf("Unmarshal: %v", err)
@@ -62,7 +65,7 @@ func OpenDb() *sql.DB {
 	if connection == "" {
 		url := os.Getenv("DATABASE_URL")
 		if url != "" {
-			connection, err := pq.ParseURL(url)
+			connection, err = pq.ParseURL(url)
 			if err != nil {
 				log.Fatalf("error setting up database %v", err)
 			}
@@ -71,8 +74,7 @@ func OpenDb() *sql.DB {
 			log.Fatalf("error: no database settings or DATABASE_URL was provided")
 		}
 	}
-
-	db, err := sql.Open("postgres", connection)
+	db, err := sql.Open("postgres", connection )
 	if err != nil {
 		log.Fatalf("database opening error:%v", err)
 	}
