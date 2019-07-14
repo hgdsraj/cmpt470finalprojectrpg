@@ -248,12 +248,3 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
-
-//type Character struct {
-//	CharacterId   int    `json:"id"`
-//	CharacterName string `json:"name"`
-//	Attack        int    `json:"attack"`
-//	Defense       int    `json:"defense"`
-//	Health        int    `json:"health"`
-//	UserId        int    `json:"uid"`
-//}
