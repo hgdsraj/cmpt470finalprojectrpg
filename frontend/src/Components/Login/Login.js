@@ -15,16 +15,46 @@ import {
 import './Login.scss';
 import { ReactComponent as Clear } from '../../Assets/CloseIcon24px.svg';
 
+function LoginPopover(props) {
+  let loginPopoverMessage = '';
+  if (props.status === 403) {
+    loginPopoverMessage = 'It appears you have entered an incorrect username or password! Please check your credentials and try again';
+  } else if (props.status === 404) {
+    loginPopoverMessage = 'We couldn\'t find an account with that username in our database!';
+  } else if (props.status === 500) {
+    loginPopoverMessage = 'Sorry! We\'re having some issues on the server-side. Hopefully we can get these sorted out shortly!';
+  }
+  return (
+    <Popover placement="bottom" target="login" isOpen={props.isLoginPopoverOpen}>
+      <PopoverHeader className="login-popover-header">
+        Login unsuccessful
+        <Button className="login-popover-close">
+          <Clear onClick={props.closeLoginPopover} />
+        </Button>
+      </PopoverHeader>
+      <PopoverBody className="login-popover-body">
+        {loginPopoverMessage}
+      </PopoverBody>
+    </Popover>
+  )
+}
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
       password: '',
-      showForbiddenPopover: false
+      isLoginPopoverOpen: false,
+      lastLoginStatus: 0
     }
   }
 
+  componentWillMount () {
+    document.addEventListener('mousedown', this.handleClick);
+  }
+
+  // Login handler, make a request to the login backend and redirect to home page if successful
   handleLogin = async (event) => {
     event.preventDefault();
     let response = await fetch('http://localhost:8000/api/users/login', {
@@ -36,14 +66,24 @@ class Login extends React.Component {
       })
     });
     if (response.status !== 200) {
-      if (response.status === 403) {
-        this.toggleForbiddenPopover();
-        return;
-      }
+      this.openLoginPopover(response.status);
       return;
+    } else {
+      this.closeLoginPopover();
+      this.setState({
+        lastLoginStatus: 200
+      });
     }
     let body = await response.json();
     console.log(body);
+  }
+
+  // Small util function to handle clicks outside of the popover
+  handleClick = (event) => {
+    if (this.popover.contains(event.target)) {
+      return;
+    }
+    this.closeLoginPopover();
   }
 
   handleChangeUsername = (event) => {
@@ -58,15 +98,16 @@ class Login extends React.Component {
     });
   }
 
-  openForbiddenPopover = () => {
+  openLoginPopover = (loginStatus) => {
     this.setState({
-      showForbiddenPopover: true
+      isLoginPopoverOpen: true,
+      lastLoginStatus: loginStatus
     });
   }
 
-  closeForbiddenPopover = () => {
+  closeLoginPopover = () => {
     this.setState({
-      showForbiddenPopover: false
+      isLoginPopoverOpen: false
     });
   }
 
@@ -87,17 +128,13 @@ class Login extends React.Component {
             <Button color="primary" id="login" className="login-button">
               Login
             </Button>
-            <Popover placement="bottom" target="login" toggle={this.openForbiddenPopover} isOpen={this.state.showForbiddenPopover}>
-              <PopoverHeader className="forbidden-popover-header">
-                Login unsuccessful
-                <Button className="forbidden-popover-close">
-                  <Clear onClick={this.closeForbiddenPopover} />
-                </Button>
-              </PopoverHeader>
-              <PopoverBody>
-                It appears you have entered an incorrect username or password! Please check your credentials and try logging in again
-              </PopoverBody>
-            </Popover>
+            <div ref={popover => this.popover = popover}>
+              <LoginPopover
+                status={this.state.lastLoginStatus} 
+                isLoginPopoverOpen={this.state.isLoginPopoverOpen} 
+                closeLoginPopover={this.closeLoginPopover} 
+              />
+            </div>
           </Form>
           <h3 className="signup-message-header">Don't have an account?
             <Link to="/signup">
@@ -109,6 +146,10 @@ class Login extends React.Component {
         </header>
       </div>
     );
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('mousedown', this.handleClick);
   }
 }
 
