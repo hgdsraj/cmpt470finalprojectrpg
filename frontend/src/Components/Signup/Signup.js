@@ -1,5 +1,8 @@
 import React from 'react';
 import {
+  Link
+} from 'react-router-dom';
+import {
   Form,
   FormGroup,
   Label,
@@ -69,9 +72,16 @@ class Signup extends React.Component {
               <Label for="fullname" className="form-label signup-form-label">Full Name</Label>
               <Input type="fullname" id="fullname" onChange={this.handleChangeFullname}/>
             </FormGroup>
-            <Button color="primary" className="signup-button">
-                Sign up
-            </Button>
+            <div className="signup-button-row">
+              <Button color="primary" className="signup-button">
+                  Sign up
+              </Button>
+              <Link to="/">
+                <Button color="primary" className="back-to-login-button">
+                    Log in instead
+                </Button>
+              </Link>
+            </div>
           </Form>
         </header>
       </div>

@@ -20,10 +20,6 @@ class Login extends React.Component {
     }
   }
 
-  handleSignup = () => {
-    console.log('Signup button pressed');
-  }
-
   handleLogin = async (event) => {
     event.preventDefault();
     let response = await fetch('http://localhost:8000/api/users/login', {
