@@ -25,6 +25,7 @@ func main() {
 	r.HandleFunc("/chat/{name}", handlers.HandleChatroom)
 	r.HandleFunc("/api/users/login", handlers.HandleUserLogin)
 	r.HandleFunc("/api/users/create", handlers.HandleUserCreate)
+	r.HandleFunc("/api/characters/create", handlers.HandleCharacterCreate)
 
 	// r.PathPrefix("/").Handler(http.FileServer(http.Dir("." + STATIC)))
 
