@@ -97,7 +97,7 @@ class Login extends React.Component {
     } else if (this.state.lastLoginStatus === 500) {
       loginPopoverBodyMessage = 'Sorry! We\'re having some issues on the server-side. Hopefully we can get these sorted out shortly!';
     } else {
-      loginPopoverBodyMessage = 'An unexpected error occurred'
+      loginPopoverBodyMessage = 'An unexpected error occurred';
     }
 
     return (
