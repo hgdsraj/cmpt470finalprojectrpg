@@ -51,6 +51,7 @@ class Login extends React.Component {
     }
     let body = await response.json();
     console.log(body);
+    // TODO: Redirect to home page (once it is built)
   }
 
   // Small util function to handle clicks outside of the popover

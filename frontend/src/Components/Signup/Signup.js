@@ -28,7 +28,7 @@ class Signup extends React.Component {
     document.addEventListener('mousedown', this.handleClick);
   }
 
-  // Signup handler
+  // Signup handler, hit the create new user backend and redirect to the create character page if successful
   handleSignup = async (event) => {
     event.preventDefault();
     let response = await fetch('http://localhost:8000/api/users/create', {
@@ -51,6 +51,7 @@ class Signup extends React.Component {
     }
     let body = await response.json();
     console.log(body);
+    // TODO: Redirect to create character page (once it is built)
   }
 
   // Small util function to handle clicks outside of the popover
