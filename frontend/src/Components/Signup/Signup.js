@@ -17,7 +17,7 @@ class Signup extends React.Component {
     this.state = {
       username: '',
       password: '',
-      fullname: '',
+      fullname: ''
     }
   }
 
@@ -73,7 +73,7 @@ class Signup extends React.Component {
               <Input type="fullname" id="fullname" onChange={this.handleChangeFullname}/>
             </FormGroup>
             <div className="signup-button-row">
-              <Button color="primary" className="signup-button">
+              <Button color="primary" id="signup" className="signup-button">
                   Sign up
               </Button>
               <Link to="/">

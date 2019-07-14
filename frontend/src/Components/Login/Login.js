@@ -12,33 +12,10 @@ import {
   PopoverHeader,
   PopoverBody
 } from 'reactstrap';
+import CustomPopover from '../CustomPopover/CustomPopover';
 import './Login.scss';
-import { ReactComponent as Clear } from '../../Assets/CloseIcon24px.svg';
 
-function LoginPopover(props) {
-  let loginPopoverMessage = '';
-  if (props.status === 403) {
-    loginPopoverMessage = 'It appears you have entered an incorrect username or password! Please check your credentials and try again';
-  } else if (props.status === 404) {
-    loginPopoverMessage = 'We couldn\'t find an account with that username in our database!';
-  } else if (props.status === 500) {
-    loginPopoverMessage = 'Sorry! We\'re having some issues on the server-side. Hopefully we can get these sorted out shortly!';
-  }
-  return (
-    <Popover placement="bottom" target="login" isOpen={props.isLoginPopoverOpen}>
-      <PopoverHeader className="login-popover-header">
-        Login unsuccessful
-        <Button className="login-popover-close">
-          <Clear onClick={props.closeLoginPopover} />
-        </Button>
-      </PopoverHeader>
-      <PopoverBody className="login-popover-body">
-        {loginPopoverMessage}
-      </PopoverBody>
-    </Popover>
-  )
-}
-
+// Login page component
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -55,6 +32,7 @@ class Login extends React.Component {
   }
 
   // Login handler, make a request to the login backend and redirect to home page if successful
+  // TODO: How do we handle hitting URLs in production? We may need a url constants file
   handleLogin = async (event) => {
     event.preventDefault();
     let response = await fetch('http://localhost:8000/api/users/login', {
@@ -66,10 +44,10 @@ class Login extends React.Component {
       })
     });
     if (response.status !== 200) {
-      this.openLoginPopover(response.status);
+      this.handleOpenLoginPopover(response.status);
       return;
     } else {
-      this.closeLoginPopover();
+      this.handleCloseLoginPopover();
       this.setState({
         lastLoginStatus: 200
       });
@@ -83,7 +61,7 @@ class Login extends React.Component {
     if (this.popover.contains(event.target)) {
       return;
     }
-    this.closeLoginPopover();
+    this.handleCloseLoginPopover();
   }
 
   handleChangeUsername = (event) => {
@@ -98,20 +76,50 @@ class Login extends React.Component {
     });
   }
 
-  openLoginPopover = (loginStatus) => {
+  handleOpenLoginPopover = (loginStatus) => {
     this.setState({
       isLoginPopoverOpen: true,
       lastLoginStatus: loginStatus
     });
   }
 
-  closeLoginPopover = () => {
+  handleCloseLoginPopover = () => {
     this.setState({
       isLoginPopoverOpen: false
     });
   }
 
+  renderLoginPopover = () => {
+    let loginPopoverHeaderMessage = 'Login unsuccessful';
+    let loginPopoverBodyMessage;
+    if (this.state.lastLoginStatus === 403) {
+      loginPopoverBodyMessage = 'It appears you have entered an incorrect username or password! Please check your credentials and try again';
+    } else if (this.state.lastLoginStatus === 404) {
+      loginPopoverBodyMessage = 'We couldn\'t find an account with that username in our database!';
+    } else if (this.state.lastLoginStatus === 500) {
+      loginPopoverBodyMessage = 'Sorry! We\'re having some issues on the server-side. Hopefully we can get these sorted out shortly!';
+    } else {
+      loginPopoverBodyMessage = 'An unexpected error occurred'
+    }
+
+    return (
+      <div ref={popover => this.popover = popover}>
+        <CustomPopover
+          placement="bottom"
+          target="login"
+          isOpen={this.state.isLoginPopoverOpen}
+          hasCloseButton={true}
+          isErrorPopover={true}
+          handleClose={this.handleCloseLoginPopover}
+          headerMessage={loginPopoverHeaderMessage}
+          bodyMessage={loginPopoverBodyMessage}
+        />
+      </div>
+    );
+  }
+
   render () {
+
     return (
       <div className="login-page">
         <header className="header login-header">
@@ -128,13 +136,7 @@ class Login extends React.Component {
             <Button color="primary" id="login" className="login-button">
               Login
             </Button>
-            <div ref={popover => this.popover = popover}>
-              <LoginPopover
-                status={this.state.lastLoginStatus} 
-                isLoginPopoverOpen={this.state.isLoginPopoverOpen} 
-                closeLoginPopover={this.closeLoginPopover} 
-              />
-            </div>
+            {this.renderLoginPopover()}
           </Form>
           <h3 className="signup-message-header">Don't have an account?
             <Link to="/signup">
