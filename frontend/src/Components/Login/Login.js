@@ -7,10 +7,7 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  Popover,
-  PopoverHeader,
-  PopoverBody
+  Input
 } from 'reactstrap';
 import CustomPopover from '../CustomPopover/CustomPopover';
 import './Login.scss';
