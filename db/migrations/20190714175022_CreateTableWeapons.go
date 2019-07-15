@@ -17,7 +17,7 @@ func Up_20190714175022(txn *sql.Tx) {
 						)`)
 
 	if (err != nil) {
-		log.Fatalf("fatal error while running items migration %v", err)
+		log.Fatalf("fatal error while running weapons migration %v", err)
 	}
 }
 
@@ -25,6 +25,6 @@ func Up_20190714175022(txn *sql.Tx) {
 func Down_20190714175022(txn *sql.Tx) {
 	_, err := txn.Exec(`DROP TABLE Weapons`)
 	if (err != nil) {
-		log.Fatalf("fatal error while running items migration %v", err)
+		log.Fatalf("fatal error while running weapons migration %v", err)
 	}
 }
