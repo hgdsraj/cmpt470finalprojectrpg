@@ -12,9 +12,10 @@ import (
 	"time"
 )
 
-const STATIC = "/static/"
+const STATIC = "./frontend/build"
 
 func main() {
+
 	r := mux.NewRouter()
 	r.HandleFunc("/config.json", handlers.HandleConfig)
 	r.HandleFunc("/channels.json", handlers.GetChannels)
@@ -29,6 +30,8 @@ func main() {
 	r.HandleFunc("/api/users/login", handlers.HandleUserLogin).Methods("POST")
 	r.HandleFunc("/api/users/create", handlers.HandleUserCreate).Methods("POST")
 	r.HandleFunc("/api/characters/create", handlers.HandleCharacterCreate).Methods("POST")
+
+	r.PathPrefix("").Handler(http.StripPrefix("", http.FileServer(http.Dir(STATIC))))
 
 	// r.PathPrefix("/").Handler(http.FileServer(http.Dir("." + STATIC)))
 
