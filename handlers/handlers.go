@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"net/http"
 	"strings"
 
@@ -93,6 +94,49 @@ type Item struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
 	Type string `json:"type"`
+}
+
+// TODO: Maybe refactor so that there is less copy paste between this and the other user endpoints
+func HandleUserExists(w http.ResponseWriter, r *http.Request) {
+	EnableCors(&w)
+	username := mux.Vars(r)["username"]
+	queryUser := User{}
+	row := Database.QueryRow("SELECT id, username, fullname FROM users WHERE username = $1", username)
+	err := row.Scan(&queryUser.Id, &queryUser.Username, &queryUser.FullName)
+
+	if err != nil {
+		var strErr string
+		if err == sql.ErrNoRows {
+			strErr = fmt.Sprintf("error querying database (user doesn't exist): %v", err)
+			log.Printf(strErr)
+			w.WriteHeader(http.StatusNotFound)
+		} else {
+			strErr = fmt.Sprintf("error querying database (other sql error): %v", err)
+			log.Printf(strErr)
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		_, err := w.Write([]byte(strErr))
+		if err != nil {
+			log.Printf("error writing: %v", err)
+		}
+		return
+	}
+
+	resp, err := json.Marshal(queryUser)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_, err := w.Write([]byte("Could not marshal JSON body!"))
+		if err != nil {
+			log.Printf("error writing: %v", err)
+		}
+		return
+	}
+
+	_, err = w.Write(resp)
+	if err != nil {
+		log.Printf("error writing: %v", err)
+	}
+
 }
 
 func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
