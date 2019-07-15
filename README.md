@@ -35,3 +35,32 @@
     production:
         driver: postgres
         open: postgresURL
+        
+## Database
+
+### Items Breakdown
+
+This can be deleted later.
+
+The following can be input into the psql console to populate some values into the items and then print out all items:
+```postgresql
+INSERT INTO weapons (name, damage, speed, critchance) VALUES ('sword', 2, 2, 2), ('spear', 3, 1, 1), ('axe', 4, 1, 0);
+INSERT INTO armour (name, defense, weight) VALUES ('Chestplate', 5, 5), ('Helmet', 3, 1), ('Leggings', 4, 3);
+INSERT INTO consumables (name, healing, damage) VALUES ('Potion', 4, 0), ('Apple', 2, 0), ('PosionBerry', 0, 3);
+INSERT INTO itemtypes (typename) VALUES ('Weapon'), ('Armour'), ('Consumable');
+INSERT INTO items (typeref, subref) VALUES (1,1), (1,2), (1,3), (2,1), (2,2), (2,3), (3,1), (3,2), (3,3);
+
+--LIST ALL ITEMS IN GAME
+SELECT 
+    CASE 
+        WHEN typename = 'Weapon' THEN weapons.name || ' Type (' || typename || ')'
+        WHEN typename = 'Armour' THEN armour.name || ' Type (' || typename || ')'
+        WHEN typename = 'Consumable' THEN consumables.name || ' Type (' || typename || ')'
+    END AS description
+    FROM items
+    JOIN itemtypes ON typeref = itemtypes.id
+    LEFT JOIN weapons ON subref = weapons.id
+    LEFT JOIN armour ON subref = armour.id
+    LEFT JOIN consumables ON subref = consumables.id;
+```
+TODO: add a dummy character and inventory and test out
