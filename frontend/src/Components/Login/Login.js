@@ -10,6 +10,11 @@ import {
   Input
 } from 'reactstrap';
 import CustomPopover from '../CustomPopover/CustomPopover';
+import {
+  NUMERIC_CONSTANTS,
+  MSG_STRING_CONSTANTS,
+  URL_CONSTANTS
+} from '../../Constants/Constants';
 import './Login.scss';
 
 // Login page component
@@ -31,10 +36,10 @@ class Login extends React.Component {
   }
 
   // Login handler, make a request to the login backend and redirect to home page if successful
-  // TODO: How do we handle hitting URLs in production? We may need a url constants file
+  // TODO: Add production URLs to constants file
   handleLogin = async (event) => {
     event.preventDefault();
-    let response = await fetch('http://localhost:8000/api/users/login', {
+    const response = await fetch(URL_CONSTANTS.DEVELOPMENT.POST_API_USERS_LOGIN, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({
@@ -42,16 +47,16 @@ class Login extends React.Component {
         password: this.state.password
       })
     });
-    if (response.status !== 200) {
+    if (response.status !== NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200) {
       this.handleOpenLoginPopover(response.status);
       return;
     } else {
       this.handleCloseLoginPopover();
       this.setState({
-        lastLoginStatus: 200
+        lastLoginStatus: NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200
       });
     }
-    let body = await response.json();
+    const body = await response.json();
     console.log(body);
     // TODO: Redirect to home page (once it is built)
   }
@@ -64,25 +69,26 @@ class Login extends React.Component {
     this.handleCloseLoginPopover();
   }
 
-  // TODO: Break up Constants into a new file
   handleChangeUsername = (event) => {
+    const username = event.target.value;
     this.setState({
-      username: event.target.value,
-      isUsernameLongEnough: event.target.value.length >= 4
+      username,
+      isUsernameLongEnough: username.length >= NUMERIC_CONSTANTS.MINIMUM_USERNAME_LENGTH
     });
   }
 
   handleChangePassword = (event) => {
+    const password = event.target.value;
     this.setState({
-      password: event.target.value,
-      isPasswordLongEnough: event.target.value.length >= 8
+      password,
+      isPasswordLongEnough: password.length >= NUMERIC_CONSTANTS.MINIMUM_PASSWORD_LENGTH
     });
   }
 
-  handleOpenLoginPopover = (loginStatus) => {
+  handleOpenLoginPopover = (lastLoginStatus) => {
     this.setState({
       isLoginPopoverOpen: true,
-      lastLoginStatus: loginStatus
+      lastLoginStatus
     });
   }
 
@@ -93,17 +99,16 @@ class Login extends React.Component {
   }
 
   renderLoginPopover = () => {
-    // TODO: Break strings out into constants file
-    let loginPopoverHeaderMessage = 'Login unsuccessful';
+    const loginPopoverHeaderMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_POPOVER_MSG;
     let loginPopoverBodyMessage;
-    if (this.state.lastLoginStatus === 403) {
-      loginPopoverBodyMessage = 'It appears you have entered an incorrect username or password! Please check your credentials and try again';
-    } else if (this.state.lastLoginStatus === 404) {
-      loginPopoverBodyMessage = 'We couldn\'t find an account with that username in our database!';
-    } else if (this.state.lastLoginStatus === 500) {
-      loginPopoverBodyMessage = 'Sorry! We\'re having some issues on the server-side. Hopefully we can get these sorted out shortly!';
+    if (this.state.lastLoginStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_403) {
+      loginPopoverBodyMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_403_POPOVER_MSG;
+    } else if (this.state.lastLoginStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_404) {
+      loginPopoverBodyMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_404_POPOVER_MSG;
+    } else if (this.state.lastLoginStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_500) {
+      loginPopoverBodyMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_500_POPOVER_MSG;
     } else {
-      loginPopoverBodyMessage = 'An unexpected error occurred';
+      loginPopoverBodyMessage = MSG_STRING_CONSTANTS.UNEXPECTED_ERROR_MSG;
     }
 
     return (
@@ -126,14 +131,14 @@ class Login extends React.Component {
     return (
       <div className="login-page">
         <header className="header login-header">
-          <h1 className="login-header-text">Welcome to RPG470!</h1>
+          <h1 className="login-header-text">{MSG_STRING_CONSTANTS.LOGIN_WELCOME_MSG}</h1>
           <Form onSubmit={this.handleLogin}>
             <FormGroup className="login-form-group">
-              <Label for="username" className="form-label login-form-label">Username</Label>
+              <Label for="username" className="form-label login-form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
               <Input type="username" id="username" onChange={this.handleChangeUsername}/>
             </FormGroup>
             <FormGroup className="login-form-group">
-              <Label for="password" className="form-label login-form-label">Password</Label>
+              <Label for="password" className="form-label login-form-label">{MSG_STRING_CONSTANTS.PASSWORD_LABEL_MSG}</Label>
               <Input type="password" id="password" onChange={this.handleChangePassword}/>
             </FormGroup>
             <Button
@@ -142,15 +147,15 @@ class Login extends React.Component {
               id="login"
               className="login-button"
             >
-              Login
+              {MSG_STRING_CONSTANTS.LOGIN_BUTTON_MSG}
             </Button>
             {this.renderLoginPopover()}
           </Form>
           <h3 className="signup-message-header">
-            Don't have an account?
+            {MSG_STRING_CONSTANTS.LOGIN_NO_ACCOUNT_MSG}
             <Link to="/signup">
               <Button color="primary" className="signup-message-button" onClick={this.handleSignup}>
-                Sign up
+                {MSG_STRING_CONSTANTS.SIGNUP_BUTTON_MSG}
               </Button>
             </Link>
           </h3>

@@ -11,6 +11,11 @@ import {
 } from 'reactstrap';
 import CustomPopover from '../CustomPopover/CustomPopover';
 import AlertList from '../AlertList/AlertList';
+import {
+  NUMERIC_CONSTANTS,
+  MSG_STRING_CONSTANTS,
+  URL_CONSTANTS
+} from '../../Constants/Constants';
 import './Signup.scss';
 
 class Signup extends React.Component {
@@ -35,7 +40,7 @@ class Signup extends React.Component {
   // Signup handler, hit the create new user backend and redirect to the create character page if successful
   handleSignup = async (event) => {
     event.preventDefault();
-    let response = await fetch('http://localhost:8000/api/users/create', {
+    let response = await fetch(URL_CONSTANTS.DEVELOPMENT.POST_API_USERS_CREATE, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({
@@ -44,13 +49,13 @@ class Signup extends React.Component {
         fullname: this.state.fullname
       })
     });
-    if (response.status !== 200) {
+    if (response.status !== NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200) {
       this.handleOpenSignupPopover(response.status);
       return;
     } else {
       this.handleCloseSignupPopover();
       this.setState({
-        lastSignupStatus: 200
+        lastSignupStatus: NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200
       });
     }
     let body = await response.json();
@@ -59,7 +64,8 @@ class Signup extends React.Component {
   }
 
   checkIfUsernameExists = async (username) => {
-    return await fetch(`http://localhost:8000/api/users/${username}`).status === 200;
+    let rootUrl = URL_CONSTANTS.DEVELOPMENT.GET_API_USERS_USERNAME;
+    return await fetch(`${rootUrl}${username}`).status === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200;
   }
 
   // Small util function to handle clicks outside of the popover
@@ -71,32 +77,33 @@ class Signup extends React.Component {
   }
 
   handleChangeUsername = (event) => {
-    let username = event.target.value;
+    const username = event.target.value;
     this.setState({
-      username: username,
-      isUsernameTaken: username ? !this.checkIfUsernameExists(event.target.value) : false,
-      isUsernameLongEnough: username ? username.length >= 4 : false
+      username,
+      isUsernameTaken: username ? !this.checkIfUsernameExists(username) : false,
+      isUsernameLongEnough: username ? username.length >= NUMERIC_CONSTANTS.MINIMUM_USERNAME_LENGTH : false
     });
   }
 
   handleChangePassword = (event) => {
-    let password = event.target.value;
+    const password = event.target.value;
     this.setState({
-      password: password,
-      isPasswordLongEnough: password.length >= 8
+      password,
+      isPasswordLongEnough: password.length >= NUMERIC_CONSTANTS.MINIMUM_PASSWORD_LENGTH
     });
   }
 
   handleChangeFullname = (event) => {
+    const fullname = event.target.value;
     this.setState({
-      fullname: event.target.value
+      fullname
     });
   }
 
-  handleOpenSignupPopover = (signupStatus) => {
+  handleOpenSignupPopover = (lastSignupStatus) => {
     this.setState({
       isSignupPopoverOpen: true,
-      lastSignupStatus: signupStatus
+      lastSignupStatus
     });
   }
 
@@ -107,11 +114,11 @@ class Signup extends React.Component {
   }
 
   renderUsernameAlertList = () => {
-    let messages = [];
+    const messages = [];
     if (!this.state.isUsernameLongEnough) {
-      messages.push("Username needs to be 4 characters long");
+      messages.push(MSG_STRING_CONSTANTS.USERNAME_TOO_SHORT_ALERT_MSG);
     } else if (this.state.isUsernameTaken) {
-      messages.push("This username is taken");
+      messages.push(MSG_STRING_CONSTANTS.USERNAME_TAKEN_ALERT_MSG);
     } else {
       return null;
     }
@@ -121,9 +128,9 @@ class Signup extends React.Component {
   }
 
   renderPasswordAlertList = () => {
-    let messages = [];
+    const messages = [];
     if (!this.state.isPasswordLongEnough) {
-      messages.push("Password needs to be 8 characters long");
+      messages.push(MSG_STRING_CONSTANTS.PASSWORD_TOO_SHORT_ALERT_MSG);
     } else {
       return null;
     }
@@ -133,12 +140,12 @@ class Signup extends React.Component {
   }
 
   renderSignupPopover = () => {
-    let signupPopoverHeaderMessage = 'Sign up unsuccessful';
+    const signupPopoverHeaderMessage = MSG_STRING_CONSTANTS.SIGNUP_UNSUCCESSFUL_POPOVER_MSG;
     let signupPopoverBodyMessage;
-    if (this.state.lastSignupStatus === 500) {
-      signupPopoverBodyMessage = 'There is already a user with that username, please choose a different one';
+    if (this.state.lastSignupStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_500) {
+      signupPopoverBodyMessage = MSG_STRING_CONSTANTS.SIGNUP_USERNAME_TAKEN_POPOVER_MSG;
     } else {
-      signupPopoverBodyMessage = 'An unexpected error occurred';
+      signupPopoverBodyMessage = MSG_STRING_CONSTANTS.UNEXPECTED_ERROR_MSG;
     }
 
     return (
@@ -161,20 +168,20 @@ class Signup extends React.Component {
     return (
       <div className="signup-page">
         <header className="header signup-header">
-          <h1>Sign up!</h1>
+          <h1>{MSG_STRING_CONSTANTS.SIGNUP_SIGNUP_HEADER_MSG}</h1>
           <Form onSubmit={this.handleSignup}>
             <FormGroup className="signup-form-group">
-              <Label for="username" className="form-label signup-form-label">Username</Label>
+              <Label for="username" className="form-label signup-form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
               <Input type="username" id="username" onChange={this.handleChangeUsername} />
               {this.renderUsernameAlertList()}
             </FormGroup>
             <FormGroup className="signup-form-group">
-              <Label for="password" className="form-label signup-form-label">Password</Label>
+              <Label for="password" className="form-label signup-form-label">{MSG_STRING_CONSTANTS.PASSWORD_LABEL_MSG}</Label>
               <Input type="password" id="password" onChange={this.handleChangePassword} />
               {this.renderPasswordAlertList()}
             </FormGroup>
             <FormGroup className="login-form-group">
-              <Label for="fullname" className="form-label signup-form-label">Full Name</Label>
+              <Label for="fullname" className="form-label signup-form-label">{MSG_STRING_CONSTANTS.FULL_NAME_LABEL}</Label>
               <Input type="fullname" id="fullname" onChange={this.handleChangeFullname} />
             </FormGroup>
             <div className="signup-button-row">
@@ -185,12 +192,12 @@ class Signup extends React.Component {
                 id="signup"
                 className="signup-button"
               >
-                Sign up
+                {MSG_STRING_CONSTANTS.SIGNUP_BUTTON_MSG}
               </Button>
               {this.renderSignupPopover()}
               <Link to="/">
                 <Button color="primary" className="back-to-login-button">
-                    Log in instead
+                  {MSG_STRING_CONSTANTS.SIGNUP_BACK_TO_LOGIN_MSG}
                 </Button>
               </Link>
             </div>
