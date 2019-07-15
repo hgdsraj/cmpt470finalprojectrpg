@@ -3,6 +3,7 @@
 ## How to build and run the app locally
 
 - After cloning, make sure this project is in "$GOPATH/src/sfu.ca/apruner/cmpt470finalprojectrpg", otherwise you will run into issues
+- Test the app `go test ./...`
 
 ### Dependencies
 - need go > 1.10
@@ -15,6 +16,7 @@
   - Create a file db/dbconf.yml based on db/dbconf.example.yml (be aware that if you want to change the user info, you will need to edit the info in scripts/setup.sh as well)
   - Run `sudo sh scripts/setup.sh`
   - Run `goose up`
+  - Test the app: `go test ./...`
 - Voila! You are ready to build with either docker or go build
 
 ### Build the app with docker (CURRENTLY NOT WORKING, IGNORE THIS)
