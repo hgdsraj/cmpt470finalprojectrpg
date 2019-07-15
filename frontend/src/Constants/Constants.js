@@ -1,6 +1,6 @@
 // When necessary, we can break out the constants in this file to specific constants files for each component
 
-let NUMERIC_CONSTANTS = {
+const NUMERIC_CONSTANTS = {
   MINIMUM_USERNAME_LENGTH: 4,
   MINIMUM_PASSWORD_LENGTH: 8,
   HTTP_STATUS_CODE_200: 200,
@@ -9,7 +9,7 @@ let NUMERIC_CONSTANTS = {
   HTTP_STATUS_CODE_500: 500
 };
 
-let MSG_STRING_CONSTANTS = {
+const MSG_STRING_CONSTANTS = {
   USERNAME_TOO_SHORT_ALERT_MSG: 'Username needs to be 4 characters long',
   USERNAME_TAKEN_ALERT_MSG: 'This username is taken',
   PASSWORD_TOO_SHORT_ALERT_MSG: 'Password needs to be 8 characters long',
@@ -31,7 +31,7 @@ let MSG_STRING_CONSTANTS = {
   SIGNUP_BACK_TO_LOGIN_MSG: 'Log in instead'
 };
 
-let URL_CONSTANTS = {
+const URL_CONSTANTS = {
   DEVELOPMENT: {
     POST_API_USERS_LOGIN: 'http://localhost:8000/api/users/login',
     POST_API_USERS_CREATE: 'http://localhost:8000/api/users/create',

@@ -39,7 +39,7 @@ class Login extends React.Component {
   // TODO: Add production URLs to constants file
   handleLogin = async (event) => {
     event.preventDefault();
-    let response = await fetch(URL_CONSTANTS.DEVELOPMENT.POST_API_USERS_LOGIN, {
+    const response = await fetch(URL_CONSTANTS.DEVELOPMENT.POST_API_USERS_LOGIN, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({
@@ -56,7 +56,7 @@ class Login extends React.Component {
         lastLoginStatus: NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200
       });
     }
-    let body = await response.json();
+    const body = await response.json();
     console.log(body);
     // TODO: Redirect to home page (once it is built)
   }
@@ -70,23 +70,25 @@ class Login extends React.Component {
   }
 
   handleChangeUsername = (event) => {
+    const username = event.target.value;
     this.setState({
-      username: event.target.value,
-      isUsernameLongEnough: event.target.value.length >= NUMERIC_CONSTANTS.MINIMUM_USERNAME_LENGTH
+      username,
+      isUsernameLongEnough: username.length >= NUMERIC_CONSTANTS.MINIMUM_USERNAME_LENGTH
     });
   }
 
   handleChangePassword = (event) => {
+    const password = event.target.value;
     this.setState({
-      password: event.target.value,
-      isPasswordLongEnough: event.target.value.length >= NUMERIC_CONSTANTS.MINIMUM_PASSWORD_LENGTH
+      password,
+      isPasswordLongEnough: password.length >= NUMERIC_CONSTANTS.MINIMUM_PASSWORD_LENGTH
     });
   }
 
-  handleOpenLoginPopover = (loginStatus) => {
+  handleOpenLoginPopover = (lastLoginStatus) => {
     this.setState({
       isLoginPopoverOpen: true,
-      lastLoginStatus: loginStatus
+      lastLoginStatus
     });
   }
 
@@ -97,7 +99,7 @@ class Login extends React.Component {
   }
 
   renderLoginPopover = () => {
-    let loginPopoverHeaderMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_POPOVER_MSG;
+    const loginPopoverHeaderMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_POPOVER_MSG;
     let loginPopoverBodyMessage;
     if (this.state.lastLoginStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_403) {
       loginPopoverBodyMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_403_POPOVER_MSG;

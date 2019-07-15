@@ -77,32 +77,33 @@ class Signup extends React.Component {
   }
 
   handleChangeUsername = (event) => {
-    let username = event.target.value;
+    const username = event.target.value;
     this.setState({
-      username: username,
-      isUsernameTaken: username ? !this.checkIfUsernameExists(event.target.value) : false,
+      username,
+      isUsernameTaken: username ? !this.checkIfUsernameExists(username) : false,
       isUsernameLongEnough: username ? username.length >= NUMERIC_CONSTANTS.MINIMUM_USERNAME_LENGTH : false
     });
   }
 
   handleChangePassword = (event) => {
-    let password = event.target.value;
+    const password = event.target.value;
     this.setState({
-      password: password,
+      password,
       isPasswordLongEnough: password.length >= NUMERIC_CONSTANTS.MINIMUM_PASSWORD_LENGTH
     });
   }
 
   handleChangeFullname = (event) => {
+    const fullname = event.target.value;
     this.setState({
-      fullname: event.target.value
+      fullname
     });
   }
 
-  handleOpenSignupPopover = (signupStatus) => {
+  handleOpenSignupPopover = (lastSignupStatus) => {
     this.setState({
       isSignupPopoverOpen: true,
-      lastSignupStatus: signupStatus
+      lastSignupStatus
     });
   }
 
@@ -113,7 +114,7 @@ class Signup extends React.Component {
   }
 
   renderUsernameAlertList = () => {
-    let messages = [];
+    const messages = [];
     if (!this.state.isUsernameLongEnough) {
       messages.push(MSG_STRING_CONSTANTS.USERNAME_TOO_SHORT_ALERT_MSG);
     } else if (this.state.isUsernameTaken) {
@@ -127,7 +128,7 @@ class Signup extends React.Component {
   }
 
   renderPasswordAlertList = () => {
-    let messages = [];
+    const messages = [];
     if (!this.state.isPasswordLongEnough) {
       messages.push(MSG_STRING_CONSTANTS.PASSWORD_TOO_SHORT_ALERT_MSG);
     } else {
@@ -139,7 +140,7 @@ class Signup extends React.Component {
   }
 
   renderSignupPopover = () => {
-    let signupPopoverHeaderMessage = MSG_STRING_CONSTANTS.SIGNUP_UNSUCCESSFUL_POPOVER_MSG;
+    const signupPopoverHeaderMessage = MSG_STRING_CONSTANTS.SIGNUP_UNSUCCESSFUL_POPOVER_MSG;
     let signupPopoverBodyMessage;
     if (this.state.lastSignupStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_500) {
       signupPopoverBodyMessage = MSG_STRING_CONSTANTS.SIGNUP_USERNAME_TAKEN_POPOVER_MSG;

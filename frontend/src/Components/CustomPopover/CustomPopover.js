@@ -15,7 +15,7 @@ function CustomPopover(props) {
   let closeButton = null;
   let popoverHeaderClassName = 'popover-header'
   if (props.isErrorPopover) {
-    popoverHeaderClassName = 'popover-header popover-header-error'
+    popoverHeaderClassName += ' popover-header-error'
   }
   if (props.hasCloseButton) {
     closeButton = <Button className="popover-close-button" onClick={props.handleClose}>
