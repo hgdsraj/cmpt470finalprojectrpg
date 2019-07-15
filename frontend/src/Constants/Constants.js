@@ -2,7 +2,11 @@
 
 let NUMERIC_CONSTANTS = {
   MINIMUM_USERNAME_LENGTH: 4,
-  MINIMUM_PASSWORD_LENGTH: 8
+  MINIMUM_PASSWORD_LENGTH: 8,
+  HTTP_STATUS_CODE_200: 200,
+  HTTP_STATUS_CODE_403: 403,
+  HTTP_STATUS_CODE_404: 404,
+  HTTP_STATUS_CODE_500: 500
 };
 
 let MSG_STRING_CONSTANTS = {
@@ -17,8 +21,9 @@ let MSG_STRING_CONSTANTS = {
   LOGIN_UNSUCCESSFUL_500_POPOVER_MSG: 'Sorry! We\'re having some issues on the server-side. Hopefully we can get these sorted out shortly!',
   UNEXPECTED_ERROR_MSG: 'An unexpected error occurred',
   LOGIN_WELCOME_MSG: 'Welcome to RPG470!',
-  LOGIN_USERNAME_LABEL_MSG: 'Username',
-  LOGIN_PASSWORD_LABEL_MSG: 'Password',
+  USERNAME_LABEL_MSG: 'Username',
+  PASSWORD_LABEL_MSG: 'Password',
+  FULL_NAME_LABEL: 'Full name',
   LOGIN_NO_ACCOUNT_MSG: 'Don\'t have an account?',
   LOGIN_BUTTON_MSG: 'Log in',
   SIGNUP_BUTTON_MSG: 'Sign up',

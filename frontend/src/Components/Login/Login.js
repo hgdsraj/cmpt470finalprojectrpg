@@ -47,13 +47,13 @@ class Login extends React.Component {
         password: this.state.password
       })
     });
-    if (response.status !== 200) {
+    if (response.status !== NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200) {
       this.handleOpenLoginPopover(response.status);
       return;
     } else {
       this.handleCloseLoginPopover();
       this.setState({
-        lastLoginStatus: 200
+        lastLoginStatus: NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200
       });
     }
     let body = await response.json();
@@ -99,11 +99,11 @@ class Login extends React.Component {
   renderLoginPopover = () => {
     let loginPopoverHeaderMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_POPOVER_MSG;
     let loginPopoverBodyMessage;
-    if (this.state.lastLoginStatus === 403) {
+    if (this.state.lastLoginStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_403) {
       loginPopoverBodyMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_403_POPOVER_MSG;
-    } else if (this.state.lastLoginStatus === 404) {
+    } else if (this.state.lastLoginStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_404) {
       loginPopoverBodyMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_404_POPOVER_MSG;
-    } else if (this.state.lastLoginStatus === 500) {
+    } else if (this.state.lastLoginStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_500) {
       loginPopoverBodyMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_500_POPOVER_MSG;
     } else {
       loginPopoverBodyMessage = MSG_STRING_CONSTANTS.UNEXPECTED_ERROR_MSG;
@@ -132,11 +132,11 @@ class Login extends React.Component {
           <h1 className="login-header-text">{MSG_STRING_CONSTANTS.LOGIN_WELCOME_MSG}</h1>
           <Form onSubmit={this.handleLogin}>
             <FormGroup className="login-form-group">
-              <Label for="username" className="form-label login-form-label">{MSG_STRING_CONSTANTS.LOGIN_USERNAME_LABEL_MSG}</Label>
+              <Label for="username" className="form-label login-form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
               <Input type="username" id="username" onChange={this.handleChangeUsername}/>
             </FormGroup>
             <FormGroup className="login-form-group">
-              <Label for="password" className="form-label login-form-label">{MSG_STRING_CONSTANTS.LOGIN_PASSWORD_LABEL_MSG}</Label>
+              <Label for="password" className="form-label login-form-label">{MSG_STRING_CONSTANTS.PASSWORD_LABEL_MSG}</Label>
               <Input type="password" id="password" onChange={this.handleChangePassword}/>
             </FormGroup>
             <Button

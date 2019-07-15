@@ -49,13 +49,13 @@ class Signup extends React.Component {
         fullname: this.state.fullname
       })
     });
-    if (response.status !== 200) {
+    if (response.status !== NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200) {
       this.handleOpenSignupPopover(response.status);
       return;
     } else {
       this.handleCloseSignupPopover();
       this.setState({
-        lastSignupStatus: 200
+        lastSignupStatus: NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200
       });
     }
     let body = await response.json();
@@ -65,7 +65,7 @@ class Signup extends React.Component {
 
   checkIfUsernameExists = async (username) => {
     let rootUrl = URL_CONSTANTS.DEVELOPMENT.GET_API_USERS_USERNAME;
-    return await fetch(`${rootUrl}${username}`).status === 200;
+    return await fetch(`${rootUrl}${username}`).status === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200;
   }
 
   // Small util function to handle clicks outside of the popover
@@ -141,7 +141,7 @@ class Signup extends React.Component {
   renderSignupPopover = () => {
     let signupPopoverHeaderMessage = MSG_STRING_CONSTANTS.SIGNUP_UNSUCCESSFUL_POPOVER_MSG;
     let signupPopoverBodyMessage;
-    if (this.state.lastSignupStatus === 500) {
+    if (this.state.lastSignupStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_500) {
       signupPopoverBodyMessage = MSG_STRING_CONSTANTS.SIGNUP_USERNAME_TAKEN_POPOVER_MSG;
     } else {
       signupPopoverBodyMessage = MSG_STRING_CONSTANTS.UNEXPECTED_ERROR_MSG;
@@ -170,17 +170,17 @@ class Signup extends React.Component {
           <h1>{MSG_STRING_CONSTANTS.SIGNUP_SIGNUP_HEADER_MSG}</h1>
           <Form onSubmit={this.handleSignup}>
             <FormGroup className="signup-form-group">
-              <Label for="username" className="form-label signup-form-label">Username</Label>
+              <Label for="username" className="form-label signup-form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
               <Input type="username" id="username" onChange={this.handleChangeUsername} />
               {this.renderUsernameAlertList()}
             </FormGroup>
             <FormGroup className="signup-form-group">
-              <Label for="password" className="form-label signup-form-label">Password</Label>
+              <Label for="password" className="form-label signup-form-label">{MSG_STRING_CONSTANTS.PASSWORD_LABEL_MSG}</Label>
               <Input type="password" id="password" onChange={this.handleChangePassword} />
               {this.renderPasswordAlertList()}
             </FormGroup>
             <FormGroup className="login-form-group">
-              <Label for="fullname" className="form-label signup-form-label">Full Name</Label>
+              <Label for="fullname" className="form-label signup-form-label">{MSG_STRING_CONSTANTS.FULL_NAME_LABEL}</Label>
               <Input type="fullname" id="fullname" onChange={this.handleChangeFullname} />
             </FormGroup>
             <div className="signup-button-row">
