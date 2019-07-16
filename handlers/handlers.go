@@ -145,7 +145,7 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&user)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 		_, err := w.Write([]byte("Could not process JSON body!"))
 		if err != nil {
 			log.Printf("error writing: %v", err)
@@ -204,7 +204,7 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&user)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 		_, err := w.Write([]byte("Could not process JSON body!"))
 		if err != nil {
 			log.Printf("error writing: %v", err)
@@ -216,9 +216,9 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 	var temp int
 	err = row.Scan(&temp)
 	if err != sql.ErrNoRows {
-		strErr := fmt.Sprintf("user already exists error: %v", err)
+		strErr := fmt.Sprintf("user already exists. error: %v", err)
 		log.Printf(strErr)
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusConflict)
 		_, err := w.Write([]byte(strErr))
 		if err != nil {
 			log.Printf("error writing: %v", err)
@@ -241,6 +241,8 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+
+	w.WriteHeader(http.StatusCreated)
 	_, err = w.Write([]byte("Successfully created user"))
 	if err != nil {
 		log.Printf("error writing: %v", err)
@@ -262,7 +264,7 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&character) // store uid and name
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 		_, err := w.Write([]byte("Could not process JSON body!"))
 		if err != nil {
 			log.Printf("error writing: %v", err)
@@ -285,7 +287,7 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-
+	w.WriteHeader(http.StatusCreated)
 	_, err = w.Write([]byte("Successfully created character"))
 	if err != nil {
 		log.Printf("error writing: %v", err)
