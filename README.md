@@ -38,9 +38,11 @@
         
 ## Database
 
-### Items Breakdown
+### Items
 
-This can be deleted later.
+The Items table holds a type reference and a sub reference. The type reference is used to determine the type of item 
+and is tied to the id column of the item_types table. The sub reference is used to determine the exact item of a 
+certain type.
 
 The following can be input into the psql console to populate some values into the items and then print out all items:
 ```postgresql
@@ -63,4 +65,3 @@ SELECT
     LEFT JOIN armour ON subref = armour.id
     LEFT JOIN consumables ON subref = consumables.id;
 ```
-TODO: add a dummy character and inventory and test out
