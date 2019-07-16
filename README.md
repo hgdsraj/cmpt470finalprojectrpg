@@ -28,7 +28,7 @@
 - Setup goose config in db/dbconf.yml (same fields as db/dbconf.example.yml)
 - Build frontend using npm (cd frontend && npm install && npm run build)
 - Run dep ensure && goose up
-- Run go run
+- Run go run main.go
 - Visit localhost:8000 in your browser. Voila!
 - Note: If you are running into odd db issues with the API, go into postgres and drop all tables manually in the cmpt470 db. Then run `goose down` and then `goose up`
 
