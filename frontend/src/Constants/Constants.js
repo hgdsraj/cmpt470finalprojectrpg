@@ -34,15 +34,10 @@ const MSG_STRING_CONSTANTS = {
 };
 
 const URL_CONSTANTS = {
-  DEVELOPMENT: {
-    POST_API_USERS_LOGIN: 'http://localhost:8000/api/users/login',
-    POST_API_USERS_CREATE: 'http://localhost:8000/api/users/create',
-    GET_API_USERS_USERNAME: 'http://localhost:8000/api/users/'
-  },
-  PRODUCTION: {
-    // TODO: Production URLs
-  }
-}
+  POST_API_USERS_LOGIN: '/api/users/login',
+  POST_API_USERS_CREATE: '/api/users/create',
+  GET_API_USERS_USERNAME: '/api/users/'
+};
 
 export {
   NUMERIC_CONSTANTS,
