@@ -142,7 +142,7 @@ class Signup extends React.Component {
   renderSignupPopover = () => {
     const signupPopoverHeaderMessage = MSG_STRING_CONSTANTS.SIGNUP_UNSUCCESSFUL_POPOVER_MSG;
     let signupPopoverBodyMessage;
-    if (this.state.lastSignupStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_500) {
+    if (this.state.lastSignupStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_409) {
       signupPopoverBodyMessage = MSG_STRING_CONSTANTS.SIGNUP_USERNAME_TAKEN_POPOVER_MSG;
     } else {
       signupPopoverBodyMessage = MSG_STRING_CONSTANTS.UNEXPECTED_ERROR_MSG;
