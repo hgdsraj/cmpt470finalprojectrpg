@@ -1,4 +1,4 @@
-FROM golang:latest as build
+FROM golang:latest as gobuild
 LABEL version="1.1"
 
 RUN mkdir -p /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
@@ -14,12 +14,17 @@ RUN dep ensure
 
 RUN go build main.go
 
+
+FROM node:latest as nodebuild
+COPY --from=gobuild /go/src/sfu.ca/apruner/cmpt470finalprojectrpg .
+RUN npm install --prefix frontend/
+RUN npm run build --prefix frontend/
+
 EXPOSE $PORT
 
 ### Put the binary onto Heroku image
 FROM heroku/heroku:18
 
-COPY --from=build /go/src/sfu.ca/apruner/cmpt470finalprojectrpg .
-RUN echo $DATABASE_URL
+COPY --from=nodebuild . .
 
 CMD ["./main"]
