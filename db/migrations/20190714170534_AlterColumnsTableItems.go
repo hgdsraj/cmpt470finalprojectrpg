@@ -9,8 +9,6 @@ import (
 // Up is executed when this migration is applied
 func Up_20190714170534(txn *sql.Tx) {
 	_, err := txn.Exec(`ALTER TABLE Items
-							DROP CONSTRAINT items_itemname_key;
-							ALTER TABLE Items
 							ALTER COLUMN ItemName TYPE int USING (ItemName::integer);
 							ALTER TABLE Items
 							ALTER COLUMN ItemType TYPE int USING (ItemType::integer);
