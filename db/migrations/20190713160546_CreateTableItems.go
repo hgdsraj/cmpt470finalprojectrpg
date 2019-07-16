@@ -10,7 +10,7 @@ import (
 func Up_20190713160546(txn *sql.Tx) {
 	_, err := txn.Exec(	`CREATE TABLE IF NOT EXISTS Items(
 						 ID SERIAL primary key not null,
-						 ItemName text not null unique,
+						 ItemName text not null,
 						 ItemType text not null
 						)`)
 

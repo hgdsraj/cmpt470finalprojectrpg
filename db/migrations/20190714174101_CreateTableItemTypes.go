@@ -14,7 +14,13 @@ func Up_20190714174101(txn *sql.Tx) {
 						)`)
 
 	if (err != nil) {
-		log.Fatalf("fatal error while running ItemTypes migration %v", err)
+		log.Fatalf("fatal error while running ItemTypes creation migration %v", err)
+	}
+
+	_, err2 := txn.Exec(	`INSERT INTO ItemTypes (typename) VALUES ('Weapon'), ('Armour'), ('Consumables');`)
+
+	if (err2 != nil) {
+		log.Fatalf("fatal error while running ItemTypes insertion migration %v", err2)
 	}
 }
 

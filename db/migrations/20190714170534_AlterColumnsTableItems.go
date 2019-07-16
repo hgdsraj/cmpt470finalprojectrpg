@@ -16,8 +16,6 @@ func Up_20190714170534(txn *sql.Tx) {
 							RENAME COLUMN ItemName TO TypeRef;
 							ALTER TABLE Items
 							RENAME COLUMN ItemType TO SubRef;
-							ALTER TABLE Items
-							DROP CONSTRAINT items_itemname_key;
 						`)
 
 	if (err != nil) {
@@ -37,8 +35,6 @@ func Down_20190714170534(txn *sql.Tx) {
 							RENAME COLUMN TypeRef TO ItemName;
 							ALTER TABLE Items
 							RENAME COLUMN SubRef TO ItemType;
-							ALTER TABLE Items
-							ADD CONSTRAINT items_itemname_key UNIQUE(ItemName)
 						`)
 	if (err != nil) {
 		log.Fatalf("fatal error while running alter columns in items migration %v", err)
