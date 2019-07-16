@@ -65,7 +65,8 @@ class Signup extends React.Component {
 
   checkIfUsernameExists = async (username) => {
     let rootUrl = URL_CONSTANTS.DEVELOPMENT.GET_API_USERS_USERNAME;
-    return await fetch(`${rootUrl}${username}`).status === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200;
+    let response = await fetch(`${rootUrl}${username}`);
+    return response.status === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200;
   }
 
   // Small util function to handle clicks outside of the popover
@@ -76,11 +77,15 @@ class Signup extends React.Component {
     this.handleCloseSignupPopover();
   }
 
-  handleChangeUsername = (event) => {
+  handleChangeUsername = async (event) => {
     const username = event.target.value;
+    let isUsernameTaken = false;
+    if (username) {
+      isUsernameTaken = await this.checkIfUsernameExists(username);
+    }
     this.setState({
       username,
-      isUsernameTaken: username ? !this.checkIfUsernameExists(username) : false,
+      isUsernameTaken,
       isUsernameLongEnough: username ? username.length >= NUMERIC_CONSTANTS.MINIMUM_USERNAME_LENGTH : false
     });
   }
@@ -142,7 +147,7 @@ class Signup extends React.Component {
   renderSignupPopover = () => {
     const signupPopoverHeaderMessage = MSG_STRING_CONSTANTS.SIGNUP_UNSUCCESSFUL_POPOVER_MSG;
     let signupPopoverBodyMessage;
-    if (this.state.lastSignupStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_500) {
+    if (this.state.lastSignupStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_409) {
       signupPopoverBodyMessage = MSG_STRING_CONSTANTS.SIGNUP_USERNAME_TAKEN_POPOVER_MSG;
     } else {
       signupPopoverBodyMessage = MSG_STRING_CONSTANTS.UNEXPECTED_ERROR_MSG;
