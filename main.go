@@ -26,10 +26,11 @@ func main() {
 	r.HandleFunc("/chat/{name}", handlers.HandleChatroom)
 
 	// Non chat backend API endpoints
-	r.HandleFunc("/api/users/{username}", handlers.HandleUserExists).Methods("GET")
-	r.HandleFunc("/api/users/login", handlers.HandleUserLogin).Methods("POST")
-	r.HandleFunc("/api/users/create", handlers.HandleUserCreate).Methods("POST")
-	r.HandleFunc("/api/characters/create", handlers.HandleCharacterCreate).Methods("POST")
+	api := r.PathPrefix("/api").Subrouter()
+	api.HandleFunc("/users/{username}", handlers.HandleUserExists).Methods("GET")
+	api.HandleFunc("/users/login", handlers.HandleUserLogin).Methods("POST")
+	api.HandleFunc("/users/create", handlers.HandleUserCreate).Methods("POST")
+	api.HandleFunc("/characters/create", handlers.HandleCharacterCreate).Methods("POST")
 
 	if os.Getenv("DISABLE_STATIC_FILE_SERVER") != "true" {
 		r.PathPrefix("").Handler(http.StripPrefix("", http.FileServer(http.Dir(STATIC))))
