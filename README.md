@@ -35,3 +35,37 @@
     production:
         driver: postgres
         open: postgresURL
+        
+## Database
+
+### Items
+
+The Items table holds a type reference and a sub reference.
+
+The type reference refers to the id of entries in ItemTypes, each entry has an associated sub-type table (e.g Weapons).
+
+The sub reference refers to the id of entries in the associated sub-type (e.g in Weapons entry with id=1 might be a 
+sword).
+
+The following can be used to test the update triggers on items;
+```postgresql
+INSERT INTO weapons (name, damage, speed, critchance) VALUES ('sword', 2, 2, 2), ('spear', 3, 1, 1), ('axe', 4, 1, 0);
+INSERT INTO armour (name, defense, weight) VALUES ('Chestplate', 5, 5), ('Helmet', 3, 1), ('Leggings', 4, 3);
+INSERT INTO consumables (name, healing, damage) VALUES ('Potion', 4, 0), ('Apple', 2, 0), ('PosionBerry', 0, 3);
+```
+After running this you should see all associated entries in the items table automatically populated.
+
+To list all items in the game (from psql console):
+```postgresql
+SELECT 
+    CASE 
+        WHEN typename = 'Weapon' THEN weapons.name || ' Type (' || typename || ')'
+        WHEN typename = 'Armour' THEN armour.name || ' Type (' || typename || ')'
+        WHEN typename = 'Consumable' THEN consumables.name || ' Type (' || typename || ')'
+    END AS description
+    FROM items
+    JOIN itemtypes ON typeref = itemtypes.id
+    LEFT JOIN weapons ON subref = weapons.id
+    LEFT JOIN armour ON subref = armour.id
+    LEFT JOIN consumables ON subref = consumables.id;
+```

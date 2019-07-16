@@ -18,7 +18,7 @@ func Up_20190713145522(txn *sql.Tx) {
 						 foreign key (UserID) references USERS(ID)
 						)`)
 
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running characters migration %v", err)
 	}
 }
@@ -26,7 +26,7 @@ func Up_20190713145522(txn *sql.Tx) {
 // Down is executed when this migration is rolled back
 func Down_20190713145522(txn *sql.Tx) {
 	_, err := txn.Exec(`DROP TABLE Characters`)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running characters migration %v", err)
 	}
 }
