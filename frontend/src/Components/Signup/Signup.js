@@ -49,13 +49,13 @@ class Signup extends React.Component {
         fullname: this.state.fullname
       })
     });
-    if (response.status !== NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200) {
+    if (response.status !== NUMERIC_CONSTANTS.HTTP_STATUS_CODE_201) {
       this.handleOpenSignupPopover(response.status);
       return;
     } else {
       this.handleCloseSignupPopover();
       this.setState({
-        lastSignupStatus: NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200
+        lastSignupStatus: response.status
       });
     }
     let body = await response.json();
