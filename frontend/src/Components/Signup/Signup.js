@@ -55,7 +55,7 @@ class Signup extends React.Component {
     } else {
       this.handleCloseSignupPopover();
       this.setState({
-        lastSignupStatus: response.status
+        lastSignupStatus: NUMERIC_CONSTANTS.HTTP_STATUS_CODE_201
       });
     }
     let body = await response.json();
