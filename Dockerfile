@@ -1,5 +1,5 @@
 FROM golang:latest
-LABEL version="1.0"
+LABEL version="1.1"
 
 RUN mkdir -p /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
