@@ -16,7 +16,7 @@ func Up_20190715213308(txn *sql.Tx) {
 							$BODY$
 							language plpgsql;`)
 
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running consumable trigger migration %v", err)
 	}
 
@@ -25,7 +25,7 @@ func Up_20190715213308(txn *sql.Tx) {
 							 FOR EACH ROW
 							 EXECUTE PROCEDURE consum_update();`)
 
-	if (err2 != nil) {
+	if err2 != nil {
 		log.Fatalf("fatal error while running consumable trigger migration %v", err2)
 	}
 }
@@ -33,12 +33,12 @@ func Up_20190715213308(txn *sql.Tx) {
 // Down is executed when this migration is rolled back
 func Down_20190715213308(txn *sql.Tx) {
 	_, err := txn.Exec(`DROP TRIGGER IF EXISTS consum_update ON consumables;`)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running consumable trigger migration %v", err)
 	}
 
 	_, err2 := txn.Exec(`DROP FUNCTION IF EXISTS consum_update;`)
-	if (err2 != nil) {
+	if err2 != nil {
 		log.Fatalf("fatal error while running consumable trigger migration %v", err2)
 	}
 }

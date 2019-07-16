@@ -15,7 +15,7 @@ func Up_20190714180049(txn *sql.Tx) {
 						 Weight int not null
 						)`)
 
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running armour migration %v", err)
 	}
 }
@@ -23,7 +23,7 @@ func Up_20190714180049(txn *sql.Tx) {
 // Down is executed when this migration is rolled back
 func Down_20190714180049(txn *sql.Tx) {
 	_, err := txn.Exec(`DROP TABLE Armour`)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running armour migration %v", err)
 	}
 }

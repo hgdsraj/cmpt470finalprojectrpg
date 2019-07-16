@@ -15,7 +15,7 @@ func Up_20190712142059(txn *sql.Tx) {
 						 LastSeenTime timestamp not null
 						)`)
 
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running users migration %v", err)
 	}
 }
@@ -25,7 +25,7 @@ func Up_20190712142059(txn *sql.Tx) {
 // Down is executed when this migration is rolled back
 func Down_20190712142059(txn *sql.Tx) {
 	_, err := txn.Exec(`DROP TABLE UserSessions`)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running user sessiosn migration %v", err)
 	}
 

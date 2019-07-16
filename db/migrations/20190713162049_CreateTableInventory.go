@@ -16,7 +16,7 @@ func Up_20190713162049(txn *sql.Tx) {
 						 foreign key (CharacterID) references Characters(CharacterID)
 						)`)
 
-	if (err != nil) {
+	if err != nil{
 		log.Fatalf("fatal error while running inventory migration %v", err)
 	}
 }
@@ -24,7 +24,7 @@ func Up_20190713162049(txn *sql.Tx) {
 // Down is executed when this migration is rolled back
 func Down_20190713162049(txn *sql.Tx) {
 	_, err := txn.Exec(`DROP TABLE Inventory`)
-	if (err != nil) {
+	if err != nil{
 		log.Fatalf("fatal error while running inventory migration %v", err)
 	}
 }

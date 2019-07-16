@@ -20,7 +20,7 @@ func Up_20190714170534(txn *sql.Tx) {
 							RENAME COLUMN ItemType TO SubRef;
 						`)
 
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running alter columns in items  migration %v", err)
 	}
 
@@ -38,7 +38,7 @@ func Down_20190714170534(txn *sql.Tx) {
 							ALTER TABLE Items
 							RENAME COLUMN SubRef TO ItemType;
 						`)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running alter columns in items migration %v", err)
 	}
 }

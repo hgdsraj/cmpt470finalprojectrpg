@@ -12,7 +12,7 @@ func Up_20190714183904(txn *sql.Tx) {
 	_, err := txn.Exec(	`ALTER TABLE Items
 							ADD CONSTRAINT items_constraint UNIQUE (TypeRef, SubRef);`)
 
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running items migration %v", err)
 	}
 }
@@ -21,7 +21,7 @@ func Up_20190714183904(txn *sql.Tx) {
 func Down_20190714183904(txn *sql.Tx) {
 	_, err := txn.Exec(`ALTER TABLE Items
 							DROP CONSTRAINT items_constraint;`)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running items migration %v", err)
 	}
 }

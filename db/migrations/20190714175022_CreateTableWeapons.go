@@ -16,7 +16,7 @@ func Up_20190714175022(txn *sql.Tx) {
 						 CritChance int not null
 						)`)
 
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running weapons migration %v", err)
 	}
 }
@@ -24,7 +24,7 @@ func Up_20190714175022(txn *sql.Tx) {
 // Down is executed when this migration is rolled back
 func Down_20190714175022(txn *sql.Tx) {
 	_, err := txn.Exec(`DROP TABLE Weapons`)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running weapons migration %v", err)
 	}
 }

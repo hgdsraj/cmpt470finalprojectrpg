@@ -18,7 +18,7 @@ func Up_20190522113851(txn *sql.Tx) {
 						)`)
 
 
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running users migration %v", err)
 	}
 }
@@ -26,7 +26,7 @@ func Up_20190522113851(txn *sql.Tx) {
 // Down is executed when this migration is rolled back
 func Down_20190522113851(txn *sql.Tx) {
 	_, err := txn.Exec(`DROP TABLE Users`)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running users migration %v", err)
 	}
 

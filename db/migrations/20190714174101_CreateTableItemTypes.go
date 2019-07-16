@@ -13,7 +13,7 @@ func Up_20190714174101(txn *sql.Tx) {
 						 TypeName text not null unique
 						)`)
 
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running ItemTypes creation migration %v", err)
 	}
 
@@ -27,7 +27,7 @@ func Up_20190714174101(txn *sql.Tx) {
 // Down is executed when this migration is rolled back
 func Down_20190714174101(txn *sql.Tx) {
 	_, err := txn.Exec(`DROP TABLE ItemTypes`)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("fatal error while running ItemTypes migration %v", err)
 	}
 }
