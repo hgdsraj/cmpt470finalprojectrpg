@@ -31,8 +31,9 @@ func main() {
 	r.HandleFunc("/api/users/create", handlers.HandleUserCreate).Methods("POST")
 	r.HandleFunc("/api/characters/create", handlers.HandleCharacterCreate).Methods("POST")
 
-	r.PathPrefix("").Handler(http.StripPrefix("", http.FileServer(http.Dir(STATIC))))
-
+	if os.Getenv("DISABLE_STATIC_FILE_SERVER") != "true" {
+		r.PathPrefix("").Handler(http.StripPrefix("", http.FileServer(http.Dir(STATIC))))
+	}
 	// r.PathPrefix("/").Handler(http.FileServer(http.Dir("." + STATIC)))
 
 	// Start listening for incoming chat messages
