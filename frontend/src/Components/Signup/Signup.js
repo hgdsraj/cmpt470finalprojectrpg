@@ -185,7 +185,7 @@ class Signup extends React.Component {
               <Input type="password" id="password" onChange={this.handleChangePassword} />
               {this.renderPasswordAlertList()}
             </FormGroup>
-            <FormGroup className="login-form-group">
+            <FormGroup className="signup-form-group">
               <Label for="fullname" className="form-label signup-form-label">{MSG_STRING_CONSTANTS.FULL_NAME_LABEL}</Label>
               <Input type="fullname" id="fullname" onChange={this.handleChangeFullname} />
             </FormGroup>
