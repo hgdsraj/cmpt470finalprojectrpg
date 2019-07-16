@@ -39,9 +39,12 @@ class Login extends React.Component {
   // TODO: Add production URLs to constants file
   handleLogin = async (event) => {
     event.preventDefault();
-    const response = await fetch(URL_CONSTANTS.DEVELOPMENT.POST_API_USERS_LOGIN, {
+    const response = await fetch(URL_CONSTANTS.POST_API_USERS_LOGIN, {
       method: 'POST',
       mode: 'cors',
+      headers: {
+        'Accept': 'application/json'
+      },
       body: JSON.stringify({
         username: this.state.username,
         password: this.state.password
