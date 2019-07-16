@@ -20,7 +20,7 @@ import './Signup.scss';
 
 class Signup extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       username: '',
       password: '',
