@@ -30,7 +30,7 @@ class Home extends React.Component {
           <Card className="mini-char-overview-card">
             <CardImg className="mini-char-overview-cardimg cardimg" src={Goblin}/>
             <CardBody className="mini-char-overview-cardbody cardbody">
-              <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">Mini Character Overview</CardTitle>
+              <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">character_name_here</CardTitle>
               <CardSubtitle className="mini-char-overview-cardsubtitle cardsubtitle">Level 1</CardSubtitle>
               <CardText className="mini-char-overview-cardtext cardtext cardtext-color">Here is some text about the character</CardText>
             </CardBody>
