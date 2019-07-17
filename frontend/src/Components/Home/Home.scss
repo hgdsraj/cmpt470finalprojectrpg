@@ -1,3 +1,36 @@
 .home-page {
   min-height: 100vh;
+
+  .battle-npcs {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+
+    .battle-npc-card {
+      align-items: center;
+      justify-content: center;
+
+      .battle-npc-cardimg {
+        max-height: 64px;
+        max-width: 64px;
+      }
+
+      .battle-npc-cardbody {
+        padding: 15px;
+
+        .battle-npc-title {
+          color: #000000;
+        }
+
+        .battle-npc-text {
+          color: #000000;
+        }
+
+        .battle-npc-button {
+
+        }
+      }
+    }
+
+  }
 }
