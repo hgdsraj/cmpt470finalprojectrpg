@@ -365,3 +365,134 @@ func TestHandleUserLogin(t *testing.T) {
 	//	return nil
 	//}
 }
+
+func TestHandleUserCharacters(t *testing.T) {
+	SetupConfig()
+	db, mock, err := sqlmock.New()
+
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+
+	// set database to be our mock db
+	Database = db
+	defer func() {
+		// we make sure that all expectations were met
+		if err := mock.ExpectationsWereMet(); err != nil {
+			t.Errorf("there were unfulfilled expectations: %s", err)
+		}
+	}()
+
+	user := User{
+		Id: 420,
+		Username: "ilon",
+		Password: "mask",
+		FullName: "ilonmask",
+	}
+
+	character1 := Character{
+		CharacterId:   1,
+		CharacterName: "elon",
+		Attack:        420,
+		Defense:       100,
+		Health:        100,
+		UserId:        420,
+	}
+	character2 := Character{
+		CharacterId:   1,
+		CharacterName: "ilon",
+		Attack:        69,
+		Defense:       69,
+		Health:        69,
+		UserId:        420,
+	}
+
+	testGetCharacters := func() {
+
+		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
+		characterRows := sqlmock.NewRows([]string{"characterid", "charactername", "attack", "defense", "health", "uid"}).
+										AddRow(character1.CharacterId, character1.CharacterName, character1.Attack,
+											character1.Defense, character1.Health, character1.UserId).
+										AddRow(character2.CharacterId, character2.CharacterName, character2.Attack,
+											character2.Defense, character2.Health, character2.UserId)
+
+		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
+		mock.ExpectQuery("SELECT").WillReturnRows(characterRows)
+
+		req, err := http.NewRequest("GET", "/characters/ilon", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		rr := httptest.NewRecorder()
+		handler := http.HandlerFunc(HandleUserCharacters)
+
+		vars := map[string]string{
+			"username": user.Username,
+		}
+
+		// Hack to try to fake gorilla/mux vars
+		req = mux.SetURLVars(req, vars)
+
+		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
+		// directly and pass in our Request and ResponseRecorder.
+		handler.ServeHTTP(rr, req)
+
+		// Check the status code is what we expect.
+		if status := rr.Code; status != http.StatusOK {
+			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
+		}
+
+		responseCharacters := Characters{[]Character{}}
+		err = json.Unmarshal(rr.Body.Bytes(), &responseCharacters)
+		if err != nil {
+			t.Fatalf("error unmarshalling usercharacters response: %v\n", err)
+		}
+
+		expectedCharacters := Characters{
+			Characters: []Character{character1, character2},
+		}
+		if eq := reflect.DeepEqual(expectedCharacters, responseCharacters); !eq {
+			t.Fatalf("expectedCharacters not equal to responseCharacters\nexpected:\n%v\ngot:\n%v\n",
+				expectedCharacters, responseCharacters)
+		}
+
+	}
+
+	testUserDoesntExist := func() {
+
+		userRows := sqlmock.NewRows([]string{"id"})
+
+		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
+
+		req, err := http.NewRequest("GET", "/characters/ilon", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		rr := httptest.NewRecorder()
+		handler := http.HandlerFunc(HandleUserCharacters)
+
+		vars := map[string]string{
+			"username": user.Username,
+		}
+
+		// Hack to try to fake gorilla/mux vars
+		req = mux.SetURLVars(req, vars)
+
+		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
+		// directly and pass in our Request and ResponseRecorder.
+		handler.ServeHTTP(rr, req)
+
+		// Check the status code is what we expect.
+		if status := rr.Code; status != http.StatusNotFound {
+			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
+		}
+
+	}
+
+	testGetCharacters()
+	testUserDoesntExist()
+
+	//TODO find a way to test that we don't get other users characters
+}
