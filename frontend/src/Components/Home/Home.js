@@ -4,6 +4,7 @@ import {
   CardImg,
   CardBody,
   CardTitle,
+  CardSubtitle,
   CardText,
   Button
 } from 'reactstrap';
@@ -12,6 +13,7 @@ import CustomNavbar from "../CustomNavbar/CustomNavbar";
 import Goblin from "../../Assets/goblin.png";
 import Zombie from "../../Assets/zombie.png";
 import Imp from "../../Assets/imp.png";
+import GrassMap from '../../Assets/grass_map.png';
 
 class Home extends React.Component {
   render () {
@@ -20,49 +22,65 @@ class Home extends React.Component {
         <CustomNavbar />
         <div className="home-page-content container">
           <div className="content home-page-centered-content container">
-            <br/>
-            <h2>Hello, *Character Name*!</h2>
-            <div className="mini-char-overview">
+            <div className="mini-char-overview showcase-container container">
+              <h2>Hello, *Character Name*!</h2>
               <h5>Here there will be a mini character overview</h5>
             </div>
-            <br/>
-            <div className="battle-showcase container">
+            <div className="battle-showcase showcase-container container">
               <h3>Battle</h3>
               <div className="battle-content">
                 <h4>Battle the following NPCs to level up your character in combat</h4>
-                <div className="battle-npcs">
-                  <Card className="battle-npc-card">
-                    <CardImg className="battle-npc-cardimg" src={Goblin}/>
-                    <CardBody className="battle-npc-cardbody">
-                      <CardTitle className="battle-npc-title">NPC 1</CardTitle>
-                      <CardText className="battle-npc-text">Some text about this NPC</CardText>
-                      <Button color="primary" className="battle-npc-button">Fight</Button>
+                <div className="battle-npcs card-container">
+                  <Card className="battle-npc-card card">
+                    <CardImg className="battle-npc-cardimg cardimg" src={Goblin}/>
+                    <CardBody className="battle-npc-cardbody cardbody">
+                      <div className="battle-npc-cardtitle-wrapper cardtitle-wrapper">
+                        <CardTitle className="battle-npc-cardtitle cardtitle cardtext-color">Goblin</CardTitle>
+                        <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">Level 1</CardSubtitle>
+                      </div>
+                      <CardText className="battle-npc-cardtext cardtext cardtext-color">Some text about the goblin</CardText>
+                      <Button color="primary" className="battle-npc-button cardbutton">Fight</Button>
                     </CardBody>
                   </Card>
-                  <Card className="battle-npc-card">
-                    <CardImg className="battle-npc-cardimg" src={Zombie}/>
-                    <CardBody className="battle-npc-cardbody">
-                      <CardTitle className="battle-npc-title">NPC 2</CardTitle>
-                      <CardText className="battle-npc-text">Some text about this NPC</CardText>
-                      <Button color="primary" className="battle-npc-button">Fight</Button>
+                  <Card className="battle-npc-card card">
+                    <CardImg className="battle-npc-cardimg cardimg" src={Zombie}/>
+                    <CardBody className="battle-npc-cardbody cardbody">
+                      <div className="battle-npc-cardtitle-wrapper cardtitle-wrapper">
+                        <CardTitle className="battle-npc-cardtitle cardtitle cardtext-color">Zombie</CardTitle>
+                        <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">Level 2</CardSubtitle>
+                      </div>
+                      <CardText className="battle-npc-cardtext cardtext cardtext-color">Some text about this NPC</CardText>
+                      <Button color="primary" className="battle-npc-button cardbutton">Fight</Button>
                     </CardBody>
                   </Card>
-                  <Card className="battle-npc-card">
-                    <CardImg className="battle-npc-cardimg" src={Imp}/>
-                    <CardBody className="battle-npc-cardbody">
-                      <CardTitle className="battle-npc-title">NPC 3</CardTitle>
-                      <CardText className="battle-npc-text">Some text about this NPC</CardText>
-                      <Button color="primary" className="battle-npc-button">Fight</Button>
+                  <Card className="battle-npc-card card">
+                    <CardImg className="battle-npc-cardimg cardimg" src={Imp}/>
+                    <CardBody className="battle-npc-cardbody cardbody">
+                      <div className="battle-npc-cardtitle-wrapper cardtitle-wrapper">
+                        <CardTitle className="battle-npc-cardtitle cardtitle cardtext-color">Imp</CardTitle>
+                        <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">Level 3</CardSubtitle>
+                      </div>
+                      <CardText className="battle-npc-text cardtext cardtext-color">Some text about this NPC</CardText>
+                      <Button color="primary" className="battle-npc-button cardbutton">Fight</Button>
                     </CardBody>
                   </Card>
                 </div>
               </div>
             </div>
-            <br/>
-            <div className="explore-showcase container">
+            <div className="explore-showcase showcase-container container">
               <h3>Explore</h3>
-              <div className="explore-content container">
+              <div className="explore-content">
                 <h4>Explore the following maps to find new items and complete quests</h4>
+                <div className="explore-maps card-container">
+                  <Card className="explore-map-card card">
+                    <CardImg className="explore-map-cardimg cardimg" src={GrassMap}/>
+                    <CardBody className="explore-map-cardbody cardbody">
+                      <CardTitle className="explore-map-title cardtitle cardtext-color">Map</CardTitle>
+                      <CardText className="explore-map-text cardtext cardtext-color">Some text about this Map</CardText>
+                      <Button color="primary" className="explore-map-button cardbutton">Explore</Button>
+                    </CardBody>
+                  </Card>
+                </div>
                 <h4>Visit the shop to purchase items that you may find useful</h4>
               </div>
             </div>

@@ -1,36 +1,62 @@
 .home-page {
   min-height: 100vh;
 
-  .battle-npcs {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
+  .showcase-container {
+    margin-bottom: 20px;
 
-    .battle-npc-card {
-      align-items: center;
-      justify-content: center;
+    .card-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      margin-bottom: 15px;
 
-      .battle-npc-cardimg {
-        max-height: 64px;
-        max-width: 64px;
-      }
+      .card {
+        align-items: center;
+        justify-content: center;
 
-      .battle-npc-cardbody {
-        padding: 15px;
-
-        .battle-npc-title {
-          color: #000000;
+        .card-img {
+          max-height: 64px;
+          max-width: 64px;
+          margin-top: 10px;
         }
 
-        .battle-npc-text {
-          color: #000000;
+        .explore-map-cardimg {
+          max-height: 128px;
+          max-width: 128px;
         }
 
-        .battle-npc-button {
+        .cardbody {
+          padding: 15px;
 
+          .cardtitle-wrapper {
+            display: inline;
+
+            .cardtitle {
+              display: inline;
+            }
+
+            .cardsubtitle {
+              display: inline;
+              color: #5a6268;
+              margin-left: 10px;
+            }
+
+          }
+
+          .cardsubtitle {
+            color: #5a6268;
+          }
+
+
+          .cardtext-color {
+            color: #000000;
+          }
+
+          .cardbutton {
+
+          }
         }
       }
     }
-
   }
 }
