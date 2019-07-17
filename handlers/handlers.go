@@ -3,9 +3,10 @@ package handlers
 import (
 	"database/sql"
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"net/http"
 	"strings"
+
+	"github.com/gorilla/mux"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -19,9 +20,15 @@ var Database *sql.DB
 
 var config Config
 
+var jsonError string = "json encoding error: %v"
+
 type Config struct {
 	Protocol string `json:"protocol"`
 	Local    bool   `json:"local"`
+}
+
+type Response struct {
+	Message string
 }
 
 func SetupConfig() {
@@ -48,7 +55,12 @@ func HandleConfig(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err := w.Write([]byte(fmt.Sprintf("handleConfig error: %v", err)))
+		responseToEncode := Response{fmt.Sprintf("handleConfig error: %v", err)}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("handleConfig error: %v", err)
 		}
@@ -61,13 +73,23 @@ func TestDatabase(w http.ResponseWriter, r *http.Request) {
 	_, err := Database.Query("SELECT 1 FROM Users")
 	if err != nil {
 		log.Printf("error querying database: %v", err)
-		_, err := w.Write([]byte("Database is not connected!"))
+		responseToEncode := Response{"Database is not connected!"}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
 		return
 	}
-	_, err = w.Write([]byte("Database is connected!"))
+	responseToEncode := Response{"Database is connected!!"}
+	encodedResponse, err := json.Marshal(responseToEncode)
+	if err != nil {
+		log.Printf(jsonError, err)
+	}
+	_, err = w.Write(encodedResponse)
 	if err != nil {
 		log.Printf("testDatabase error: %v", err)
 	}
@@ -115,7 +137,12 @@ func HandleUserExists(w http.ResponseWriter, r *http.Request) {
 			log.Printf(strErr)
 			w.WriteHeader(http.StatusInternalServerError)
 		}
-		_, err := w.Write([]byte(strErr))
+		responseToEncode := Response{strErr}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
@@ -125,7 +152,12 @@ func HandleUserExists(w http.ResponseWriter, r *http.Request) {
 	resp, err := json.Marshal(queryUser)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err := w.Write([]byte("Could not marshal JSON body!"))
+		responseToEncode := Response{"Could not marshal JSON body!"}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
@@ -146,7 +178,12 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		_, err := w.Write([]byte("Could not process JSON body!"))
+		responseToEncode := Response{"Could not process JSON body!"}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
@@ -165,7 +202,12 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
-		_, err := w.Write([]byte(strErr))
+		responseToEncode := Response{strErr}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
@@ -175,8 +217,12 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusForbidden)
 		log.Printf("error in password: %v\n", err)
-
-		_, err := w.Write([]byte("Password was incorrect!"))
+		responseToEncode := Response{"Password was incorrect!"}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
@@ -185,7 +231,12 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	resp, err := json.Marshal(queryUser)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err := w.Write([]byte("Could not marshal JSON body!"))
+		responseToEncode := Response{"Could not marshal JSON body!"}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
@@ -205,7 +256,12 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		_, err := w.Write([]byte("Could not process JSON body!"))
+		responseToEncode := Response{"Could not process JSON body!"}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
@@ -219,7 +275,12 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 		strErr := fmt.Sprintf("user already exists. error: %v", err)
 		log.Printf(strErr)
 		w.WriteHeader(http.StatusConflict)
-		_, err := w.Write([]byte(strErr))
+		responseToEncode := Response{strErr}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
@@ -235,15 +296,24 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 		strErr := fmt.Sprintf("Could not insert into database error: %v", err)
 		log.Printf(strErr)
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err := w.Write([]byte(strErr))
+		responseToEncode := Response{strErr}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
 		return
 	}
-
 	w.WriteHeader(http.StatusCreated)
-	_, err = w.Write([]byte("Successfully created user"))
+	responseToEncode := Response{"Successfully created user"}
+	encodedResponse, err := json.Marshal(responseToEncode)
+	if err != nil {
+		log.Printf(jsonError, err)
+	}
+	_, err = w.Write(encodedResponse)
 	if err != nil {
 		log.Printf("error writing: %v", err)
 	}
@@ -265,7 +335,12 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		_, err := w.Write([]byte("Could not process JSON body!"))
+		responseToEncode := Response{"Could not process JSON body!"}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
@@ -281,14 +356,24 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 		strErr := fmt.Sprintf("Could not insert into database error: %v", err)
 		log.Printf(strErr)
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err := w.Write([]byte(strErr))
+		responseToEncode := Response{strErr}
+		encodedResponse, err := json.Marshal(responseToEncode)
+		if err != nil {
+			log.Printf(jsonError, err)
+		}
+		_, err = w.Write(encodedResponse)
 		if err != nil {
 			log.Printf("error writing: %v", err)
 		}
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
-	_, err = w.Write([]byte("Successfully created character"))
+	responseToEncode := Response{"Successfully created character"}
+	encodedResponse, err := json.Marshal(responseToEncode)
+	if err != nil {
+		log.Printf(jsonError, err)
+	}
+	_, err = w.Write(encodedResponse)
 	if err != nil {
 		log.Printf("error writing: %v", err)
 	}

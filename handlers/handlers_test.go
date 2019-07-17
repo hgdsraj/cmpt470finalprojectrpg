@@ -81,9 +81,9 @@ func TestHandleCharacterCreate(t *testing.T) {
 		handler.ServeHTTP(rr, req)
 		// Check the status code is what we expect.
 		if status := rr.Code; status != http.StatusBadRequest {
-			t.Fatalf("wrong status code: got %v want %v", status, http.StatusOK)
+			t.Fatalf("wrong status code: got %v want %v", status, http.StatusBadRequest)
 		}
-		expectedBody := "Could not process JSON body!"
+		expectedBody := `{"Message":"Could not process JSON body!"}`
 		if rr.Body.String() != expectedBody {
 			t.Fatalf("body not equal to expected body\nexpected:\n%v\ngot:\n%v\n",
 				expectedBody, rr.Body.String())
@@ -125,7 +125,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
 		}
 
-		expectedBody := "Successfully created character"
+		expectedBody := `{"Message":"Successfully created character"}`
 		if rr.Body.String() != expectedBody {
 			t.Fatalf("body not equal to expected body\nexpected:\n%v\ngot:\n%v\n",
 				expectedBody, rr.Body.String())
@@ -170,7 +170,7 @@ func TestHandleUserCreate(t *testing.T) {
 		if status := rr.Code; status != http.StatusBadRequest {
 			t.Fatalf("wrong status code: got %v want %v", status, http.StatusBadRequest)
 		}
-		expectedBody := "Could not process JSON body!"
+		expectedBody := `{"Message":"Could not process JSON body!"}`
 		if rr.Body.String() != expectedBody {
 			t.Fatalf("body not equal to expected body\nexpected:\n%v\ngot:\n%v\n",
 				expectedBody, rr.Body.String())
@@ -207,7 +207,7 @@ func TestHandleUserCreate(t *testing.T) {
 			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
 		}
 
-		expectedBody := "user already exists. error: <nil>"
+		expectedBody := `{"Message":"user already exists. error: \u003cnil\u003e"}`
 		if rr.Body.String() != expectedBody {
 			t.Fatalf("body not equal to expected body\nexpected:\n%v\ngot:\n%v\n",
 				expectedBody, rr.Body.String())
@@ -248,7 +248,7 @@ func TestHandleUserCreate(t *testing.T) {
 			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
 		}
 
-		expectedBody := "Successfully created user"
+		expectedBody := `{"Message":"Successfully created user"}`
 		if rr.Body.String() != expectedBody {
 			t.Fatalf("body not equal to expected body\nexpected:\n%v\ngot:\n%v\n",
 				expectedBody, rr.Body.String())
