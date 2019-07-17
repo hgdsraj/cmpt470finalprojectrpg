@@ -1,7 +1,9 @@
 package main
 
 import (
+	h "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+
 	"sfu.ca/apruner/cmpt470finalprojectrpg/db"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/handlers"
 
@@ -14,9 +16,16 @@ import (
 
 const STATIC = "./frontend/build"
 
+func loggingMiddleware(next http.Handler) http.Handler {
+	return h.CombinedLoggingHandler(os.Stdout, next)
+}
+
 func main() {
 
 	r := mux.NewRouter()
+	if 	production := os.Getenv("HEROKU"); production == "" {
+		r.Use(loggingMiddleware)
+	}
 	r.HandleFunc("/config.json", handlers.HandleConfig)
 	r.HandleFunc("/channels.json", handlers.GetChannels)
 	r.HandleFunc("/channel", handlers.CreateChannel)
