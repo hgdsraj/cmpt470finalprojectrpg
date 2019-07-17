@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Link
 } from 'react-router-dom';
@@ -61,6 +62,7 @@ class Login extends React.Component {
     }
     const body = await response.json();
     console.log(body);
+    this.props.handleAppLogin();
     // TODO: Redirect to home page (once it is built)
   }
 
@@ -171,5 +173,9 @@ class Login extends React.Component {
     document.removeEventListener('mousedown', this.handleClick);
   }
 }
+
+Login.propTypes = {
+  handleAppLogin: PropTypes.func
+};
 
 export default Login;

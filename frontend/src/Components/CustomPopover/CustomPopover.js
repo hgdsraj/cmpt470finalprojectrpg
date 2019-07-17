@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   Popover,
@@ -35,5 +36,17 @@ function CustomPopover(props) {
     </Popover>
   );
 }
+
+CustomPopover.propTypes = {
+  isErrorPopover: PropTypes.bool,
+  isOpen: PropTypes.bool,
+  hasCloseButton: PropTypes.bool,
+  placement: PropTypes.string,
+  target: PropTypes.string,
+  className: PropTypes.string,
+  headerMessage: PropTypes.string,
+  bodyMessage: PropTypes.string,
+  handleClose: PropTypes.func
+};
 
 export default CustomPopover;
