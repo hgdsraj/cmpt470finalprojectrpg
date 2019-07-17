@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -8,7 +7,7 @@ import (
 
 // Up is executed when this migration is applied
 func Up_20190714180049(txn *sql.Tx) {
-	_, err := txn.Exec(	`CREATE TABLE IF NOT EXISTS Armour(
+	_, err := txn.Exec(`CREATE TABLE IF NOT EXISTS Armour(
 						 ID SERIAL primary key not null,
 						 Name text not null unique,
 						 Defense int not null,

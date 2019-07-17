@@ -14,17 +14,18 @@ import (
 )
 
 type DatabaseConfig struct {
-	Open string `yaml:"open"`
-	Host string `yaml:"host"`
-	Port string `yaml:"port"`
-	User string `yaml:"user"`
+	Open     string `yaml:"open"`
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	User     string `yaml:"user"`
 	Password string `yaml:"password"`
-	DbName string `yaml:"dbname"`
-	SSLMode string `yaml:"sslmode"`
+	DbName   string `yaml:"dbname"`
+	SSLMode  string `yaml:"sslmode"`
 }
 type DataBaseYamlParsing struct {
 	Development DatabaseConfig `yaml:"development"`
 }
+
 func (c *DatabaseConfig) setupConfig() error {
 	yamlFile, err := ioutil.ReadFile("db/dbconf.yml")
 	if err != nil {
@@ -74,7 +75,7 @@ func OpenDb() *sql.DB {
 			log.Fatalf("error: no database settings or DATABASE_URL was provided")
 		}
 	}
-	db, err := sql.Open("postgres", connection )
+	db, err := sql.Open("postgres", connection)
 	if err != nil {
 		log.Fatalf("database opening error:%v", err)
 	}

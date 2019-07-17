@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -9,7 +8,7 @@ import (
 // Up is executed when this migration is applied
 func Up_20190714183904(txn *sql.Tx) {
 
-	_, err := txn.Exec(	`ALTER TABLE Items
+	_, err := txn.Exec(`ALTER TABLE Items
 							ADD CONSTRAINT items_constraint UNIQUE (TypeRef, SubRef);`)
 
 	if err != nil {
