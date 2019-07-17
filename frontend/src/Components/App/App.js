@@ -28,11 +28,10 @@ class App extends React.Component {
   }
 
   render() {
-    const rootUrlComponent = this.state.isLoggedIn ?
-      <Home handleAppLogout={this.handleLogout}/> : <Login handleAppLogin={this.handleLogin}/>;
     return (
       <Router>
-        <Route exact path="/" component={rootUrlComponent} />
+        <Route exact path="/" component={Home} />
+        <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
       </Router>
     );
