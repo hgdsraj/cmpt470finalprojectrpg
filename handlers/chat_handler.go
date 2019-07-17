@@ -14,9 +14,9 @@ import (
 	"time"
 )
 
-var clients = make(map[string]map[*websocket.Conn]bool) // connected clients
-var broadcast = make(map[string](chan Message))         // broadcast channel
-var handleMessagesRoutineExit = make(map[string](chan struct{}))         // broadcast channel
+var clients = make(map[string]map[*websocket.Conn]bool)          // connected clients
+var broadcast = make(map[string](chan Message))                  // broadcast channel
+var handleMessagesRoutineExit = make(map[string](chan struct{})) // broadcast channel
 
 var channels = make([]string, 0)
 var clientsMutex = &sync.Mutex{}

@@ -25,7 +25,6 @@ type Config struct {
 	Local    bool   `json:"local"`
 }
 
-
 type User struct {
 	Id       int    `json:"id"`
 	Username string `json:"username"`
@@ -75,7 +74,7 @@ func HandleConfig(w http.ResponseWriter, r *http.Request) {
 	bytes, err := json.Marshal(config)
 
 	if err != nil {
-		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("handleConfig error: %v", err),  http.StatusInternalServerError)
+		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("handleConfig error: %v", err), http.StatusInternalServerError)
 		return
 	}
 	_, err = w.Write(bytes)
@@ -259,7 +258,6 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 
 }
 
-
 func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
 	username := mux.Vars(r)["username"]
@@ -302,7 +300,7 @@ func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		character := Character{}
 		if err := rows.Scan(&character.CharacterId, &character.CharacterName, &character.Attack,
-							&character.Defense, &character.Health, &character.UserId); err != nil {
+			&character.Defense, &character.Health, &character.UserId); err != nil {
 			msg := fmt.Sprintf("error scanning row, aborting. error: %v", err)
 			helpers.LogAndSendErrorMessage(w, msg, http.StatusInternalServerError)
 			return
