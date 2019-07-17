@@ -179,7 +179,7 @@ class Signup extends React.Component {
   render () {
     return (
       <div className="signup-page">
-        <div className="full-viewport centered-content signup-centered-content">
+        <div className="full-viewport centered content page-container signup-centered-content">
           <h1>{MSG_STRING_CONSTANTS.SIGNUP_SIGNUP_HEADER_MSG}</h1>
           <Form onSubmit={this.handleSignup}>
             <FormGroup className="signup-form-group">

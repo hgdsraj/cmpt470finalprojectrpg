@@ -16,14 +16,20 @@ body {
   }
 }
 
-.centered-content {
-  background-color: #282c34;
-  display: flex;
-  flex-direction: column;
+.centered {
   align-items: center;
   justify-content: center;
-  color: white;
   .form-label {
     font-size: 18px;
   }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.page-container {
+  background-color: #282c34;
 }
