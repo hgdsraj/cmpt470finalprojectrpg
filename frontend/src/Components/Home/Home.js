@@ -6,6 +6,7 @@ import {
   CardTitle,
   CardSubtitle,
   CardText,
+  Table,
   Button
 } from 'reactstrap';
 import './Home.scss';
@@ -28,12 +29,41 @@ class Home extends React.Component {
         <h2>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_HEADER_MSG + `${characterName}!`}</h2>
         <div className="mini-char-overview-content">
           <Card className="mini-char-overview-card">
-            <CardImg className="mini-char-overview-cardimg cardimg" src={Goblin}/>
-            <CardBody className="mini-char-overview-cardbody cardbody">
-              <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">character_name_here</CardTitle>
-              <CardSubtitle className="mini-char-overview-cardsubtitle cardsubtitle">Level 1</CardSubtitle>
-              <CardText className="mini-char-overview-cardtext cardtext cardtext-color">Here is some text about the character</CardText>
-            </CardBody>
+            <div className="mini-char-overview-wrapper">
+              <div className="mini-char-overview-intro overview-intro">
+                <CardImg className="mini-char-overview-cardimg cardimg" src={Goblin}/>
+                <CardBody className="mini-char-overview-cardbody cardbody">
+                  <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">character_name_here</CardTitle>
+                  <CardSubtitle className="mini-char-overview-cardsubtitle cardsubtitle">Level 1</CardSubtitle>
+                  <CardText className="mini-char-overview-cardtext cardtext cardtext-color">Here is some text about the character</CardText>
+                </CardBody>
+              </div>
+              <div className="mini-char-overview-stats overview-stats">
+                <Table>
+                  <thead>
+                  <tr>
+                    <th>Stat</th>
+                    <th>Value</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>Health</td>
+                    <td>25/25</td>
+                  </tr>
+                  <tr>
+                    <td>Attack</td>
+                    <td>5</td>
+                  </tr>
+                  <tr>
+                    <td>Defense</td>
+                    <td>4</td>
+                  </tr>
+                  </tbody>
+                </Table>
+              </div>
+              <div className="overview-clear" />
+            </div>
           </Card>
         </div>
       </div>
@@ -49,7 +79,7 @@ class Home extends React.Component {
         <div className="battle-content">
           <h4>{MSG_STRING_CONSTANTS.HOME_BATTLE_SHOWCASE_SUBTITLE_MSG}</h4>
           <div className="battle-npcs card-container">
-            <Card className="battle-npc-card card">
+            <Card className="battle-npc-card">
               <CardImg className="battle-npc-cardimg cardimg" src={Goblin}/>
               <CardBody className="battle-npc-cardbody cardbody">
                 <div className="battle-npc-cardtitle-wrapper cardtitle-wrapper">
@@ -60,7 +90,7 @@ class Home extends React.Component {
                 <Button color="primary" className="battle-npc-button cardbutton">Fight</Button>
               </CardBody>
             </Card>
-            <Card className="battle-npc-card card">
+            <Card className="battle-npc-card">
               <CardImg className="battle-npc-cardimg cardimg" src={Zombie}/>
               <CardBody className="battle-npc-cardbody cardbody">
                 <div className="battle-npc-cardtitle-wrapper cardtitle-wrapper">
@@ -71,7 +101,7 @@ class Home extends React.Component {
                 <Button color="primary" className="battle-npc-button cardbutton">Fight</Button>
               </CardBody>
             </Card>
-            <Card className="battle-npc-card card">
+            <Card className="battle-npc-card">
               <CardImg className="battle-npc-cardimg cardimg" src={Imp}/>
               <CardBody className="battle-npc-cardbody cardbody">
                 <div className="battle-npc-cardtitle-wrapper cardtitle-wrapper">
@@ -98,7 +128,7 @@ class Home extends React.Component {
         <div className="explore-content">
           <h4>{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_MAP_SUBTITLE_MSG}</h4>
           <div className="explore-maps card-container">
-            <Card className="explore-map-card card">
+            <Card className="explore-map-card">
               <CardImg className="explore-map-cardimg cardimg" src={GrassMap}/>
               <CardBody className="explore-map-cardbody cardbody">
                 <CardTitle className="explore-map-title cardtitle cardtext-color">Map</CardTitle>
@@ -106,7 +136,7 @@ class Home extends React.Component {
                 <Button color="primary" className="explore-map-button cardbutton">Explore</Button>
               </CardBody>
             </Card>
-            <Card className="explore-map-card card">
+            <Card className="explore-map-card">
               <CardImg className="explore-map-cardimg cardimg" src={GrassMap}/>
               <CardBody className="explore-map-cardbody cardbody">
                 <CardTitle className="explore-map-title cardtitle cardtext-color">Map</CardTitle>
@@ -114,7 +144,7 @@ class Home extends React.Component {
                 <Button color="primary" className="explore-map-button cardbutton">Explore</Button>
               </CardBody>
             </Card>
-            <Card className="explore-map-card card">
+            <Card className="explore-map-card">
               <CardImg className="explore-map-cardimg cardimg" src={GrassMap}/>
               <CardBody className="explore-map-cardbody cardbody">
                 <CardTitle className="explore-map-title cardtitle cardtext-color">Map</CardTitle>
@@ -125,7 +155,7 @@ class Home extends React.Component {
           </div>
           <h4>{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_SHOP_SUBTITLE_MSG}</h4>
           <div className="explore-shop card-container">
-            <Card className="explore-shop-card card">
+            <Card className="explore-shop-card">
               <CardImg className="explore-shop-cardimg cardimg" src={BluePotion}/>
               <CardBody className="explore-shop-cardbody cardbody">
                 <div className="explore-shop-cardtitle-wrapper cardtitle-wrapper">
@@ -136,7 +166,7 @@ class Home extends React.Component {
                 <Button color="primary" className="explore-shop-button cardbutton">Purchase</Button>
               </CardBody>
             </Card>
-            <Card className="explore-shop-card card">
+            <Card className="explore-shop-card">
               <CardImg className="explore-shop-cardimg cardimg" src={BluePotion}/>
               <CardBody className="explore-shop-cardbody cardbody">
                 <div className="explore-shop-cardtitle-wrapper cardtitle-wrapper">
@@ -147,7 +177,7 @@ class Home extends React.Component {
                 <Button color="primary" className="explore-shop-button cardbutton">Purchase</Button>
               </CardBody>
             </Card>
-            <Card className="explore-shop-card card">
+            <Card className="explore-shop-card">
               <CardImg className="explore-shop-cardimg cardimg" src={BluePotion}/>
               <CardBody className="explore-shop-cardbody cardbody">
                 <div className="explore-shop-cardtitle-wrapper cardtitle-wrapper">
@@ -158,7 +188,7 @@ class Home extends React.Component {
                 <Button color="primary" className="explore-shop-button cardbutton">Purchase</Button>
               </CardBody>
             </Card>
-            <Card className="explore-shop-card card">
+            <Card className="explore-shop-card">
               <CardImg className="explore-shop-cardimg cardimg" src={BluePotion}/>
               <CardBody className="explore-shop-cardbody cardbody">
                 <div className="explore-shop-cardtitle-wrapper cardtitle-wrapper">
