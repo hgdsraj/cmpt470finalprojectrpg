@@ -4,7 +4,7 @@ import './Home.scss';
 class Home extends React.Component {
   render () {
     return (
-      <div className="app-container">
+      <div className="home-page">
 
       </div>
     )
