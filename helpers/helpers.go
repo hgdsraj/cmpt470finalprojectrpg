@@ -12,7 +12,7 @@ type Response struct {
 	Message string
 }
 
-func UserLoggedIn(username string) bool{
+func UserLoggedIn(username string) bool {
 	//TODO
 	return true
 }

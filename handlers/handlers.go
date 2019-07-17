@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gorilla/mux"
-	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
 	"github.com/google/uuid"
+	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
 
 	"fmt"
 	"log"
@@ -26,6 +26,31 @@ type Config struct {
 }
 
 
+type User struct {
+	Id       int    `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	FullName string `json:"full_name"`
+}
+
+type Character struct {
+	CharacterId   int    `json:"id"`
+	CharacterName string `json:"name"`
+	Attack        int    `json:"attack"`
+	Defense       int    `json:"defense"`
+	Health        int    `json:"health"`
+	UserId        int    `json:"uid"`
+}
+
+type Characters struct {
+	Characters []Character `json:"characters"`
+}
+
+type Item struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
 
 func SetupConfig() {
 	production := os.Getenv("HEROKU")
@@ -72,28 +97,6 @@ func TestDatabase(w http.ResponseWriter, r *http.Request) {
 		log.Printf("testDatabase error: %v", err)
 	}
 
-}
-
-type User struct {
-	Id       int    `json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	FullName string `json:"full_name"`
-}
-
-type Character struct {
-	CharacterId   int    `json:"id"`
-	CharacterName string `json:"name"`
-	Attack        int    `json:"attack"`
-	Defense       int    `json:"defense"`
-	Health        int    `json:"health"`
-	UserId        int    `json:"uid"`
-}
-
-type Item struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
-	Type string `json:"type"`
 }
 
 // TODO: Maybe refactor so that there is less copy paste between this and the other user endpoints
@@ -256,3 +259,66 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 
 }
 
+
+func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
+	EnableCors(&w)
+	username := mux.Vars(r)["username"]
+	if !helpers.UserLoggedIn(username) {
+		helpers.LogAndSendErrorMessage(w, "User not authenticated, please log in!", http.StatusForbidden)
+		return
+	}
+	var userId int
+	row := Database.QueryRow(`SELECT id  FROM users WHERE username = $1`, username)
+	err := row.Scan(&userId)
+	if err != nil {
+		var strErr string
+		var header int
+		if err == sql.ErrNoRows {
+			strErr = fmt.Sprintf("error querying database (user doesn't exist): %v", err)
+			header = http.StatusNotFound
+		} else {
+			strErr = fmt.Sprintf("error querying database (other sql error): %v", err)
+			log.Printf(strErr)
+			header = http.StatusInternalServerError
+		}
+		helpers.LogAndSendErrorMessage(w, strErr, header)
+		return
+	}
+
+	rows, err := Database.Query(`SELECT characterid, charactername, attack, defense, health, userid
+										FROM characters WHERE userid = $1`, userId)
+	if err != nil {
+		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("error querying rows: %v", err), http.StatusInternalServerError)
+		return
+	}
+	defer func() {
+		err := rows.Close()
+		if err != nil {
+			log.Println("error closing rows in HandleUserCharacters: ", err)
+		}
+	}()
+
+	characters := Characters{[]Character{}}
+	for rows.Next() {
+		character := Character{}
+		if err := rows.Scan(&character.CharacterId, &character.CharacterName, &character.Attack,
+							&character.Defense, &character.Health, &character.UserId); err != nil {
+			msg := fmt.Sprintf("error scanning row, aborting. error: %v", err)
+			helpers.LogAndSendErrorMessage(w, msg, http.StatusInternalServerError)
+			return
+		}
+		characters.Characters = append(characters.Characters, character)
+	}
+
+	resp, err := json.Marshal(characters)
+	if err != nil {
+		helpers.LogAndSendErrorMessage(w, "Could not marshal JSON body!", http.StatusInternalServerError)
+		return
+	}
+
+	_, err = w.Write(resp)
+	if err != nil {
+		log.Printf("error writing: %v", err)
+	}
+
+}
