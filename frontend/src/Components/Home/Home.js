@@ -10,18 +10,22 @@ import {
 } from 'reactstrap';
 import './Home.scss';
 import CustomNavbar from "../CustomNavbar/CustomNavbar";
-import Goblin from "../../Assets/goblin.png";
-import Zombie from "../../Assets/zombie.png";
-import Imp from "../../Assets/imp.png";
+import {
+  MSG_STRING_CONSTANTS
+} from '../../Constants/Constants';
+import Goblin from '../../Assets/goblin.png';
+import Zombie from '../../Assets/zombie.png';
+import Imp from '../../Assets/imp.png';
 import GrassMap from '../../Assets/grass_map.png';
 import BluePotion from '../../Assets/blue_potion.png';
 
 class Home extends React.Component {
   renderMiniCharacterOverview = () => {
+    let characterName = 'character_name_here';
     return (
       <div className="mini-char-overview showcase-container container">
-        <h2>Hello, *Character Name*!</h2>
-        <h5>Here there will be a mini character overview</h5>
+        <h2>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_HEADER_MSG + `${characterName}!`}</h2>
+        <h5>Here there will be a mini character overview</h5> {/* TODO: Create the mini character overview */}
       </div>
     );
   }
@@ -29,9 +33,9 @@ class Home extends React.Component {
   renderBattleShowcase = () => {
     return (
       <div className="battle-showcase showcase-container container">
-        <h3>Battle</h3>
+        <h3>{MSG_STRING_CONSTANTS.HOME_BATTLE_SHOWCASE_TITLE_MSG}</h3>
         <div className="battle-content">
-          <h4>Battle the following NPCs to level up your character in combat</h4>
+          <h4>{MSG_STRING_CONSTANTS.HOME_BATTLE_SHOWCASE_SUBTITLE_MSG}</h4>
           <div className="battle-npcs card-container">
             <Card className="battle-npc-card card">
               <CardImg className="battle-npc-cardimg cardimg" src={Goblin}/>
@@ -75,9 +79,9 @@ class Home extends React.Component {
   renderExploreShowcase = () => {
     return (
       <div className="explore-showcase showcase-container container">
-        <h3>Explore</h3>
+        <h3>{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_TITLE_MSG}</h3>
         <div className="explore-content">
-          <h4>Explore the following maps to find new items and complete quests</h4>
+          <h4>{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_MAP_SUBTITLE_MSG}</h4>
           <div className="explore-maps card-container">
             <Card className="explore-map-card card">
               <CardImg className="explore-map-cardimg cardimg" src={GrassMap}/>
@@ -104,7 +108,7 @@ class Home extends React.Component {
               </CardBody>
             </Card>
           </div>
-          <h4>Or visit the shop to purchase items that you may find useful</h4>
+          <h4>{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_SHOP_SUBTITLE_MSG}</h4>
           <div className="explore-shop card-container">
             <Card className="explore-shop-card card">
               <CardImg className="explore-shop-cardimg cardimg" src={BluePotion}/>

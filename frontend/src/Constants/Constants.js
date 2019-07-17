@@ -42,7 +42,13 @@ const MSG_STRING_CONSTANTS = {
   NAVBAR_NAV_EXPLORE_DROPDOWN_QUESTS_MSG: 'Quests',
   NAVBAR_NAV_CHARACTER_DROPDOWN_OVERVIEW_MSG: 'Overview',
   NAVBAR_NAV_CHARACTER_DROPDOWN_INVENTORY_MSG: 'Inventory',
-  NAVBAR_NAV_CHARACTER_DROPDOWN_ASSIGNSTATS_MSG: 'Assign stats'
+  NAVBAR_NAV_CHARACTER_DROPDOWN_ASSIGNSTATS_MSG: 'Assign stats',
+  HOME_MINI_CHAR_OVERVIEW_HEADER_MSG: 'Hello, ',
+  HOME_BATTLE_SHOWCASE_TITLE_MSG: 'Battle',
+  HOME_BATTLE_SHOWCASE_SUBTITLE_MSG: 'Battle the following NPCs to level up your character in combat',
+  HOME_EXPLORE_SHOWCASE_TITLE_MSG: 'Explore',
+  HOME_EXPLORE_SHOWCASE_MAP_SUBTITLE_MSG: 'Explore the following maps to find new items and complete quests',
+  HOME_EXPLORE_SHOWCASE_SHOP_SUBTITLE_MSG: 'Or visit the shop to purchase items that you may find useful'
 };
 
 const URL_CONSTANTS = {
