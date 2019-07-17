@@ -29,22 +29,22 @@ class CustomNavbar extends React.Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/">
+                <NavLink href="/" disabled>
                   {MSG_STRING_CONSTANTS.NAVBAR_NAV_BATTLE_MSG}
                 </NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
+                <DropdownToggle nav caret disabled className="disabled">
                   {MSG_STRING_CONSTANTS.NAVBAR_NAV_EXPLORE_MSG}
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem>
+                  <DropdownItem disabled>
                     {MSG_STRING_CONSTANTS.NAVBAR_NAV_EXPLORE_DROPDOWN_MAP_MSG}
                   </DropdownItem>
-                  <DropdownItem>
+                  <DropdownItem disabled>
                     {MSG_STRING_CONSTANTS.NAVBAR_NAV_EXPLORE_DROPDOWN_SHOP_MSG}
                   </DropdownItem>
-                  <DropdownItem>
+                  <DropdownItem disabled>
                     {MSG_STRING_CONSTANTS.NAVBAR_NAV_EXPLORE_DROPDOWN_QUESTS_MSG}
                   </DropdownItem>
                 </DropdownMenu>
@@ -60,7 +60,7 @@ class CustomNavbar extends React.Component {
                   <DropdownItem>
                     {MSG_STRING_CONSTANTS.NAVBAR_NAV_CHARACTER_DROPDOWN_INVENTORY_MSG}
                   </DropdownItem>
-                  <DropdownItem>
+                  <DropdownItem disabled>
                     {MSG_STRING_CONSTANTS.NAVBAR_NAV_CHARACTER_DROPDOWN_ASSIGNSTATS_MSG}
                   </DropdownItem>
                 </DropdownMenu>
