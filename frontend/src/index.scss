@@ -28,8 +28,9 @@ body {
   display: flex;
   flex-direction: column;
   color: white;
+  background-color: #282c34;
 }
 
 .page-container {
-  background-color: #282c34;
+  background-image: url("Assets/dungeon_tile.png");
 }

@@ -1,12 +1,16 @@
 .home-page {
   min-height: 100vh;
 
+  .mini-char-overview {
+    margin-top: 2rem;
+  }
+
   .showcase-container {
     margin-bottom: 20px;
 
     .card-container {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       margin-top: 15px;
       margin-bottom: 15px;
 
