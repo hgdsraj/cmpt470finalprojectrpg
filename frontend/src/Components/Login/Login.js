@@ -135,7 +135,7 @@ class Login extends React.Component {
   render () {
     return (
       <div className="login-page">
-        <header className="header login-header">
+        <div className="full-viewport centered-content login-centered-content">
           <h1 className="login-header-text">{MSG_STRING_CONSTANTS.LOGIN_WELCOME_MSG}</h1>
           <Form onSubmit={this.handleLogin}>
             <FormGroup className="login-form-group">
@@ -164,7 +164,7 @@ class Login extends React.Component {
               </Button>
             </Link>
           </h3>
-        </header>
+        </div>
       </div>
     );
   }

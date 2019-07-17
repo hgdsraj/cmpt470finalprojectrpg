@@ -9,13 +9,13 @@ import {
   NavItem,
   NavLink,
   UncontrolledDropdown
-} from "reactstrap";
-import Button from "reactstrap/es/Button";
+} from 'reactstrap';
+import Button from 'reactstrap/es/Button';
 
 class CustomNavbar extends React.Component {
   render () {
     return (
-      <div className="rpg-navbar">
+      <div className="app-navbar">
         <Navbar color="dark" expand="md">
           <NavbarBrand className="nav-brand" href="/">RPG470</NavbarBrand>
           <Nav className="ml-auto" navbar>
