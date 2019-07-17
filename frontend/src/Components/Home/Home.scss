@@ -7,60 +7,61 @@
 
   .showcase-container {
     margin-bottom: 20px;
+  }
 
-    .card-container {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 15px;
-      margin-bottom: 15px;
+  .card-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    margin-bottom: 15px;
 
-      .card {
-        align-items: center;
-        justify-content: center;
+    .card {
+      align-items: center;
+      justify-content: center;
+    }
+  }
 
-        .card-img {
-          max-height: 64px;
-          max-width: 64px;
-          margin-top: 10px;
-        }
 
-        .explore-map-cardimg {
-          max-height: 128px;
-          max-width: 128px;
-        }
+  .card-img {
+    max-height: 64px;
+    max-width: 64px;
+    margin-top: 10px;
+  }
 
-        .cardbody {
-          padding: 15px;
+  .explore-map-cardimg {
+    max-height: 128px;
+    max-width: 128px;
+  }
 
-          .cardtitle-wrapper {
-            display: block;
-            margin-bottom: .75rem;
+  .cardbody {
+    padding: 15px;
 
-            .cardtitle {
-              display: inline;
-            }
+    .cardtitle-wrapper {
+      display: block;
+      margin-bottom: .75rem;
 
-            .cardsubtitle {
-              display: inline;
-              color: #5a6268;
-              margin-left: 10px;
-            }
-
-          }
-
-          .cardtitle {
-            font-weight: bold;
-          }
-
-          .cardsubtitle {
-            color: #5a6268;
-          }
-
-          .cardtext-color {
-            color: #000000;
-          }
-        }
+      .cardtitle {
+        display: inline;
       }
+
+      .cardsubtitle {
+        display: inline;
+        color: #5a6268;
+        margin-left: 10px;
+      }
+
+    }
+
+    .cardtitle {
+      font-weight: bold;
+    }
+
+    .cardsubtitle {
+      color: #5a6268;
+    }
+
+    .cardtext-color {
+      color: #000000;
     }
   }
 }

@@ -20,17 +20,29 @@ import GrassMap from '../../Assets/grass_map.png';
 import BluePotion from '../../Assets/blue_potion.png';
 
 class Home extends React.Component {
+  // TODO: fetch character data and map to mini character display component
   renderMiniCharacterOverview = () => {
     let characterName = 'character_name_here';
     return (
       <div className="mini-char-overview showcase-container container">
         <h2>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_HEADER_MSG + `${characterName}!`}</h2>
-        <h5>Here there will be a mini character overview</h5> {/* TODO: Create the mini character overview */}
+        <div className="mini-char-overview-content">
+          <Card className="mini-char-overview-card">
+            <CardImg className="mini-char-overview-cardimg cardimg" src={Goblin}/>
+            <CardBody className="mini-char-overview-cardbody cardbody">
+              <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">Mini Character Overview</CardTitle>
+              <CardSubtitle className="mini-char-overview-cardsubtitle cardsubtitle">Level 1</CardSubtitle>
+              <CardText className="mini-char-overview-cardtext cardtext cardtext-color">Here is some text about the character</CardText>
+            </CardBody>
+          </Card>
+        </div>
       </div>
     );
   }
 
   renderBattleShowcase = () => {
+    // TODO: fetch NPCs to battle (near level) and map them to cards
+
     return (
       <div className="battle-showcase showcase-container container">
         <h3>{MSG_STRING_CONSTANTS.HOME_BATTLE_SHOWCASE_TITLE_MSG}</h3>
@@ -55,7 +67,7 @@ class Home extends React.Component {
                   <CardTitle className="battle-npc-cardtitle cardtitle cardtext-color">Zombie</CardTitle>
                   <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">Level 2</CardSubtitle>
                 </div>
-                <CardText className="battle-npc-cardtext cardtext cardtext-color">Some text about this NPC</CardText>
+                <CardText className="battle-npc-cardtext cardtext cardtext-color">Some text about the zombie</CardText>
                 <Button color="primary" className="battle-npc-button cardbutton">Fight</Button>
               </CardBody>
             </Card>
@@ -66,7 +78,7 @@ class Home extends React.Component {
                   <CardTitle className="battle-npc-cardtitle cardtitle cardtext-color">Imp</CardTitle>
                   <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">Level 3</CardSubtitle>
                 </div>
-                <CardText className="battle-npc-text cardtext cardtext-color">Some text about this NPC</CardText>
+                <CardText className="battle-npc-text cardtext cardtext-color">Some text about the imp</CardText>
                 <Button color="primary" className="battle-npc-button cardbutton">Fight</Button>
               </CardBody>
             </Card>
@@ -77,6 +89,9 @@ class Home extends React.Component {
   }
 
   renderExploreShowcase = () => {
+    // TODO: Fetch explore maps and map them to map cards
+    // TODO: Fetch explore shop items and map them to shop item cards
+
     return (
       <div className="explore-showcase showcase-container container">
         <h3>{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_TITLE_MSG}</h3>
