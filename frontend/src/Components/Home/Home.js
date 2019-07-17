@@ -14,6 +14,7 @@ import Goblin from "../../Assets/goblin.png";
 import Zombie from "../../Assets/zombie.png";
 import Imp from "../../Assets/imp.png";
 import GrassMap from '../../Assets/grass_map.png';
+import BluePotion from '../../Assets/blue_potion.png';
 
 class Home extends React.Component {
   render () {
@@ -76,12 +77,25 @@ class Home extends React.Component {
                     <CardImg className="explore-map-cardimg cardimg" src={GrassMap}/>
                     <CardBody className="explore-map-cardbody cardbody">
                       <CardTitle className="explore-map-title cardtitle cardtext-color">Map</CardTitle>
-                      <CardText className="explore-map-text cardtext cardtext-color">Some text about this Map</CardText>
+                      <CardText className="explore-map-text cardtext cardtext-color">Some text about this map</CardText>
                       <Button color="primary" className="explore-map-button cardbutton">Explore</Button>
                     </CardBody>
                   </Card>
                 </div>
                 <h4>Visit the shop to purchase items that you may find useful</h4>
+                <div className="explore-shop card-container">
+                  <Card className="explore-shop-card card">
+                    <CardImg className="explore-shop-cardimg cardimg" src={BluePotion}/>
+                    <CardBody className="explore-shop-cardbody cardbody">
+                      <div className="explore-shop-cardtitle-wrapper cardtitle-wrapper">
+                        <CardTitle className="explore-shop-cardtitle cardtitle cardtext-color">Potion</CardTitle>
+                        <CardSubtitle className="explore-shop-cardsubtitle cardsubtitle">Costs 5 gold</CardSubtitle>
+                      </div>
+                      <CardText className="explore-shop-text cardtext cardtext-color">Some text about this item</CardText>
+                      <Button color="primary" className="explore-shop-button cardbutton">Purchase</Button>
+                    </CardBody>
+                  </Card>
+                </div>
               </div>
             </div>
           </div>

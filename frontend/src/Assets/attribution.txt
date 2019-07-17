@@ -5,3 +5,5 @@ imp.png - Graphic artist: Stephen "Redshrike" Challener (https://opengameart.org
 goblin.png - Graphic artist: Stephen "Redshrike" Challener (https://opengameart.org/users/redshrike), contributors: William.Thompsonj (https://opengameart.org/users/williamthompsonj)
 
 grass_map.png - Graphic artist: Lanea Zimmerman (AKA Sharm) contributors: Adam Pruner
+
+blue_potion.png - Graphic artist: Reid, contributors: Anzhel (https://opengameart.org/users/anzhel), Adam Pruner

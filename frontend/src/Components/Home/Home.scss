@@ -29,7 +29,8 @@
           padding: 15px;
 
           .cardtitle-wrapper {
-            display: inline;
+            display: block;
+            margin-bottom: .75rem;
 
             .cardtitle {
               display: inline;
@@ -41,6 +42,10 @@
               margin-left: 10px;
             }
 
+          }
+
+          .cardtitle {
+            font-weight: bold;
           }
 
           .cardsubtitle {
