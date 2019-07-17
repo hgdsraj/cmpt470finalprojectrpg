@@ -14,6 +14,7 @@ import CustomNavbar from "../CustomNavbar/CustomNavbar";
 import {
   MSG_STRING_CONSTANTS
 } from '../../Constants/Constants';
+import PrincessAvatar from '../../Assets/princess_avatar.png';
 import Goblin from '../../Assets/goblin.png';
 import Zombie from '../../Assets/zombie.png';
 import Imp from '../../Assets/imp.png';
@@ -24,6 +25,7 @@ class Home extends React.Component {
   // TODO: fetch character data and map to mini character display component
   renderMiniCharacterOverview = () => {
     let characterName = 'character_name_here';
+    let characterAvatar = PrincessAvatar;
     return (
       <div className="mini-char-overview showcase-container container">
         <h2>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_HEADER_MSG + `${characterName}!`}</h2>
@@ -31,10 +33,10 @@ class Home extends React.Component {
           <Card className="mini-char-overview-card">
             <div className="mini-char-overview-wrapper">
               <div className="mini-char-overview-intro overview-intro">
-                <CardImg className="mini-char-overview-cardimg cardimg" src={Goblin}/>
+                <CardImg className="mini-char-overview-cardimg cardimg" src={characterAvatar}/>
                 <CardBody className="mini-char-overview-cardbody cardbody">
-                  <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">character_name_here</CardTitle>
-                  <CardSubtitle className="mini-char-overview-cardsubtitle cardsubtitle">Level 1</CardSubtitle>
+                  <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">{characterName}</CardTitle>
+                  <CardSubtitle className="mini-char-overview-cardsubtitle cardsubtitle">{MSG_STRING_CONSTANTS.LEVEL_MSG + "1"}</CardSubtitle>
                   <CardText className="mini-char-overview-cardtext cardtext cardtext-color">Here is some text about the character</CardText>
                 </CardBody>
               </div>
@@ -42,21 +44,21 @@ class Home extends React.Component {
                 <Table>
                   <thead>
                   <tr>
-                    <th>Stat</th>
-                    <th>Value</th>
+                    <th>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_STAT_MSG}</th>
+                    <th>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_VALUE_MSG}</th>
                   </tr>
                   </thead>
                   <tbody>
                   <tr>
-                    <td>Health</td>
+                    <td>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_HEALTH_STAT_MSG}</td>
                     <td>25/25</td>
                   </tr>
                   <tr>
-                    <td>Attack</td>
+                    <td>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_ATTACK_STAT_MSG}</td>
                     <td>5</td>
                   </tr>
                   <tr>
-                    <td>Defense</td>
+                    <td>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_DEFENSE_STAT_MSG}</td>
                     <td>4</td>
                   </tr>
                   </tbody>
@@ -84,10 +86,10 @@ class Home extends React.Component {
               <CardBody className="battle-npc-cardbody cardbody">
                 <div className="battle-npc-cardtitle-wrapper cardtitle-wrapper">
                   <CardTitle className="battle-npc-cardtitle cardtitle cardtext-color">Goblin</CardTitle>
-                  <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">Level 1</CardSubtitle>
+                  <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">{MSG_STRING_CONSTANTS.LEVEL_MSG + "1"}</CardSubtitle>
                 </div>
                 <CardText className="battle-npc-cardtext cardtext cardtext-color">Some text about the goblin</CardText>
-                <Button color="primary" className="battle-npc-button cardbutton">Fight</Button>
+                <Button color="primary" className="battle-npc-button cardbutton">{MSG_STRING_CONSTANTS.HOME_BATTLE_SHOWCASE_CARD_BUTTON_MSG}</Button>
               </CardBody>
             </Card>
             <Card className="battle-npc-card">
@@ -95,10 +97,10 @@ class Home extends React.Component {
               <CardBody className="battle-npc-cardbody cardbody">
                 <div className="battle-npc-cardtitle-wrapper cardtitle-wrapper">
                   <CardTitle className="battle-npc-cardtitle cardtitle cardtext-color">Zombie</CardTitle>
-                  <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">Level 2</CardSubtitle>
+                  <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">{MSG_STRING_CONSTANTS.LEVEL_MSG + "2"}</CardSubtitle>
                 </div>
                 <CardText className="battle-npc-cardtext cardtext cardtext-color">Some text about the zombie</CardText>
-                <Button color="primary" className="battle-npc-button cardbutton">Fight</Button>
+                <Button color="primary" className="battle-npc-button cardbutton">{MSG_STRING_CONSTANTS.HOME_BATTLE_SHOWCASE_CARD_BUTTON_MSG}</Button>
               </CardBody>
             </Card>
             <Card className="battle-npc-card">
@@ -106,10 +108,10 @@ class Home extends React.Component {
               <CardBody className="battle-npc-cardbody cardbody">
                 <div className="battle-npc-cardtitle-wrapper cardtitle-wrapper">
                   <CardTitle className="battle-npc-cardtitle cardtitle cardtext-color">Imp</CardTitle>
-                  <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">Level 3</CardSubtitle>
+                  <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">{MSG_STRING_CONSTANTS.LEVEL_MSG + "3"}</CardSubtitle>
                 </div>
                 <CardText className="battle-npc-text cardtext cardtext-color">Some text about the imp</CardText>
-                <Button color="primary" className="battle-npc-button cardbutton">Fight</Button>
+                <Button color="primary" className="battle-npc-button cardbutton">{MSG_STRING_CONSTANTS.HOME_BATTLE_SHOWCASE_CARD_BUTTON_MSG}</Button>
               </CardBody>
             </Card>
           </div>
@@ -133,7 +135,7 @@ class Home extends React.Component {
               <CardBody className="explore-map-cardbody cardbody">
                 <CardTitle className="explore-map-title cardtitle cardtext-color">Map</CardTitle>
                 <CardText className="explore-map-text cardtext cardtext-color">Some text about this map</CardText>
-                <Button color="primary" className="explore-map-button cardbutton">Explore</Button>
+                <Button color="primary" className="explore-map-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_MAP_CARD_BUTTON_MSG}</Button>
               </CardBody>
             </Card>
             <Card className="explore-map-card">
@@ -141,7 +143,7 @@ class Home extends React.Component {
               <CardBody className="explore-map-cardbody cardbody">
                 <CardTitle className="explore-map-title cardtitle cardtext-color">Map</CardTitle>
                 <CardText className="explore-map-text cardtext cardtext-color">Some text about this map</CardText>
-                <Button color="primary" className="explore-map-button cardbutton">Explore</Button>
+                <Button color="primary" className="explore-map-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_MAP_CARD_BUTTON_MSG}</Button>
               </CardBody>
             </Card>
             <Card className="explore-map-card">
@@ -149,7 +151,7 @@ class Home extends React.Component {
               <CardBody className="explore-map-cardbody cardbody">
                 <CardTitle className="explore-map-title cardtitle cardtext-color">Map</CardTitle>
                 <CardText className="explore-map-text cardtext cardtext-color">Some text about this map</CardText>
-                <Button color="primary" className="explore-map-button cardbutton">Explore</Button>
+                <Button color="primary" className="explore-map-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_MAP_CARD_BUTTON_MSG}</Button>
               </CardBody>
             </Card>
           </div>
@@ -163,7 +165,7 @@ class Home extends React.Component {
                   <CardSubtitle className="explore-shop-cardsubtitle cardsubtitle">Costs 5 gold</CardSubtitle>
                 </div>
                 <CardText className="explore-shop-text cardtext cardtext-color">Some text about this item</CardText>
-                <Button color="primary" className="explore-shop-button cardbutton">Purchase</Button>
+                <Button color="primary" className="explore-shop-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_SHOP_CARD_BUTTON_MSG}</Button>
               </CardBody>
             </Card>
             <Card className="explore-shop-card">
@@ -174,7 +176,7 @@ class Home extends React.Component {
                   <CardSubtitle className="explore-shop-cardsubtitle cardsubtitle">Costs 5 gold</CardSubtitle>
                 </div>
                 <CardText className="explore-shop-text cardtext cardtext-color">Some text about this item</CardText>
-                <Button color="primary" className="explore-shop-button cardbutton">Purchase</Button>
+                <Button color="primary" className="explore-shop-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_SHOP_CARD_BUTTON_MSG}</Button>
               </CardBody>
             </Card>
             <Card className="explore-shop-card">
@@ -185,7 +187,7 @@ class Home extends React.Component {
                   <CardSubtitle className="explore-shop-cardsubtitle cardsubtitle">Costs 5 gold</CardSubtitle>
                 </div>
                 <CardText className="explore-shop-text cardtext cardtext-color">Some text about this item</CardText>
-                <Button color="primary" className="explore-shop-button cardbutton">Purchase</Button>
+                <Button color="primary" className="explore-shop-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_SHOP_CARD_BUTTON_MSG}</Button>
               </CardBody>
             </Card>
             <Card className="explore-shop-card">
@@ -196,7 +198,7 @@ class Home extends React.Component {
                   <CardSubtitle className="explore-shop-cardsubtitle cardsubtitle">Costs 5 gold</CardSubtitle>
                 </div>
                 <CardText className="explore-shop-text cardtext cardtext-color">Some text about this item</CardText>
-                <Button color="primary" className="explore-shop-button cardbutton">Purchase</Button>
+                <Button color="primary" className="explore-shop-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_SHOP_CARD_BUTTON_MSG}</Button>
               </CardBody>
             </Card>
           </div>
