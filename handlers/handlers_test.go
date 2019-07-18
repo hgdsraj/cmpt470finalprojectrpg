@@ -410,12 +410,14 @@ func TestHandleUserCharacters(t *testing.T) {
 	testGetCharacters := func() {
 
 		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
-		characterRows := sqlmock.NewRows([]string{"characterid", "charactername", "attack", "defense", "health", "uid"}).
+		characterRows := sqlmock.NewRows([]string{"characterid", "charactername", "attack", "defense", "health",
+			"uid", "stamina", "strength", "agility", "wisdom", "charisma"}).
 			AddRow(character1.CharacterId, character1.CharacterName, character1.Attack,
-				character1.Defense, character1.Health, character1.UserId).
+				character1.Defense, character1.Health, character1.UserId, character1.Stamina,
+				character1.Strength, character1.Agility, character1.Wisdom, character1.Charisma).
 			AddRow(character2.CharacterId, character2.CharacterName, character2.Attack,
-				character2.Defense, character2.Health, character2.UserId)
-
+			character2.Defense, character2.Health, character2.UserId, character2.Stamina,
+			character2.Strength, character2.Agility, character2.Wisdom, character2.Charisma)
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 		mock.ExpectQuery("SELECT").WillReturnRows(characterRows)
 

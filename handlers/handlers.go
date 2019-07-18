@@ -38,6 +38,11 @@ type Character struct {
 	Attack        int    `json:"attack"`
 	Defense       int    `json:"defense"`
 	Health        int    `json:"health"`
+	Stamina       int    `json:"stamina"`
+	Strength      int    `json:"strength"`
+	Agility       int    `json:"agility"`
+	Wisdom        int    `json:"wisdom"`
+	Charisma      int    `json:"charisma"`
 	UserId        int    `json:"uid"`
 }
 
@@ -283,7 +288,8 @@ func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := Database.Query(`SELECT characterid, charactername, attack, defense, health, userid
+	rows, err := Database.Query(`SELECT characterid, charactername, attack, defense, health, userid,
+       									stamina, strength, agility, wisdom, charisma
 										FROM characters WHERE userid = $1`, userId)
 	if err != nil {
 		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("error querying rows: %v", err), http.StatusInternalServerError)
@@ -299,8 +305,10 @@ func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 	characters := Characters{[]Character{}}
 	for rows.Next() {
 		character := Character{}
-		if err := rows.Scan(&character.CharacterId, &character.CharacterName, &character.Attack,
-			&character.Defense, &character.Health, &character.UserId); err != nil {
+		err := rows.Scan(&character.CharacterId, &character.CharacterName, &character.Attack,
+			&character.Defense, &character.Health, &character.UserId, &character.Stamina, &character.Strength,
+			&character.Agility, &character.Wisdom, &character.Charisma)
+		if err != nil {
 			msg := fmt.Sprintf("error scanning row, aborting. error: %v", err)
 			helpers.LogAndSendErrorMessage(w, msg, http.StatusInternalServerError)
 			return
