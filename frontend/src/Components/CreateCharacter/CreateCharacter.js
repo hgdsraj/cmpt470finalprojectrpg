@@ -40,7 +40,8 @@ class CreateCharacter extends React.Component {
     return (
       <div className="create-character-page page-container">
         <CustomNavbar />
-        <div className="full-viewport-with-navbar centered content create-character-centered-content container">
+        {/* TODO: Change CSS such that we don't need this full-viewport-with-navbar class - use flexbox page-containers instead */}
+        <div className="create-character-centered-content full-viewport-with-navbar centered content container">
           <div className="create-character-viewport-width">
             <h1 className="create-character-header-text">Create a Character</h1>
             <Form onSubmit={this.handleCreateCharacter}>
