@@ -52,7 +52,7 @@ class CreateCharacter extends React.Component {
             <h1 className="create-character-header-text">Create a Character</h1>
             <Form onSubmit={this.handleCreateCharacter}>
               <FormGroup className="create-character-form-group">
-                <Label for="charactername" className="create-character-form-label form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
+                <Label for="charactername" className="create-character-form-label form-label">Character name</Label>
                 <Input type="charactername" id="charactername" onChange={this.handleChangeCharacterName}/>
               </FormGroup>
               <FormGroup className="create-character-avatar-form-group" tag="avatar-select">
