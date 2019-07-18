@@ -35,5 +35,32 @@
         margin: 0;
       }
     }
+
+    .create-character-assign-stats-table {
+      margin-bottom: 0;
+
+      .stat-label {
+        min-width: 200px;
+      }
+
+      .stat-value-p {
+        margin-bottom: 0;
+      }
+
+      .stat-value-button {
+        border-radius: 25px;
+      }
+
+      .stat-value-add {
+        padding: 2px 9px;
+        margin-left: 5px;
+      }
+
+      .stat-value-subtract {
+        padding: 2px 11px;
+        margin-right: 5px;
+      }
+    }
+
   }
 }

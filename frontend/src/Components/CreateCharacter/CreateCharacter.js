@@ -6,7 +6,8 @@ import {
   Input,
   Label,
   Card,
-  CardImg
+  CardImg,
+  Table
 } from 'reactstrap';
 import {
   MSG_STRING_CONSTANTS
@@ -20,8 +21,13 @@ class CreateCharacter extends React.Component {
     super(props);
     this.state = {
       characterName: '',
-      remainingStatPoints: 10
+      remainingStatPoints: 10,
+      avatarSelection: 0
     };
+  }
+
+  handleChangeAvatarSelection = () => {
+
   }
 
   handleCreateCharacter = () => {
@@ -49,7 +55,7 @@ class CreateCharacter extends React.Component {
                 <Label for="charactername" className="create-character-form-label form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
                 <Input type="charactername" id="charactername" onChange={this.handleChangeCharacterName}/>
               </FormGroup>
-              <FormGroup tag="avatar-select">
+              <FormGroup className="create-character-avatar-form-group" tag="avatar-select">
                 <legend className="create-character-avatar-legend">Avatar</legend>
                 <div className="create-character-avatar-card-container card-container">
                   <FormGroup className="create-character-avatar-form-group" check>
@@ -124,6 +130,74 @@ class CreateCharacter extends React.Component {
                       </Label>
                     </div>
                   </FormGroup>
+                </div>
+              </FormGroup>
+
+              <FormGroup className="create-character-avatar-form-group">
+                <Label className="create-character-form-label form-label">
+                  Assign stats
+                </Label>
+                <div className="create-character-assign-stats-card-wrapper">
+                  <Card className="create-character-assign-stats-card">
+                    <Table className="create-character-assign-stats-table">
+                      <thead>
+                        <tr>
+                          <th>Stat</th>
+                          <th>Value</th>
+                        </tr>
+                      </thead>
+                      <tr className="stats-table-row">
+                        <td className="stat-label">Stamina</td>
+                        <td className="stat-value">
+                            <p className="stat-value-p">
+                              <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
+                              12
+                              <Button className="stat-value-button stat-value-add" color="success">+</Button>
+                            </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="stat-label">Strength</td>
+                        <td>
+                          <p className="stat-value-p">
+                            <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
+                            10
+                            <Button className="stat-value-button stat-value-add" color="success">+</Button>
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="stat-label">Agility</td>
+                        <td>
+                          <p className="stat-value-p">
+                            <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
+                            10
+                            <Button className="stat-value-button stat-value-add" color="success">+</Button>
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="stat-label">Wisdom</td>
+                        <td>
+                          <p className="stat-value-p">
+                            <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
+                            11
+                            <Button className="stat-value-button stat-value-add" color="success">+</Button>
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="stat-label">Charisma</td>
+                        <td>
+                          <p className="stat-value-p">
+                            <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
+                            11
+                            <Button className="stat-value-button stat-value-add" color="success">+</Button>
+                          </p>
+                        </td>
+                      </tr>
+                    </Table>
+                  </Card>
                 </div>
               </FormGroup>
 
