@@ -224,13 +224,18 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 // HandleCharacterCreate takes name and uid values
 func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
-
+	username := mux.Vars(r)["username"]
+	if !helpers.UserLoggedIn(username) {
+		helpers.LogAndSendErrorMessage(w, "User not authenticated, please log in!", http.StatusForbidden)
+		return
+	}
 	// TODO: maybe make a separate constructor function for this? or make default values in the database for new
 	//  characters? or allow custom values (i.e. fixed number of assignable attribute points)?
-	character := Character{}
-	character.Attack = 5
-	character.Defense = 4
-	character.Health = 25
+	character := Character{
+		Attack: 5,
+		Defense: 4,
+		Health: 25,
+	}
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&character) // store uid and name
 
@@ -238,11 +243,29 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 		helpers.LogAndSendErrorMessage(w, "Could not process JSON body!", http.StatusBadRequest)
 		return
 	}
+	var userId int
+	row := Database.QueryRow(`SELECT id  FROM users WHERE username = $1`, username)
+	err = row.Scan(&userId)
+	if err != nil {
+		var strErr string
+		var header int
+		if err == sql.ErrNoRows {
+			strErr = fmt.Sprintf("error querying database (user doesn't exist): %v", err)
+			header = http.StatusNotFound
+		} else {
+			strErr = fmt.Sprintf("error querying database (other sql error): %v", err)
+			log.Printf(strErr)
+			header = http.StatusInternalServerError
+		}
+		helpers.LogAndSendErrorMessage(w, strErr, header)
+		return
+	}
 
-	sqlStatement := `INSERT INTO Characters (charactername, attack, defense, health, userid)
-			VALUES ($1, $2, $3, $4, $5)`
-	_, err = Database.Exec(sqlStatement, character.CharacterName, character.Attack, character.Defense,
-		character.Health, character.UserId)
+	sqlStatement := `INSERT INTO Characters (charactername, attack, defense, health, stamina, strength, agility, wisdom, charisma, userid)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
+	_, err = Database.Exec(sqlStatement, character.CharacterName, character.Attack,
+		character.Defense, character.Health, character.Stamina, character.Strength,
+		character.Agility, character.Wisdom, character.Charisma, userId)
 
 	if err != nil {
 		strErr := fmt.Sprintf("Could not insert into database error: %v", err)

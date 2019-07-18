@@ -68,6 +68,13 @@ func TestHandleCharacterCreate(t *testing.T) {
 		}
 	}()
 
+	user := User{
+		Id:       420,
+		Username: "ilon",
+		Password: "mask",
+		FullName: "ilonmask",
+	}
+
 	testBadBody := func() {
 		req, err := http.NewRequest("POST", "/characters/create", bytes.NewReader([]byte("{zz}")))
 		if err != nil {
@@ -76,6 +83,14 @@ func TestHandleCharacterCreate(t *testing.T) {
 
 		rr := httptest.NewRecorder()
 		handler := http.HandlerFunc(HandleCharacterCreate)
+
+		vars := map[string]string{
+			"username": user.Username,
+		}
+
+		// Hack to try to fake gorilla/mux vars
+		req = mux.SetURLVars(req, vars)
+
 		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 		// directly and pass in our Request and ResponseRecorder.
 		handler.ServeHTTP(rr, req)
@@ -100,9 +115,12 @@ func TestHandleCharacterCreate(t *testing.T) {
 			Health:        100,
 			UserId:        420,
 		}
+		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
+		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 
 		mock.ExpectExec("INSERT INTO Characters").WithArgs(character.CharacterName, character.Attack,
-			character.Defense, character.Health, character.UserId).
+			character.Defense, character.Health, character.Stamina, character.Strength,
+			character.Agility, character.Wisdom, character.Charisma, user.Id).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 
 		marshalledCharacter, err := json.Marshal(character)
@@ -117,6 +135,15 @@ func TestHandleCharacterCreate(t *testing.T) {
 
 		rr := httptest.NewRecorder()
 		handler := http.HandlerFunc(HandleCharacterCreate)
+
+
+		vars := map[string]string{
+			"username": user.Username,
+		}
+
+		// Hack to try to fake gorilla/mux vars
+		req = mux.SetURLVars(req, vars)
+
 		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 		// directly and pass in our Request and ResponseRecorder.
 		handler.ServeHTTP(rr, req)
