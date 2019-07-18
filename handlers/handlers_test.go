@@ -114,7 +114,11 @@ func TestHandleCharacterCreate(t *testing.T) {
 			Attack:        420,
 			Defense:       100,
 			Health:        100,
-			UserId:        420,
+			Stamina:       12,
+			Strength:      10,
+			Agility:       10,
+			Wisdom:        11,
+			Charisma:      11,
 		}
 		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
@@ -136,7 +140,6 @@ func TestHandleCharacterCreate(t *testing.T) {
 
 		rr := httptest.NewRecorder()
 		handler := http.HandlerFunc(HandleCharacterCreate)
-
 
 		vars := map[string]string{
 			"username": user.Username,
@@ -444,8 +447,8 @@ func TestHandleUserCharacters(t *testing.T) {
 				character1.Defense, character1.Health, character1.UserId, character1.Stamina,
 				character1.Strength, character1.Agility, character1.Wisdom, character1.Charisma).
 			AddRow(character2.CharacterId, character2.CharacterName, character2.Attack,
-			character2.Defense, character2.Health, character2.UserId, character2.Stamina,
-			character2.Strength, character2.Agility, character2.Wisdom, character2.Charisma)
+				character2.Defense, character2.Health, character2.UserId, character2.Stamina,
+				character2.Strength, character2.Agility, character2.Wisdom, character2.Charisma)
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 		mock.ExpectQuery("SELECT").WillReturnRows(characterRows)
 

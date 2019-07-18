@@ -30,7 +30,3 @@ func LogAndSendErrorMessage(w http.ResponseWriter, message string, statusCode in
 	}
 
 }
-
-func ValidateNewCharacter(character shared.Character) (err error) {
-	return
-}
