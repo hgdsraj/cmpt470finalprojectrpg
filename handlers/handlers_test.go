@@ -164,8 +164,59 @@ func TestHandleCharacterCreate(t *testing.T) {
 
 	}
 
+	testInvalidCharacter := func() {
+		character := shared.Character{
+			CharacterId:   1,
+			CharacterName: "elon",
+			Attack:        420,
+			Defense:       100,
+			Health:        100,
+			Stamina:       65,
+			Strength:      10,
+			Agility:       10,
+			Wisdom:        11,
+			Charisma:      11,
+		}
+
+		marshalledCharacter, err := json.Marshal(character)
+		if err != nil {
+			t.Fatalf("error marshalling character: %v", err)
+		}
+
+		req, err := http.NewRequest("POST", "/characters/create", bytes.NewReader(marshalledCharacter))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		rr := httptest.NewRecorder()
+		handler := http.HandlerFunc(HandleCharacterCreate)
+
+		vars := map[string]string{
+			"username": user.Username,
+		}
+
+		// Hack to try to fake gorilla/mux vars
+		req = mux.SetURLVars(req, vars)
+
+		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
+		// directly and pass in our Request and ResponseRecorder.
+		handler.ServeHTTP(rr, req)
+		// Check the status code is what we expect.
+		if status := rr.Code; status != http.StatusBadRequest {
+			t.Errorf("wrong status code: got %v want %v", status, http.StatusBadRequest)
+		}
+
+		expectedBody := `{"Message":"character invalid, err: stamina should be at most 16, was: 65"}`
+		if rr.Body.String() != expectedBody {
+			t.Fatalf("body not equal to expected body\nexpected:\n%v\ngot:\n%v\n",
+				expectedBody, rr.Body.String())
+		}
+
+	}
+
 	testBadBody()
 	testSuccessfulCreation()
+	testInvalidCharacter()
 
 }
 
