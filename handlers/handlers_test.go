@@ -4,6 +4,7 @@ package handlers
 import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gorilla/mux"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/shared"
 
 	"encoding/json"
 	"net/http"
@@ -68,7 +69,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 		}
 	}()
 
-	user := User{
+	user := shared.User{
 		Id:       420,
 		Username: "ilon",
 		Password: "mask",
@@ -107,7 +108,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 	}
 
 	testSuccessfulCreation := func() {
-		character := Character{
+		character := shared.Character{
 			CharacterId:   1,
 			CharacterName: "elon",
 			Attack:        420,
@@ -205,7 +206,7 @@ func TestHandleUserCreate(t *testing.T) {
 	}
 
 	testUserExists := func() {
-		user := User{
+		user := shared.User{
 			Username: "ilon",
 			Password: "mask",
 			FullName: "ilonmask",
@@ -243,7 +244,7 @@ func TestHandleUserCreate(t *testing.T) {
 	}
 
 	testSuccessfulCreation := func() {
-		user := User{
+		user := shared.User{
 			Username: "ilon",
 			Password: "mask",
 			FullName: "ilonmask",
@@ -334,13 +335,13 @@ func TestHandleUserExists(t *testing.T) {
 			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
 		}
 
-		responseUser := User{}
+		responseUser := shared.User{}
 		err = json.Unmarshal(rr.Body.Bytes(), &responseUser)
 		if err != nil {
 			t.Fatalf("error unmarshalling user response: %v\n", err)
 		}
 
-		expectedUser := User{
+		expectedUser := shared.User{
 			Id:       420,
 			Username: "ilon",
 			FullName: "ilonmask",
@@ -410,14 +411,14 @@ func TestHandleUserCharacters(t *testing.T) {
 		}
 	}()
 
-	user := User{
+	user := shared.User{
 		Id:       420,
 		Username: "ilon",
 		Password: "mask",
 		FullName: "ilonmask",
 	}
 
-	character1 := Character{
+	character1 := shared.Character{
 		CharacterId:   1,
 		CharacterName: "elon",
 		Attack:        420,
@@ -425,7 +426,7 @@ func TestHandleUserCharacters(t *testing.T) {
 		Health:        100,
 		UserId:        420,
 	}
-	character2 := Character{
+	character2 := shared.Character{
 		CharacterId:   1,
 		CharacterName: "ilon",
 		Attack:        69,
@@ -472,14 +473,14 @@ func TestHandleUserCharacters(t *testing.T) {
 			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
 		}
 
-		responseCharacters := Characters{[]Character{}}
+		responseCharacters := shared.Characters{[]shared.Character{}}
 		err = json.Unmarshal(rr.Body.Bytes(), &responseCharacters)
 		if err != nil {
 			t.Fatalf("error unmarshalling usercharacters response: %v\n", err)
 		}
 
-		expectedCharacters := Characters{
-			Characters: []Character{character1, character2},
+		expectedCharacters := shared.Characters{
+			Characters: []shared.Character{character1, character2},
 		}
 		if eq := reflect.DeepEqual(expectedCharacters, responseCharacters); !eq {
 			t.Fatalf("expectedCharacters not equal to responseCharacters\nexpected:\n%v\ngot:\n%v\n",

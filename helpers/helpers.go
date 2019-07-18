@@ -1,6 +1,8 @@
 package helpers
 
 import (
+	"sfu.ca/apruner/cmpt470finalprojectrpg/shared"
+
 	"encoding/json"
 	"net/http"
 
@@ -9,17 +11,13 @@ import (
 
 var JsonError string = "json encoding error: %v"
 
-type Response struct {
-	Message string
-}
-
 func UserLoggedIn(username string) bool {
 	//TODO
 	return true
 }
 
 func LogAndSendErrorMessage(w http.ResponseWriter, message string, statusCode int) {
-	responseToEncode := Response{message}
+	responseToEncode := shared.Response{message}
 	encodedResponse, err := json.Marshal(responseToEncode)
 	if err != nil {
 		log.Printf(JsonError, err)
@@ -31,4 +29,8 @@ func LogAndSendErrorMessage(w http.ResponseWriter, message string, statusCode in
 		log.Printf("error writing: %v", err)
 	}
 
+}
+
+func ValidateNewCharacter(character shared.Character) (err error) {
+	return
 }

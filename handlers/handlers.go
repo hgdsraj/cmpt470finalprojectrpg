@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/shared"
 
 	"fmt"
 	"log"
@@ -25,36 +26,6 @@ type Config struct {
 	Local    bool   `json:"local"`
 }
 
-type User struct {
-	Id       int    `json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	FullName string `json:"full_name"`
-}
-
-type Character struct {
-	CharacterId   int    `json:"id"`
-	CharacterName string `json:"name"`
-	Attack        int    `json:"attack"`
-	Defense       int    `json:"defense"`
-	Health        int    `json:"health"`
-	Stamina       int    `json:"stamina"`
-	Strength      int    `json:"strength"`
-	Agility       int    `json:"agility"`
-	Wisdom        int    `json:"wisdom"`
-	Charisma      int    `json:"charisma"`
-	UserId        int    `json:"uid"`
-}
-
-type Characters struct {
-	Characters []Character `json:"characters"`
-}
-
-type Item struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
-	Type string `json:"type"`
-}
 
 func SetupConfig() {
 	production := os.Getenv("HEROKU")
@@ -91,7 +62,7 @@ func TestDatabase(w http.ResponseWriter, r *http.Request) {
 		helpers.LogAndSendErrorMessage(w, "Database is not connected!", http.StatusInternalServerError)
 		return
 	}
-	responseToEncode := helpers.Response{"Database is connected!!"}
+	responseToEncode := shared.Response{"Database is connected!!"}
 	encodedResponse, err := json.Marshal(responseToEncode)
 	if err != nil {
 		log.Printf(helpers.JsonError, err)
@@ -107,7 +78,7 @@ func TestDatabase(w http.ResponseWriter, r *http.Request) {
 func HandleUserExists(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
 	username := mux.Vars(r)["username"]
-	queryUser := User{}
+	queryUser := shared.User{}
 	row := Database.QueryRow("SELECT id, username, fullname FROM users WHERE username = $1", username)
 	err := row.Scan(&queryUser.Id, &queryUser.Username, &queryUser.FullName)
 
@@ -141,14 +112,14 @@ func HandleUserExists(w http.ResponseWriter, r *http.Request) {
 
 func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
-	user := User{}
+	user := shared.User{}
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&user)
 	if err != nil {
 		helpers.LogAndSendErrorMessage(w, "Could not process JSON body!", http.StatusBadRequest)
 		return
 	}
-	queryUser := User{}
+	queryUser := shared.User{}
 	var passwordHash string
 	var passwordSalt string
 	row := Database.QueryRow("SELECT id, username, fullname, passwordhash, passwordsalt FROM users WHERE username = $1", user.Username)
@@ -181,7 +152,7 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 
 func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
-	user := User{}
+	user := shared.User{}
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&user)
 	if err != nil {
@@ -209,7 +180,7 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
-	responseToEncode := helpers.Response{"Successfully created user"}
+	responseToEncode := shared.Response{"Successfully created user"}
 	encodedResponse, err := json.Marshal(responseToEncode)
 	if err != nil {
 		log.Printf(helpers.JsonError, err)
@@ -231,18 +202,26 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	}
 	// TODO: maybe make a separate constructor function for this? or make default values in the database for new
 	//  characters? or allow custom values (i.e. fixed number of assignable attribute points)?
-	character := Character{
+	character := shared.Character{
 		Attack: 5,
 		Defense: 4,
 		Health: 25,
 	}
+
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&character) // store uid and name
-
 	if err != nil {
 		helpers.LogAndSendErrorMessage(w, "Could not process JSON body!", http.StatusBadRequest)
 		return
 	}
+
+	err = helpers.ValidateNewCharacter(character)
+	if err != nil {
+		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("character invalid, err: %v", err),
+			http.StatusBadRequest)
+		return
+	}
+
 	var userId int
 	row := Database.QueryRow(`SELECT id  FROM users WHERE username = $1`, username)
 	err = row.Scan(&userId)
@@ -274,7 +253,7 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	responseToEncode := helpers.Response{"Successfully created character"}
+	responseToEncode := shared.Response{"Successfully created character"}
 	encodedResponse, err := json.Marshal(responseToEncode)
 	if err != nil {
 		log.Printf(helpers.JsonError, err)
@@ -325,9 +304,9 @@ func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 
-	characters := Characters{[]Character{}}
+	characters := shared.Characters{[]shared.Character{}}
 	for rows.Next() {
-		character := Character{}
+		character := shared.Character{}
 		err := rows.Scan(&character.CharacterId, &character.CharacterName, &character.Attack,
 			&character.Defense, &character.Health, &character.UserId, &character.Stamina, &character.Strength,
 			&character.Agility, &character.Wisdom, &character.Charisma)
