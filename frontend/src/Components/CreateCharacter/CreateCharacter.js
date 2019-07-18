@@ -135,7 +135,7 @@ class CreateCharacter extends React.Component {
 
               <FormGroup className="create-character-avatar-form-group">
                 <Label className="create-character-form-label form-label">
-                  Assign stats
+                  Assign stats (You have {this.state.remainingStatPoints} points left to assign)
                 </Label>
                 <div className="create-character-assign-stats-card-wrapper">
                   <Card className="create-character-assign-stats-card">
@@ -158,7 +158,7 @@ class CreateCharacter extends React.Component {
                       </tr>
                       <tr>
                         <td className="stat-label">Strength</td>
-                        <td>
+                        <td className="stat-value">
                           <p className="stat-value-p">
                             <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
                             10
@@ -168,7 +168,7 @@ class CreateCharacter extends React.Component {
                       </tr>
                       <tr>
                         <td className="stat-label">Agility</td>
-                        <td>
+                        <td className="stat-value">
                           <p className="stat-value-p">
                             <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
                             10
@@ -178,7 +178,7 @@ class CreateCharacter extends React.Component {
                       </tr>
                       <tr>
                         <td className="stat-label">Wisdom</td>
-                        <td>
+                        <td className="stat-value">
                           <p className="stat-value-p">
                             <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
                             11
@@ -188,7 +188,7 @@ class CreateCharacter extends React.Component {
                       </tr>
                       <tr>
                         <td className="stat-label">Charisma</td>
-                        <td>
+                        <td className="stat-value">
                           <p className="stat-value-p">
                             <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
                             11
