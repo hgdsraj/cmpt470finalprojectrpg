@@ -7,3 +7,5 @@ goblin.png - Graphic artist: Stephen "Redshrike" Challener (https://opengameart.
 grass_map.png - Graphic artist: Lanea Zimmerman (AKA Sharm) contributors: Adam Pruner
 
 blue_potion.png - Graphic artist: Reid, contributors: Anzhel (https://opengameart.org/users/anzhel), Adam Pruner
+
+princess_avatar.png - Graphic artist: Lanea Zimmerman (AKA Sharm), contributors: Adam Pruner
