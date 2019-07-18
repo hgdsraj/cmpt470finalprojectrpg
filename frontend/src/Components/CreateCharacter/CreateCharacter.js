@@ -9,6 +9,7 @@ import {
 import {
   MSG_STRING_CONSTANTS
 } from '../../Constants/Constants';
+import CustomNavbar from '../CustomNavbar/CustomNavbar';
 
 class CreateCharacter extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class CreateCharacter extends React.Component {
   render () {
     return (
       <div className="create-character-page page-container">
+        <CustomNavbar />
         <div className="full-viewport centered content create-character-centered-content container">
           <h1 className="create-character-header-text">Create a Character</h1>
           <Form onSubmit={this.handleCreateCharacter}>
