@@ -7,6 +7,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.full-viewport-with-navbar {
+  min-height: 95vh;
+}
+
 .full-viewport {
   min-height: 100vh;
   font-size: calc(10px + 2vmin);
@@ -33,4 +37,54 @@ body {
 
 .page-container {
   background-image: url("Assets/dungeon_tile.png");
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+  .card {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.card-img {
+  max-height: 64px;
+  max-width: 64px;
+  margin-top: 10px;
+}
+
+.cardbody {
+  padding: 15px;
+
+  .cardtitle-wrapper {
+    display: block;
+    margin-bottom: .75rem;
+
+    .cardtitle {
+      display: inline;
+    }
+
+    .cardsubtitle {
+      display: inline;
+      color: #5a6268;
+      margin-left: 10px;
+    }
+
+  }
+
+  .cardtitle {
+    font-weight: bold;
+  }
+
+  .cardsubtitle {
+    color: #5a6268;
+  }
+
+  .cardtext-color {
+    color: #000000;
+  }
 }

@@ -1,0 +1,39 @@
+.create-character-page {
+  .create-character-centered-content {
+    .create-character-viewport-width {
+      min-width: 50vh;
+      max-width: 50vh;
+    }
+
+    .create-character-avatar-legend {
+      font-size: 18px;
+    }
+
+    .create-character-avatar-card-container {
+      display: flex;
+      justify-content: left;
+      flex-wrap: wrap;
+      margin-top: 0;
+
+      .create-character-avatar-card {
+        min-width: 90px;
+        min-height: 90px;
+        max-width: 90px;
+        max-height: 90px;
+      }
+
+      .create-character-avatar-form-group {
+        padding: 10px 10px 0 10px;
+      }
+
+      .create-character-avatar-form-label {
+        margin-left: 10px;
+      }
+
+      .form-check-input {
+        position: relative;
+        margin: 0;
+      }
+    }
+  }
+}
