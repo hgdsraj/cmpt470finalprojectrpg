@@ -23,7 +23,7 @@ class CreateCharacter extends React.Component {
     this.state = {
       characterName: '',
       remainingStatPoints: 10,
-      avatarSelection: 0,
+      avatarSelection: '',
       stamina: 12,
       strength: 10,
       agility: 10,
@@ -37,7 +37,10 @@ class CreateCharacter extends React.Component {
   }
 
   handleChangeAvatarSelection = (event) => {
-
+    let avatarSelection = event.target.id;
+    this.setState({
+      avatarSelection
+    });
   }
 
   handleCreateCharacter = () => {
@@ -73,7 +76,7 @@ class CreateCharacter extends React.Component {
                       <CardImg src={PrincessAvatar} />
                     </Card>
                     <div className="create-character-avatar-label-wrapper">
-                      <Input type="radio" name="radio1" />
+                      <Input id="princess" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
                       <Label className="create-character-avatar-form-label form-label" check>
                         {' '}
                         Princess
@@ -85,7 +88,7 @@ class CreateCharacter extends React.Component {
                       <CardImg src={PrincessAvatar} />
                     </Card>
                     <div className="create-character-avatar-label-wrapper">
-                      <Input type="radio" name="radio1" />
+                      <Input id="vampire" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
                       <Label className="create-character-avatar-form-label form-label" check>
                         {' '}
                         Vampire
@@ -97,7 +100,7 @@ class CreateCharacter extends React.Component {
                       <CardImg src={PrincessAvatar} />
                     </Card>
                     <div className="create-character-avatar-label-wrapper">
-                      <Input type="radio" name="radio1" />
+                      <Input id="knight" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
                       <Label className="create-character-avatar-form-label form-label" check>
                         {' '}
                         Knight
@@ -109,7 +112,7 @@ class CreateCharacter extends React.Component {
                       <CardImg src={PrincessAvatar} />
                     </Card>
                     <div className="create-character-avatar-label-wrapper">
-                      <Input type="radio" name="radio1" />
+                      <Input id="warrior" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
                       <Label className="create-character-avatar-form-label form-label" check>
                         {' '}
                         Warrior
@@ -121,7 +124,7 @@ class CreateCharacter extends React.Component {
                       <CardImg src={PrincessAvatar} />
                     </Card>
                     <div className="create-character-avatar-label-wrapper">
-                      <Input type="radio" name="radio1" />
+                      <Input id="cleric" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
                       <Label className="create-character-avatar-form-label form-label" check>
                         {' '}
                         Cleric
@@ -133,7 +136,7 @@ class CreateCharacter extends React.Component {
                       <CardImg src={PrincessAvatar} />
                     </Card>
                     <div className="create-character-avatar-label-wrapper">
-                      <Input type="radio" name="radio1" />
+                      <Input id="hunter" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
                       <Label className="create-character-avatar-form-label form-label" check>
                         {' '}
                         Hunter
