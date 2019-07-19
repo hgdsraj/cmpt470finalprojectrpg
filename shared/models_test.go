@@ -11,6 +11,8 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterId:   1,
 			CharacterName: "elon",
 			Attack:        420,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Defense:       100,
 			Health:        100,
 			Stamina:       12,
@@ -30,7 +32,9 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterId:   1,
 			CharacterName: "elon",
 			Attack:        420,
+			MagicAttack:   420,
 			Defense:       100,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
@@ -43,19 +47,22 @@ func TestCharacter_Validate(t *testing.T) {
 			t.Fatalf("Expected an error, got nil")
 		}
 
-		expectedErr := fmt.Sprintf("sum of stamina, strength, agility, wisdom, and " +
-			"charisma should be less than %v, was: 74", MAX_CHARACTER_ATTRIBUTE_SUM)
+		expectedErr := fmt.Sprintf("sum of stamina, strength, agility, wisdom, and "+
+			"charisma should be less than %v, was: 74", MAX_NEW_CHARACTER_ATTRIBUTE_SUM)
 		if err.Error() != expectedErr {
 			t.Fatalf("error not equal to expected error\nexpected:\n%v\ngot:\n%v\n",
 				expectedErr, err)
 		}
 	}
+
 	staminaTooHigh := func() {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
 			Attack:        420,
 			Defense:       100,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina + 1,
 			Strength:      MaxNewCharacter.Strength,
@@ -81,6 +88,8 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterName: "elon",
 			Attack:        420,
 			Defense:       100,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength + 1,
@@ -106,6 +115,8 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterName: "elon",
 			Attack:        420,
 			Defense:       100,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
@@ -131,6 +142,8 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterName: "elon",
 			Attack:        420,
 			Defense:       100,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
@@ -156,6 +169,8 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterName: "elon",
 			Attack:        420,
 			Defense:       100,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
@@ -181,6 +196,8 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterName: "elon",
 			Attack:        420,
 			Defense:       100,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MinNewCharacter.Stamina - 1,
 			Strength:      MinNewCharacter.Strength,
@@ -206,6 +223,8 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterName: "elon",
 			Attack:        420,
 			Defense:       100,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength - 1,
@@ -231,6 +250,8 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterName: "elon",
 			Attack:        420,
 			Defense:       100,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength,
@@ -256,6 +277,8 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterName: "elon",
 			Attack:        420,
 			Defense:       100,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength,
@@ -281,6 +304,8 @@ func TestCharacter_Validate(t *testing.T) {
 			CharacterName: "elon",
 			Attack:        420,
 			Defense:       100,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength,
@@ -313,4 +338,3 @@ func TestCharacter_Validate(t *testing.T) {
 	wisdomTooLow()
 	charismaTooLow()
 }
-

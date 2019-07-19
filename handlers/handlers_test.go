@@ -112,7 +112,9 @@ func TestHandleCharacterCreate(t *testing.T) {
 			CharacterId:   1,
 			CharacterName: "elon",
 			Attack:        420,
+			MagicAttack:   420,
 			Defense:       100,
+			MagicDefense:  100,
 			Health:        100,
 			Stamina:       12,
 			Strength:      10,
@@ -124,8 +126,8 @@ func TestHandleCharacterCreate(t *testing.T) {
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 
 		mock.ExpectExec("INSERT INTO Characters").WithArgs(character.CharacterName, character.Attack,
-			character.Defense, character.Health, character.Stamina, character.Strength,
-			character.Agility, character.Wisdom, character.Charisma, user.Id).
+			character.Defense, character.MagicAttack, character.MagicDefense, character.Health, character.Stamina,
+			character.Strength, character.Agility, character.Wisdom, character.Charisma, user.Id).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 
 		marshalledCharacter, err := json.Marshal(character)
@@ -169,6 +171,8 @@ func TestHandleCharacterCreate(t *testing.T) {
 			CharacterId:   1,
 			CharacterName: "elon",
 			Attack:        420,
+			MagicAttack:   420,
+			MagicDefense:  100,
 			Defense:       100,
 			Health:        100,
 			Stamina:       65,

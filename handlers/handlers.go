@@ -205,6 +205,8 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	character := shared.Character{
 		Attack:  5,
 		Defense: 4,
+		MagicAttack:  5,
+		MagicDefense: 4,
 		Health:  25,
 	}
 
@@ -240,11 +242,11 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sqlStatement := `INSERT INTO Characters (charactername, attack, defense, health, stamina, strength, agility, wisdom, charisma, userid)
-			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
+	sqlStatement := `INSERT INTO Characters (charactername, attack, defense, magic_attack, magic_defense, health, stamina, strength, agility, wisdom, charisma, userid)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`
 	_, err = Database.Exec(sqlStatement, character.CharacterName, character.Attack,
-		character.Defense, character.Health, character.Stamina, character.Strength,
-		character.Agility, character.Wisdom, character.Charisma, userId)
+		character.Defense, character.MagicAttack, character.MagicDefense, character.Health,
+		character.Stamina, character.Strength, character.Agility, character.Wisdom, character.Charisma, userId)
 
 	if err != nil {
 		strErr := fmt.Sprintf("Could not insert into database error: %v", err)

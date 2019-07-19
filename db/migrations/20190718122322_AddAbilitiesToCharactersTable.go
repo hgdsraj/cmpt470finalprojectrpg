@@ -14,7 +14,9 @@ func Up_20190718122322(txn *sql.Tx) {
 						ADD COLUMN strength INT NOT NULL DEFAULT 0,
 						ADD COLUMN agility INT NOT NULL DEFAULT 0,
 						ADD COLUMN wisdom INT NOT NULL DEFAULT 0,
-						ADD COLUMN charisma INT NOT NULL DEFAULT 0
+						ADD COLUMN charisma INT NOT NULL DEFAULT 0,
+						ADD COLUMN magic_attack INT NOT NULL DEFAULT 0,
+						ADD COLUMN magic_defense INT NOT NULL DEFAULT 0
 						`)
 
 	if err != nil {
@@ -30,7 +32,9 @@ func Down_20190718122322(txn *sql.Tx) {
 						DROP COLUMN strength,
 						DROP COLUMN agility,
 						DROP COLUMN wisdom,
-						DROP COLUMN charisma
+						DROP COLUMN charisma,
+						DROP COLUMN magic_attack,
+						DROP COLUMN magic_defense
 						`)
 	if err != nil {
 		log.Fatalf("fatal error while running characters abilities migration %v", err)

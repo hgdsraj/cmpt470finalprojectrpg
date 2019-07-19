@@ -14,6 +14,8 @@ type Character struct {
 	CharacterName string `json:"name"`
 	Attack        int    `json:"attack"`
 	Defense       int    `json:"defense"`
+	MagicAttack   int    `json:"magic_attack"`
+	MagicDefense  int    `json:"magic_defense"`
 	Health        int    `json:"health"`
 	Stamina       int    `json:"stamina"`
 	Strength      int    `json:"strength"`
@@ -51,6 +53,8 @@ var MinNewCharacter = Character{
 var MaxNewCharacter = Character{
 	Attack:   5,
 	Defense:  4,
+	MagicDefense:  4,
+	MagicAttack:  4,
 	Health:   25,
 	Stamina:  16,
 	Strength: 14,
@@ -59,7 +63,7 @@ var MaxNewCharacter = Character{
 	Charisma: 15,
 }
 
-var MAX_CHARACTER_ATTRIBUTE_SUM = 64
+var MAX_NEW_CHARACTER_ATTRIBUTE_SUM = 64
 
 func (c *Character) Validate() (err error) {
 	if c.Stamina < MinNewCharacter.Stamina {
@@ -86,9 +90,10 @@ func (c *Character) Validate() (err error) {
 		return fmt.Errorf("charisma should be at most %v, was: %v", MaxNewCharacter.Charisma, c.Charisma)
 	}
 
-	if sum := c.Stamina + c.Strength + c.Agility + c.Wisdom + c.Charisma; sum > MAX_CHARACTER_ATTRIBUTE_SUM {
-		return fmt.Errorf("sum of stamina, strength, agility, wisdom, and charisma " +
-			"should be less than %v, was: %v", MAX_CHARACTER_ATTRIBUTE_SUM, sum)
+	if sum := c.Stamina + c.Strength + c.Agility + c.Wisdom + c.Charisma; sum > MAX_NEW_CHARACTER_ATTRIBUTE_SUM {
+		return fmt.Errorf("sum of stamina, strength, agility, wisdom, and charisma "+
+			"should be less than %v, was: %v", MAX_NEW_CHARACTER_ATTRIBUTE_SUM, sum)
 	}
+
 	return
 }
