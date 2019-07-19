@@ -39,7 +39,7 @@ func main() {
 	api.HandleFunc("/users/{username}", handlers.HandleUserExists).Methods("GET")
 	api.HandleFunc("/users/login", handlers.HandleUserLogin).Methods("POST")
 	api.HandleFunc("/users/create", handlers.HandleUserCreate).Methods("POST")
-	api.HandleFunc("/characters/create", handlers.HandleCharacterCreate).Methods("POST")
+	api.HandleFunc("/characters/{username}/create", handlers.HandleCharacterCreate).Methods("POST")
 	api.HandleFunc("/characters/{username}", handlers.HandleUserCharacters).Methods("GET")
 
 	if os.Getenv("DISABLE_STATIC_FILE_SERVER") != "true" {

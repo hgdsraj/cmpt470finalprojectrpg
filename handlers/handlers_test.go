@@ -4,6 +4,7 @@ package handlers
 import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gorilla/mux"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/shared"
 
 	"encoding/json"
 	"net/http"
@@ -68,6 +69,13 @@ func TestHandleCharacterCreate(t *testing.T) {
 		}
 	}()
 
+	user := shared.User{
+		Id:       420,
+		Username: "ilon",
+		Password: "mask",
+		FullName: "ilonmask",
+	}
+
 	testBadBody := func() {
 		req, err := http.NewRequest("POST", "/characters/create", bytes.NewReader([]byte("{zz}")))
 		if err != nil {
@@ -76,6 +84,14 @@ func TestHandleCharacterCreate(t *testing.T) {
 
 		rr := httptest.NewRecorder()
 		handler := http.HandlerFunc(HandleCharacterCreate)
+
+		vars := map[string]string{
+			"username": user.Username,
+		}
+
+		// Hack to try to fake gorilla/mux vars
+		req = mux.SetURLVars(req, vars)
+
 		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 		// directly and pass in our Request and ResponseRecorder.
 		handler.ServeHTTP(rr, req)
@@ -92,17 +108,26 @@ func TestHandleCharacterCreate(t *testing.T) {
 	}
 
 	testSuccessfulCreation := func() {
-		character := Character{
+		character := shared.Character{
 			CharacterId:   1,
 			CharacterName: "elon",
 			Attack:        420,
+			MagicAttack:   420,
 			Defense:       100,
+			MagicDefense:  100,
 			Health:        100,
-			UserId:        420,
+			Stamina:       12,
+			Strength:      10,
+			Agility:       10,
+			Wisdom:        11,
+			Charisma:      11,
 		}
+		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
+		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 
 		mock.ExpectExec("INSERT INTO Characters").WithArgs(character.CharacterName, character.Attack,
-			character.Defense, character.Health, character.UserId).
+			character.Defense, character.MagicAttack, character.MagicDefense, character.Health, character.Stamina,
+			character.Strength, character.Agility, character.Wisdom, character.Charisma, user.Id).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 
 		marshalledCharacter, err := json.Marshal(character)
@@ -117,6 +142,14 @@ func TestHandleCharacterCreate(t *testing.T) {
 
 		rr := httptest.NewRecorder()
 		handler := http.HandlerFunc(HandleCharacterCreate)
+
+		vars := map[string]string{
+			"username": user.Username,
+		}
+
+		// Hack to try to fake gorilla/mux vars
+		req = mux.SetURLVars(req, vars)
+
 		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 		// directly and pass in our Request and ResponseRecorder.
 		handler.ServeHTTP(rr, req)
@@ -133,8 +166,61 @@ func TestHandleCharacterCreate(t *testing.T) {
 
 	}
 
+	testInvalidCharacter := func() {
+		character := shared.Character{
+			CharacterId:   1,
+			CharacterName: "elon",
+			Attack:        420,
+			MagicAttack:   420,
+			MagicDefense:  100,
+			Defense:       100,
+			Health:        100,
+			Stamina:       65,
+			Strength:      10,
+			Agility:       10,
+			Wisdom:        11,
+			Charisma:      11,
+		}
+
+		marshalledCharacter, err := json.Marshal(character)
+		if err != nil {
+			t.Fatalf("error marshalling character: %v", err)
+		}
+
+		req, err := http.NewRequest("POST", "/characters/create", bytes.NewReader(marshalledCharacter))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		rr := httptest.NewRecorder()
+		handler := http.HandlerFunc(HandleCharacterCreate)
+
+		vars := map[string]string{
+			"username": user.Username,
+		}
+
+		// Hack to try to fake gorilla/mux vars
+		req = mux.SetURLVars(req, vars)
+
+		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
+		// directly and pass in our Request and ResponseRecorder.
+		handler.ServeHTTP(rr, req)
+		// Check the status code is what we expect.
+		if status := rr.Code; status != http.StatusBadRequest {
+			t.Errorf("wrong status code: got %v want %v", status, http.StatusBadRequest)
+		}
+
+		expectedBody := `{"Message":"character invalid, err: stamina should be at most 16, was: 65"}`
+		if rr.Body.String() != expectedBody {
+			t.Fatalf("body not equal to expected body\nexpected:\n%v\ngot:\n%v\n",
+				expectedBody, rr.Body.String())
+		}
+
+	}
+
 	testBadBody()
 	testSuccessfulCreation()
+	testInvalidCharacter()
 
 }
 
@@ -178,7 +264,7 @@ func TestHandleUserCreate(t *testing.T) {
 	}
 
 	testUserExists := func() {
-		user := User{
+		user := shared.User{
 			Username: "ilon",
 			Password: "mask",
 			FullName: "ilonmask",
@@ -216,7 +302,7 @@ func TestHandleUserCreate(t *testing.T) {
 	}
 
 	testSuccessfulCreation := func() {
-		user := User{
+		user := shared.User{
 			Username: "ilon",
 			Password: "mask",
 			FullName: "ilonmask",
@@ -307,13 +393,13 @@ func TestHandleUserExists(t *testing.T) {
 			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
 		}
 
-		responseUser := User{}
+		responseUser := shared.User{}
 		err = json.Unmarshal(rr.Body.Bytes(), &responseUser)
 		if err != nil {
 			t.Fatalf("error unmarshalling user response: %v\n", err)
 		}
 
-		expectedUser := User{
+		expectedUser := shared.User{
 			Id:       420,
 			Username: "ilon",
 			FullName: "ilonmask",
@@ -383,14 +469,14 @@ func TestHandleUserCharacters(t *testing.T) {
 		}
 	}()
 
-	user := User{
+	user := shared.User{
 		Id:       420,
 		Username: "ilon",
 		Password: "mask",
 		FullName: "ilonmask",
 	}
 
-	character1 := Character{
+	character1 := shared.Character{
 		CharacterId:   1,
 		CharacterName: "elon",
 		Attack:        420,
@@ -398,7 +484,7 @@ func TestHandleUserCharacters(t *testing.T) {
 		Health:        100,
 		UserId:        420,
 	}
-	character2 := Character{
+	character2 := shared.Character{
 		CharacterId:   1,
 		CharacterName: "ilon",
 		Attack:        69,
@@ -410,12 +496,14 @@ func TestHandleUserCharacters(t *testing.T) {
 	testGetCharacters := func() {
 
 		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
-		characterRows := sqlmock.NewRows([]string{"characterid", "charactername", "attack", "defense", "health", "uid"}).
+		characterRows := sqlmock.NewRows([]string{"characterid", "charactername", "attack", "defense", "health",
+			"uid", "stamina", "strength", "agility", "wisdom", "charisma"}).
 			AddRow(character1.CharacterId, character1.CharacterName, character1.Attack,
-				character1.Defense, character1.Health, character1.UserId).
+				character1.Defense, character1.Health, character1.UserId, character1.Stamina,
+				character1.Strength, character1.Agility, character1.Wisdom, character1.Charisma).
 			AddRow(character2.CharacterId, character2.CharacterName, character2.Attack,
-				character2.Defense, character2.Health, character2.UserId)
-
+				character2.Defense, character2.Health, character2.UserId, character2.Stamina,
+				character2.Strength, character2.Agility, character2.Wisdom, character2.Charisma)
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 		mock.ExpectQuery("SELECT").WillReturnRows(characterRows)
 
@@ -443,14 +531,14 @@ func TestHandleUserCharacters(t *testing.T) {
 			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
 		}
 
-		responseCharacters := Characters{[]Character{}}
+		responseCharacters := shared.Characters{[]shared.Character{}}
 		err = json.Unmarshal(rr.Body.Bytes(), &responseCharacters)
 		if err != nil {
 			t.Fatalf("error unmarshalling usercharacters response: %v\n", err)
 		}
 
-		expectedCharacters := Characters{
-			Characters: []Character{character1, character2},
+		expectedCharacters := shared.Characters{
+			Characters: []shared.Character{character1, character2},
 		}
 		if eq := reflect.DeepEqual(expectedCharacters, responseCharacters); !eq {
 			t.Fatalf("expectedCharacters not equal to responseCharacters\nexpected:\n%v\ngot:\n%v\n",
