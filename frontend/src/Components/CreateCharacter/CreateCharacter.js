@@ -9,9 +9,10 @@ import {
   CardImg,
   Table
 } from 'reactstrap';
-import {
-  MSG_STRING_CONSTANTS
-} from '../../Constants/Constants';
+// import {
+//   NUMERIC_CONSTANTS,
+//   MSG_STRING_CONSTANTS
+// } from '../../Constants/Constants';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './CreateCharacter.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
@@ -22,11 +23,20 @@ class CreateCharacter extends React.Component {
     this.state = {
       characterName: '',
       remainingStatPoints: 10,
-      avatarSelection: 0
+      avatarSelection: 0,
+      stamina: 12,
+      strength: 10,
+      agility: 10,
+      wisdom: 11,
+      charisma: 11
     };
   }
 
-  handleChangeAvatarSelection = () => {
+  handleAddOrSubtractStat = (event) => {
+
+  }
+
+  handleChangeAvatarSelection = (event) => {
 
   }
 
@@ -146,56 +156,58 @@ class CreateCharacter extends React.Component {
                           <th>Value</th>
                         </tr>
                       </thead>
-                      <tr className="stats-table-row">
-                        <td className="stat-label">Stamina</td>
-                        <td className="stat-value">
+                      <tbody>
+                        <tr className="stats-table-row">
+                          <td className="stat-label">Stamina</td>
+                          <td className="stat-value">
                             <p className="stat-value-p">
                               <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
-                              12
+                              {this.state.stamina}
                               <Button className="stat-value-button stat-value-add" color="success">+</Button>
                             </p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="stat-label">Strength</td>
-                        <td className="stat-value">
-                          <p className="stat-value-p">
-                            <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
-                            10
-                            <Button className="stat-value-button stat-value-add" color="success">+</Button>
-                          </p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="stat-label">Agility</td>
-                        <td className="stat-value">
-                          <p className="stat-value-p">
-                            <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
-                            10
-                            <Button className="stat-value-button stat-value-add" color="success">+</Button>
-                          </p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="stat-label">Wisdom</td>
-                        <td className="stat-value">
-                          <p className="stat-value-p">
-                            <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
-                            11
-                            <Button className="stat-value-button stat-value-add" color="success">+</Button>
-                          </p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="stat-label">Charisma</td>
-                        <td className="stat-value">
-                          <p className="stat-value-p">
-                            <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
-                            11
-                            <Button className="stat-value-button stat-value-add" color="success">+</Button>
-                          </p>
-                        </td>
-                      </tr>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="stat-label">Strength</td>
+                          <td className="stat-value">
+                            <p className="stat-value-p">
+                              <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
+                              {this.state.strength}
+                              <Button className="stat-value-button stat-value-add" color="success">+</Button>
+                            </p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="stat-label">Agility</td>
+                          <td className="stat-value">
+                            <p className="stat-value-p">
+                              <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
+                              {this.state.agility}
+                              <Button className="stat-value-button stat-value-add" color="success">+</Button>
+                            </p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="stat-label">Wisdom</td>
+                          <td className="stat-value">
+                            <p className="stat-value-p">
+                              <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
+                              {this.state.wisdom}
+                              <Button className="stat-value-button stat-value-add" color="success">+</Button>
+                            </p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="stat-label">Charisma</td>
+                          <td className="stat-value">
+                            <p className="stat-value-p">
+                              <Button className="stat-value-button stat-value-subtract" color="danger">-</Button>
+                              {this.state.charisma}
+                              <Button className="stat-value-button stat-value-add" color="success">+</Button>
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
                     </Table>
                   </Card>
                 </div>
