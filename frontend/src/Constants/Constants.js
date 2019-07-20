@@ -79,7 +79,8 @@ const MSG_STRING_CONSTANTS = {
 const URL_CONSTANTS = {
   POST_API_USERS_LOGIN: '/api/users/login',
   POST_API_USERS_CREATE: '/api/users/create',
-  POST_API_CHARACTERS_CREATE: 'api/characters/create',
+  API_CHARACTERS_ROOT: 'api/characters/',
+  POST_API_CHARACTERS_CREATE: '/create',
   GET_API_USERS_USERNAME: '/api/users/'
 };
 

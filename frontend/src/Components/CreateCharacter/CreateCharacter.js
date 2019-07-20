@@ -279,7 +279,8 @@ class CreateCharacter extends React.Component {
 
   handleCreateCharacter = async (event) => {
     event.preventDefault();
-    const response = await fetch(URL_CONSTANTS.POST_API_CHARACTERS_CREATE, {
+    // TODO: get the username from the session cookie once it is implemented
+    const response = await fetch(`${URL_CONSTANTS.API_CHARACTERS_ROOT}/anothernewuser/${URL_CONSTANTS.POST_API_CHARACTERS_CREATE}`, {
       method: 'POST',
       mode: 'cors',
       headers: {
