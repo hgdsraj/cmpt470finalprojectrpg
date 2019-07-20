@@ -18,6 +18,18 @@ import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './CreateCharacter.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
 
+function AssignStatsTable(props) {
+  return (
+    <FormGroup className="create-character-avatar-form-group">
+      <Label className="create-character-form-label form-label">
+        Assign stats (You have {props.remainingStatPoints} points left to assign)
+      </Label>
+      <div className="create-character-assign-stats-card-wrapper">
+      </div>
+    </FormGroup>
+  );
+}
+
 function AvatarSelect(props) {
   const avatars = props.avatars.map((avatar, index) => {
     const avatarInputId = avatar.toLowerCase();
