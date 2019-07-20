@@ -111,10 +111,6 @@ func TestHandleCharacterCreate(t *testing.T) {
 		character := shared.Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			MagicAttack:   420,
-			Defense:       100,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       12,
 			Strength:      10,
@@ -122,6 +118,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 			Wisdom:        11,
 			Charisma:      11,
 		}
+		character.CalculateStats()
 		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 
@@ -157,9 +154,12 @@ func TestHandleCharacterCreate(t *testing.T) {
 		if status := rr.Code; status != http.StatusCreated {
 			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
 		}
-
-		expectedBody := `{"Message":"Successfully created character"}`
-		if rr.Body.String() != expectedBody {
+		character.UserId = user.Id
+		expectedBody, err := json.Marshal(character)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if rr.Body.String() != string(expectedBody) {
 			t.Fatalf("body not equal to expected body\nexpected:\n%v\ngot:\n%v\n",
 				expectedBody, rr.Body.String())
 		}
@@ -170,10 +170,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 		character := shared.Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			MagicAttack:   420,
-			MagicDefense:  100,
-			Defense:       100,
+
 			Health:        100,
 			Stamina:       65,
 			Strength:      10,
@@ -218,9 +215,79 @@ func TestHandleCharacterCreate(t *testing.T) {
 
 	}
 
+	testAbilitiesCalculated := func() {
+		character := shared.Character{
+			CharacterId:   1,
+			CharacterName: "elon",
+			Health:        100,
+			Stamina:       12,
+			Strength:      10,
+			Agility:       10,
+			Wisdom:        11,
+			Charisma:      11,
+		}
+		character.CalculateStats()
+		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
+		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
+
+		mock.ExpectExec("INSERT INTO Characters").WithArgs(character.CharacterName, character.Attack,
+			character.Defense, character.MagicAttack, character.MagicDefense, character.Health, character.Stamina,
+			character.Strength, character.Agility, character.Wisdom, character.Charisma, user.Id).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+
+		marshalledCharacter, err := json.Marshal(character)
+		if err != nil {
+			t.Fatalf("error marshalling character: %v", err)
+		}
+
+		req, err := http.NewRequest("POST", "/characters/create", bytes.NewReader(marshalledCharacter))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		rr := httptest.NewRecorder()
+		handler := http.HandlerFunc(HandleCharacterCreate)
+
+		vars := map[string]string{
+			"username": user.Username,
+		}
+
+		// Hack to try to fake gorilla/mux vars
+		req = mux.SetURLVars(req, vars)
+
+		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
+		// directly and pass in our Request and ResponseRecorder.
+		handler.ServeHTTP(rr, req)
+		// Check the status code is what we expect.
+		if status := rr.Code; status != http.StatusCreated {
+			t.Errorf("wrong status code: got %v want %v", status, http.StatusCreated)
+		}
+
+		responseCharacter := shared.Character{}
+		err = json.Unmarshal(rr.Body.Bytes(), responseCharacter)
+		if err != nil {
+			return
+		}
+		if responseCharacter.Attack != 3 {
+			t.Fatalf("responseCharacter.Attack should be equal to %v, was %v", 3,
+			responseCharacter.Attack)
+		} else if responseCharacter.Defense != 4 {
+			t.Fatalf("character.Defense should be equal to %v, was %v", 4,
+				responseCharacter.Defense)
+		} else if responseCharacter.MagicAttack != 4 {
+			t.Fatalf("character.Attack should be equal to %v, was %v", 3,
+				responseCharacter.MagicAttack)
+		} else if responseCharacter.MagicDefense != 4 {
+			t.Fatalf("character.MagicDefense should be equal to %v, was %v", 3,
+				responseCharacter.MagicDefense)
+		}
+
+	}
+
 	testBadBody()
 	testSuccessfulCreation()
 	testInvalidCharacter()
+	testAbilitiesCalculated()
 
 }
 

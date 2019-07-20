@@ -224,6 +224,8 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	character.CalculateStats()
+
 	var userId int
 	row := Database.QueryRow(`SELECT id  FROM users WHERE username = $1`, username)
 	err = row.Scan(&userId)
@@ -253,10 +255,9 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 		helpers.LogAndSendErrorMessage(w, strErr, http.StatusBadRequest)
 		return
 	}
-
+	character.UserId = userId
 	w.WriteHeader(http.StatusCreated)
-	responseToEncode := shared.Response{"Successfully created character"}
-	encodedResponse, err := json.Marshal(responseToEncode)
+	encodedResponse, err := json.Marshal(character)
 	if err != nil {
 		log.Printf(helpers.JsonError, err)
 	}

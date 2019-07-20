@@ -10,10 +10,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			MagicAttack:   420,
-			MagicDefense:  100,
-			Defense:       100,
 			Health:        100,
 			Stamina:       12,
 			Strength:      10,
@@ -21,6 +17,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        11,
 			Charisma:      11,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err != nil {
 			t.Fatalf("expected valid character, got: %v", err)
@@ -31,10 +28,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			MagicAttack:   420,
-			Defense:       100,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
@@ -42,6 +35,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MaxNewCharacter.Wisdom,
 			Charisma:      MaxNewCharacter.Charisma,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -59,10 +53,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			Defense:       100,
-			MagicAttack:   420,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina + 1,
 			Strength:      MaxNewCharacter.Strength,
@@ -70,6 +60,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MaxNewCharacter.Wisdom,
 			Charisma:      MaxNewCharacter.Charisma,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -86,10 +77,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			Defense:       100,
-			MagicAttack:   420,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength + 1,
@@ -97,6 +84,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MaxNewCharacter.Wisdom,
 			Charisma:      MaxNewCharacter.Charisma,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -113,10 +101,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			Defense:       100,
-			MagicAttack:   420,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
@@ -124,6 +108,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MaxNewCharacter.Wisdom,
 			Charisma:      MaxNewCharacter.Charisma,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -140,10 +125,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			Defense:       100,
-			MagicAttack:   420,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
@@ -151,6 +132,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MaxNewCharacter.Wisdom + 1,
 			Charisma:      MaxNewCharacter.Charisma,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -167,10 +149,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			Defense:       100,
-			MagicAttack:   420,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
@@ -178,6 +156,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MaxNewCharacter.Wisdom,
 			Charisma:      MaxNewCharacter.Charisma + 1,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -194,10 +173,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			Defense:       100,
-			MagicAttack:   420,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MinNewCharacter.Stamina - 1,
 			Strength:      MinNewCharacter.Strength,
@@ -205,6 +180,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MinNewCharacter.Wisdom,
 			Charisma:      MinNewCharacter.Charisma,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -221,10 +197,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			Defense:       100,
-			MagicAttack:   420,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength - 1,
@@ -232,6 +204,8 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MinNewCharacter.Wisdom,
 			Charisma:      MinNewCharacter.Charisma,
 		}
+
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -248,10 +222,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			Defense:       100,
-			MagicAttack:   420,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength,
@@ -259,6 +229,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MinNewCharacter.Wisdom,
 			Charisma:      MinNewCharacter.Charisma,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -275,10 +246,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			Defense:       100,
-			MagicAttack:   420,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength,
@@ -286,6 +253,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MinNewCharacter.Wisdom - 1,
 			Charisma:      MinNewCharacter.Charisma,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -302,10 +270,6 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Attack:        420,
-			Defense:       100,
-			MagicAttack:   420,
-			MagicDefense:  100,
 			Health:        100,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength,
@@ -313,6 +277,7 @@ func TestCharacter_Validate(t *testing.T) {
 			Wisdom:        MinNewCharacter.Wisdom,
 			Charisma:      MinNewCharacter.Charisma - 1,
 		}
+		character.CalculateStats()
 		err := character.Validate()
 		if err == nil {
 			t.Fatalf("Expected an error, got nil")
@@ -337,4 +302,28 @@ func TestCharacter_Validate(t *testing.T) {
 	agilityTooLow()
 	wisdomTooLow()
 	charismaTooLow()
+}
+
+
+func TestCharacter_CalculateStats(t *testing.T) {
+	character := Character{
+		CharacterId:   1,
+		CharacterName: "elon",
+		Health:        100,
+		Stamina:       12,
+		Strength:      10,
+		Agility:       10,
+		Wisdom:        11,
+		Charisma:      11,
+	}
+	character.CalculateStats()
+	if character.Attack != 3 {
+		t.Fatalf("character.Attack should be equal to %v, was %v", 3, character.Attack)
+	} else if character.Defense != 4 {
+		t.Fatalf("character.Defense should be equal to %v, was %v", 4, character.Defense)
+	} else if character.MagicAttack != 4 {
+		t.Fatalf("character.Attack should be equal to %v, was %v", 3, character.MagicAttack)
+	} else if character.MagicDefense != 4 {
+		t.Fatalf("character.MagicDefense should be equal to %v, was %v", 3, character.MagicDefense)
+	}
 }

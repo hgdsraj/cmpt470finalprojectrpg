@@ -1,6 +1,9 @@
 package shared
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type User struct {
 	Id       int    `json:"id"`
@@ -64,6 +67,14 @@ var MaxNewCharacter = Character{
 }
 
 var MAX_NEW_CHARACTER_ATTRIBUTE_SUM = 64
+
+func (c *Character) CalculateStats()  {
+	c.Attack =  int(math.Round(float64(c.Strength) / 3))
+	c.Defense =  int(math.Round(float64(c.Stamina + c.Agility) / 6))
+	c.MagicAttack =  int(math.Round(float64(c.Wisdom) / 3))
+	c.MagicDefense  = int(math.Round(float64(c.Stamina + c.Wisdom) / 6))
+	return
+}
 
 func (c *Character) Validate() (err error) {
 	if c.Stamina < MinNewCharacter.Stamina {
