@@ -18,6 +18,35 @@ import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './CreateCharacter.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
 
+function AvatarSelect(props) {
+  const avatars = props.avatars.map((avatar, index) => {
+    const avatarInputId = avatar.toLowerCase();
+    return (
+      <FormGroup key={index} className="create-character-avatar-form-group" check>
+        <Card className="create-character-avatar-card">
+          <CardImg src={PrincessAvatar} />
+        </Card>
+        <div className="create-character-avatar-label-wrapper">
+          <Input id={avatarInputId} type="radio" name="avatar-select" onChange={props.onChange}/>
+          <Label className="create-character-avatar-form-label form-label" check>
+            {' '}
+            {avatar}
+          </Label>
+        </div>
+      </FormGroup>
+    );
+  });
+
+  return (
+    <FormGroup className="create-character-avatar-form-group" tag="avatar-select">
+      <legend className="create-character-avatar-legend">Avatar</legend>
+      <div className="create-character-avatar-card-container card-container">
+        {avatars}
+      </div>
+    </FormGroup>
+  )
+}
+
 class CreateCharacter extends React.Component {
   constructor(props) {
     super(props);
@@ -268,8 +297,6 @@ class CreateCharacter extends React.Component {
     }
   }
 
-
-
   handleChangeAvatarSelection = (event) => {
     const avatarSelection = event.target.id;
     this.setState({
@@ -309,6 +336,9 @@ class CreateCharacter extends React.Component {
 
   // NOTE: For avatar label names, keep them to one word, no more than 10 characters
   render () {
+    // Define avatar names here
+    const avatars = ['Princess', 'Vampire', 'Knight', 'Warrior', 'Cleric', 'Hunter'];
+
     return (
       <div className="create-character-page page-container">
         <CustomNavbar />
@@ -321,83 +351,7 @@ class CreateCharacter extends React.Component {
                 <Label for="charactername" className="create-character-form-label form-label">Character name</Label>
                 <Input type="charactername" id="charactername" onChange={this.handleChangeCharacterName}/>
               </FormGroup>
-              <FormGroup className="create-character-avatar-form-group" tag="avatar-select">
-                <legend className="create-character-avatar-legend">Avatar</legend>
-                <div className="create-character-avatar-card-container card-container">
-                  <FormGroup className="create-character-avatar-form-group" check>
-                    <Card className="create-character-avatar-card">
-                      <CardImg src={PrincessAvatar} />
-                    </Card>
-                    <div className="create-character-avatar-label-wrapper">
-                      <Input id="princess" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
-                      <Label className="create-character-avatar-form-label form-label" check>
-                        {' '}
-                        Princess
-                      </Label>
-                    </div>
-                  </FormGroup>
-                  <FormGroup className="create-character-avatar-form-group" check>
-                    <Card className="create-character-avatar-card">
-                      <CardImg src={PrincessAvatar} />
-                    </Card>
-                    <div className="create-character-avatar-label-wrapper">
-                      <Input id="vampire" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
-                      <Label className="create-character-avatar-form-label form-label" check>
-                        {' '}
-                        Vampire
-                      </Label>
-                    </div>
-                  </FormGroup>
-                  <FormGroup className="create-character-avatar-form-group" check>
-                    <Card className="create-character-avatar-card">
-                      <CardImg src={PrincessAvatar} />
-                    </Card>
-                    <div className="create-character-avatar-label-wrapper">
-                      <Input id="knight" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
-                      <Label className="create-character-avatar-form-label form-label" check>
-                        {' '}
-                        Knight
-                      </Label>
-                    </div>
-                  </FormGroup>
-                  <FormGroup className="create-character-avatar-form-group" check>
-                    <Card className="create-character-avatar-card">
-                      <CardImg src={PrincessAvatar} />
-                    </Card>
-                    <div className="create-character-avatar-label-wrapper">
-                      <Input id="warrior" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
-                      <Label className="create-character-avatar-form-label form-label" check>
-                        {' '}
-                        Warrior
-                      </Label>
-                    </div>
-                  </FormGroup>
-                  <FormGroup className="create-character-avatar-form-group" check>
-                    <Card className="create-character-avatar-card">
-                      <CardImg src={PrincessAvatar} />
-                    </Card>
-                    <div className="create-character-avatar-label-wrapper">
-                      <Input id="cleric" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
-                      <Label className="create-character-avatar-form-label form-label" check>
-                        {' '}
-                        Cleric
-                      </Label>
-                    </div>
-                  </FormGroup>
-                  <FormGroup className="create-character-avatar-form-group" check>
-                    <Card className="create-character-avatar-card">
-                      <CardImg src={PrincessAvatar} />
-                    </Card>
-                    <div className="create-character-avatar-label-wrapper">
-                      <Input id="hunter" type="radio" name="avatar-select" onChange={this.handleChangeAvatarSelection}/>
-                      <Label className="create-character-avatar-form-label form-label" check>
-                        {' '}
-                        Hunter
-                      </Label>
-                    </div>
-                  </FormGroup>
-                </div>
-              </FormGroup>
+              <AvatarSelect avatars={avatars} onChange={this.handleChangeAvatarSelection} />
 
               <FormGroup className="create-character-avatar-form-group">
                 <Label className="create-character-form-label form-label">
