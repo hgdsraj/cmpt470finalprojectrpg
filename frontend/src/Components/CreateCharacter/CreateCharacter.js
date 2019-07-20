@@ -11,7 +11,8 @@ import {
 } from 'reactstrap';
 import {
   NUMERIC_CONSTANTS,
-  MSG_STRING_CONSTANTS
+  MSG_STRING_CONSTANTS,
+  URL_CONSTANTS
 } from '../../Constants/Constants';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './CreateCharacter.scss';
@@ -225,9 +226,18 @@ class CreateCharacter extends React.Component {
     });
   }
 
-  handleCreateCharacter = (event) => {
-    // TODO: Hit /api/character/create here
+  handleCreateCharacter = async (event) => {
     event.preventDefault();
+    const response = await fetch(URL_CONSTANTS.POST_API_CHARACTERS_CREATE, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        name: this.state.characterName
+      })
+    });
   }
 
   handleChangeCharacterName = (event) => {
