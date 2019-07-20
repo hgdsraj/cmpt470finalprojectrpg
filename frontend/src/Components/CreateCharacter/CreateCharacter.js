@@ -54,6 +54,7 @@ class CreateCharacter extends React.Component {
   }
 
   // TODO: figure out if there is a way to reduce the copy paste in the stat operation handlers
+  // ALSO TODO: extract the stat picker part of this component into its own component
   handleCheckRemainingStatPoints = () => {
     const stamina = {...this.state.stamina};
     const strength = {...this.state.strength};
