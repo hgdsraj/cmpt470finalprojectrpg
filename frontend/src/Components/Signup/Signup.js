@@ -40,7 +40,7 @@ class Signup extends React.Component {
   // Signup handler, hit the create new user backend and redirect to the create character page if successful
   handleSignup = async (event) => {
     event.preventDefault();
-    let response = await fetch(URL_CONSTANTS.POST_API_USERS_CREATE, {
+    const response = await fetch(URL_CONSTANTS.POST_API_USERS_CREATE, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -61,7 +61,7 @@ class Signup extends React.Component {
         lastSignupStatus: NUMERIC_CONSTANTS.HTTP_STATUS_CODE_201
       });
     }
-    let body = await response.json();
+    const body = await response.json();
     console.log(body);
     // TODO: Redirect to create character page (once it is built)
   }

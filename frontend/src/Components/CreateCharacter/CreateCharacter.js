@@ -235,9 +235,17 @@ class CreateCharacter extends React.Component {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        name: this.state.characterName
+        name: this.state.characterName,
+        stamina: this.state.stamina.value,
+        strength: this.state.strength.value,
+        agility: this.state.agility.value,
+        wisdom: this.state.wisdom.value,
+        charisma: this.state.charisma.value
       })
     });
+    const body = await response.json();
+    console.log(body);
+    // TODO: redirect to home page (implement after cookies/sessions is properly hooked up)
   }
 
   handleChangeCharacterName = (event) => {
