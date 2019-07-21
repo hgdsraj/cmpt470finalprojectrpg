@@ -77,6 +77,7 @@ function AssignStatsTable(props) {
 
 AssignStatsTable.propTypes = {
   buttonOnClick: PropTypes.func,
+  remainingStatPoints: PropTypes.number,
   stats: PropTypes.array,
   statIds: PropTypes.array
 };
@@ -257,11 +258,21 @@ class CreateCharacter extends React.Component {
             <h1 className="create-character-header-text">{MSG_STRING_CONSTANTS.CREATE_CHARACTER_HEADER_MSG}</h1>
             <Form onSubmit={this.handleCreateCharacter}>
               <FormGroup className="create-character-form-group">
-                <Label for="charactername" className="create-character-form-label form-label">{MSG_STRING_CONSTANTS.CREATE_CHARACTER_CHARACTER_NAME_MSG}</Label>
+                <Label for="charactername" className="create-character-form-label form-label">
+                  {MSG_STRING_CONSTANTS.CREATE_CHARACTER_CHARACTER_NAME_MSG}
+                </Label>
                 <Input type="charactername" id="charactername" onChange={this.handleChangeCharacterName}/>
               </FormGroup>
-              <AvatarSelect avatars={MSG_STRING_CONSTANTS.CREATE_CHARACTER_AVATAR_NAMES} onChange={this.handleChangeAvatarSelection} />
-              <AssignStatsTable stats={this.state.stats} statIds={MSG_STRING_CONSTANTS.CREATE_CHARACTER_STAT_IDS} buttonOnClick={this.handleAddOrSubtractStat} />
+              <AvatarSelect
+                avatars={MSG_STRING_CONSTANTS.CREATE_CHARACTER_AVATAR_NAMES}
+                onChange={this.handleChangeAvatarSelection}
+              />
+              <AssignStatsTable
+                stats={this.state.stats}
+                remainingStatPoints={this.state.remainingStatPoints}
+                statIds={MSG_STRING_CONSTANTS.CREATE_CHARACTER_STAT_IDS}
+                buttonOnClick={this.handleAddOrSubtractStat}
+              />
               <Button
                 color="primary"
                 id="create"

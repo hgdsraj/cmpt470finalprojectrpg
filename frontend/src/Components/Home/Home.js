@@ -40,7 +40,7 @@ class Home extends React.Component {
 
     return (
       <div className="mini-char-overview showcase-container container">
-        <h2>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_HEADER_MSG + `${mockCharacterData.characterName}!`}</h2>
+        <h2>{MSG_STRING_CONSTANTS.HOME_MINI_CHAR_OVERVIEW_HEADER_MSG + `${mockCharacterData.name}!`}</h2>
         <div className="mini-char-overview-content">
           <Card className="mini-char-overview-card">
             <div className="mini-char-overview-wrapper">
@@ -48,7 +48,7 @@ class Home extends React.Component {
                 <div className="mini-char-overview-intro overview-intro">
                   <CardImg className="mini-char-overview-cardimg cardimg" src={mockCharacterData.avatar}/>
                   <CardBody className="mini-char-overview-cardbody cardbody">
-                    <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">{mockCharacterData.characterName}</CardTitle>
+                    <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">{mockCharacterData.name}</CardTitle>
                     <CardSubtitle className="mini-char-overview-cardsubtitle cardsubtitle">{MSG_STRING_CONSTANTS.LEVEL_MSG + mockCharacterData.level.toString()}</CardSubtitle>
                     <CardText className="mini-char-overview-cardtext cardtext cardtext-color">{mockCharacterData.text}</CardText>
                   </CardBody>
