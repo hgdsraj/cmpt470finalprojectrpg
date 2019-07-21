@@ -25,6 +25,16 @@ function AssignStatsTable(props) {
         Assign stats (You have {props.remainingStatPoints} points left to assign)
       </Label>
       <div className="create-character-assign-stats-card-wrapper">
+        <Card className="create-character-assign-stats-card">
+          <Table className="create-character-assign-stats-table">
+            <thead>
+            <tr>
+              <th>Stat</th>
+              <th>Value</th>
+            </tr>
+            </thead>
+          </Table>
+        </Card>
       </div>
     </FormGroup>
   );
@@ -66,246 +76,84 @@ class CreateCharacter extends React.Component {
       characterName: '',
       remainingStatPoints: 10,
       avatarSelection: '',
-      stamina: {
-        value: 12,
-        isAddButtonDisabled: false,
-        isSubtractButtonDisabled: true
-      },
-      strength: {
-        value: 10,
-        isAddButtonDisabled: false,
-        isSubtractButtonDisabled: true
-      },
-      agility: {
-        value: 10,
-        isAddButtonDisabled: false,
-        isSubtractButtonDisabled: true
-      },
-      wisdom: {
-        value: 11,
-        isAddButtonDisabled: false,
-        isSubtractButtonDisabled: true
-      },
-      charisma: {
-        value: 11,
-        isAddButtonDisabled: false,
-        isSubtractButtonDisabled: true
-      }
+      stats: [
+        {
+          value: 12,
+          isAddButtonDisabled: false,
+          isSubtractButtonDisabled: true
+        },
+        {
+          value: 10,
+          isAddButtonDisabled: false,
+          isSubtractButtonDisabled: true
+        },
+        {
+          value: 10,
+          isAddButtonDisabled: false,
+          isSubtractButtonDisabled: true
+        },
+        {
+          value: 11,
+          isAddButtonDisabled: false,
+          isSubtractButtonDisabled: true
+        },
+        {
+          value: 11,
+          isAddButtonDisabled: false,
+          isSubtractButtonDisabled: true
+        }
+      ]
     };
   }
-
-  // TODO: figure out if there is a way to reduce the copy paste in the stat operation handlers
-  // ALSO TODO: extract the stat picker part of this component into its own component
+  
   handleCheckRemainingStatPoints = () => {
-    const stamina = {...this.state.stamina};
-    const strength = {...this.state.strength};
-    const agility = {...this.state.agility};
-    const wisdom = {...this.state.wisdom};
-    const charisma = {...this.state.charisma};
+    const stats = Array.from(this.state.stats);
     if (this.state.remainingStatPoints === 0) {
-      stamina.isAddButtonDisabled = true;
-      strength.isAddButtonDisabled = true;
-      agility.isAddButtonDisabled = true;
-      wisdom.isAddButtonDisabled = true;
-      charisma.isAddButtonDisabled = true;
+      stats.forEach(stat => {
+        stat.isAddButtonDisabled = true;
+      });
     } else {
-      if (stamina.value < NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUE_STAM) {
-        stamina.isAddButtonDisabled = false;
-      }
-      if (strength.value < NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUE_STR) {
-        strength.isAddButtonDisabled = false;
-      }
-      if (agility.value < NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUE_AGI) {
-        agility.isAddButtonDisabled = false;
-      }
-      if (wisdom.value < NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUE_WIS) {
-        wisdom.isAddButtonDisabled = false;
-      }
-      if (charisma.value < NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUE_CHAR) {
-        charisma.isAddButtonDisabled = false;
-      }
+      stats.forEach((stat, index) => {
+        if (stat.value < NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUES[index]) {
+          stat.isAddButtonDisabled = false;
+        }
+      });
     }
     this.setState({
-      stamina,
-      strength,
-      agility,
-      wisdom,
-      charisma
+      stats
     });
-  }
-
-  handleAddStamina = () => {
-    const stamina = {...this.state.stamina};
-    if (stamina.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUE_STAM - 1) {
-      stamina.isAddButtonDisabled = true;
-    }
-    stamina.value++;
-    stamina.isSubtractButtonDisabled = false;
-    this.setState({
-      remainingStatPoints: this.state.remainingStatPoints - 1,
-      stamina
-    }, () => this.handleCheckRemainingStatPoints());
-  }
-
-  handleAddStrength = () => {
-    const strength = {...this.state.strength};
-    if (strength.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUE_STR - 1) {
-      strength.isAddButtonDisabled = true;
-    }
-    strength.value++;
-    strength.isSubtractButtonDisabled = false;
-    this.setState({
-      remainingStatPoints: this.state.remainingStatPoints - 1,
-      strength
-    }, () => this.handleCheckRemainingStatPoints());
-  }
-
-  handleAddAgility = () => {
-    const agility = {...this.state.agility};
-    if (agility.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUE_AGI - 1) {
-      agility.isAddButtonDisabled = true;
-    }
-    agility.value++;
-    agility.isSubtractButtonDisabled = false;
-    this.setState({
-      remainingStatPoints: this.state.remainingStatPoints - 1,
-      agility
-    }, () => this.handleCheckRemainingStatPoints());
-  }
-
-  handleAddWisdom = () => {
-    const wisdom = {...this.state.wisdom};
-    if (wisdom.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUE_WIS - 1) {
-      wisdom.isAddButtonDisabled = true;
-    }
-    wisdom.value++;
-    wisdom.isSubtractButtonDisabled = false;
-    this.setState({
-      remainingStatPoints: this.state.remainingStatPoints - 1,
-      wisdom
-    }, () => this.handleCheckRemainingStatPoints());
-  }
-
-  handleAddCharisma = () => {
-    const charisma = {...this.state.charisma};
-    if (charisma.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUE_CHAR - 1) {
-      charisma.isAddButtonDisabled = true;
-    }
-    charisma.value++;
-    charisma.isSubtractButtonDisabled = false;
-    this.setState({
-      remainingStatPoints: this.state.remainingStatPoints - 1,
-      charisma
-    }, () => this.handleCheckRemainingStatPoints());
-  }
-
-  handleSubtractStamina = () => {
-    const stamina = {...this.state.stamina};
-    if (stamina.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MIN_STAT_VALUE_STAM + 1) {
-      stamina.isSubtractButtonDisabled = true;
-    }
-    stamina.value--;
-    stamina.isAddButtonDisabled = false;
-    this.setState({
-      remainingStatPoints: this.state.remainingStatPoints + 1,
-      stamina
-    }, () => this.handleCheckRemainingStatPoints());
-  }
-
-  handleSubtractStrength = () => {
-    const strength = {...this.state.strength};
-    if (strength.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MIN_STAT_VALUE_STR + 1) {
-      strength.isSubtractButtonDisabled = true;
-    }
-    strength.value--;
-    strength.isAddButtonDisabled = false;
-    this.setState({
-      remainingStatPoints: this.state.remainingStatPoints + 1,
-      strength
-    }, () => this.handleCheckRemainingStatPoints());
-  }
-
-  handleSubtractAgility = () => {
-    const agility = {...this.state.agility};
-    if (agility.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MIN_STAT_VALUE_AGI + 1) {
-      agility.isSubtractButtonDisabled = true;
-    }
-    agility.value--;
-    agility.isAddButtonDisabled = false;
-    this.setState({
-      remainingStatPoints: this.state.remainingStatPoints + 1,
-      agility
-    }, () => this.handleCheckRemainingStatPoints());
-  }
-
-  handleSubtractWisdom = () => {
-    const wisdom = {...this.state.wisdom};
-    if (wisdom.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MIN_STAT_VALUE_WIS + 1) {
-      wisdom.isSubtractButtonDisabled = true;
-    }
-    wisdom.value--;
-    wisdom.isAddButtonDisabled = false;
-    this.setState({
-      remainingStatPoints: this.state.remainingStatPoints + 1,
-      wisdom
-    }, () => this.handleCheckRemainingStatPoints());
-  }
-
-  handleSubtractCharisma = () => {
-    const charisma = {...this.state.charisma};
-    if (charisma.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MIN_STAT_VALUE_CHAR + 1) {
-      charisma.isSubtractButtonDisabled = true;
-    }
-    charisma.value--;
-    charisma.isAddButtonDisabled = false;
-    this.setState({
-      remainingStatPoints: this.state.remainingStatPoints + 1,
-      charisma
-    }, () => this.handleCheckRemainingStatPoints());
   }
 
   handleAddOrSubtractStat = (event) => {
     const splitTargetId = event.target.id.split('-');
     const operation = splitTargetId[0];
-    const stat = splitTargetId[1];
-    switch (stat) {
-      case MSG_STRING_CONSTANTS.CREATE_CHARACTER_STAT_STAM_MSG:
-        if (operation === MSG_STRING_CONSTANTS.CREATE_CHARACTER_ADD_STAT_MSG) {
-          this.handleAddStamina();
-        } else {
-          this.handleSubtractStamina();
-        }
-        break;
-      case MSG_STRING_CONSTANTS.CREATE_CHARACTER_STAT_STR_MSG:
-        if (operation === MSG_STRING_CONSTANTS.CREATE_CHARACTER_ADD_STAT_MSG) {
-          this.handleAddStrength();
-        } else {
-          this.handleSubtractStrength();
-        }
-        break;
-      case MSG_STRING_CONSTANTS.CREATE_CHARACTER_STAT_AGI_MSG:
-        if (operation === MSG_STRING_CONSTANTS.CREATE_CHARACTER_ADD_STAT_MSG) {
-          this.handleAddAgility();
-        } else {
-          this.handleSubtractAgility();
-        }
-        break;
-      case MSG_STRING_CONSTANTS.CREATE_CHARACTER_STAT_WIS_MSG:
-        if (operation === MSG_STRING_CONSTANTS.CREATE_CHARACTER_ADD_STAT_MSG) {
-          this.handleAddWisdom();
-        } else {
-          this.handleSubtractWisdom();
-        }
-        break;
-      case MSG_STRING_CONSTANTS.CREATE_CHARACTER_STAT_CHAR_MSG:
-        if (operation === MSG_STRING_CONSTANTS.CREATE_CHARACTER_ADD_STAT_MSG) {
-          this.handleAddCharisma();
-        } else {
-          this.handleSubtractCharisma();
-        }
-        break;
-      default:
-        break;
+    const statIndex = NUMERIC_CONSTANTS.CREATE_CHARACTER_STAT_INDEX_MAP[splitTargetId[1]];
+    if (operation === 'add') {
+      const stat = {...this.state.stats[statIndex]};
+      if (stat.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUES[statIndex] - 1) {
+        stat.isAddButtonDisabled = true;
+      }
+      stat.value++;
+      stat.isSubtractButtonDisabled = false;
+      const stats = Array.from(this.state.stats);
+      stats[statIndex] = stat;
+      this.setState({
+        remainingStatPoints: this.state.remainingStatPoints - 1,
+        stats,
+      }, this.handleCheckRemainingStatPoints);
+    } else {
+      const stat = {...this.state.stats[statIndex]};
+      if (stat.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MIN_STAT_VALUES[statIndex] + 1) {
+        stat.isSubtractButtonDisabled = true;
+      }
+      stat.value--;
+      stat.isAddButtonDisabled = false;
+      const stats = Array.from(this.state.stats);
+      stats[statIndex] = stat;
+      this.setState({
+        remainingStatPoints: this.state.remainingStatPoints + 1,
+        stats
+      }, this.handleCheckRemainingStatPoints);
     }
   }
 
@@ -327,11 +175,11 @@ class CreateCharacter extends React.Component {
       },
       body: JSON.stringify({
         name: this.state.characterName,
-        stamina: this.state.stamina.value,
-        strength: this.state.strength.value,
-        agility: this.state.agility.value,
-        wisdom: this.state.wisdom.value,
-        charisma: this.state.charisma.value
+        stamina: this.state.stats[0].value,
+        strength: this.state.stats[1].value,
+        agility: this.state.stats[2].value,
+        wisdom: this.state.stats[3].value,
+        charisma: this.state.stats[4].value
       })
     });
     const body = await response.json();
@@ -388,17 +236,17 @@ class CreateCharacter extends React.Component {
                                 className="stat-value-button stat-value-subtract"
                                 color="danger"
                                 onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stamina.isSubtractButtonDisabled}
+                                disabled={this.state.stats[0].isSubtractButtonDisabled}
                               >
                                 -
                               </Button>
-                              {this.state.stamina.value}
+                              {this.state.stats[0].value}
                               <Button
                                 id="add-stamina"
                                 className="stat-value-button stat-value-add"
                                 color="success"
                                 onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stamina.isAddButtonDisabled}
+                                disabled={this.state.stats[0].isAddButtonDisabled}
                               >
                                 +
                               </Button>
@@ -414,17 +262,17 @@ class CreateCharacter extends React.Component {
                                 className="stat-value-button stat-value-subtract"
                                 color="danger"
                                 onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.strength.isSubtractButtonDisabled}
+                                disabled={this.state.stats[1].isSubtractButtonDisabled}
                               >
                                 -
                               </Button>
-                              {this.state.strength.value}
+                              {this.state.stats[1].value}
                               <Button
                                 id="add-strength"
                                 className="stat-value-button stat-value-add"
                                 color="success"
                                 onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.strength.isAddButtonDisabled}
+                                disabled={this.state.stats[1].isAddButtonDisabled}
                               >
                                 +
                               </Button>
@@ -440,17 +288,17 @@ class CreateCharacter extends React.Component {
                                 className="stat-value-button stat-value-subtract"
                                 color="danger"
                                 onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.agility.isSubtractButtonDisabled}
+                                disabled={this.state.stats[2].isSubtractButtonDisabled}
                               >
                                 -
                               </Button>
-                              {this.state.agility.value}
+                              {this.state.stats[2].value}
                               <Button
                                 id="add-agility"
                                 className="stat-value-button stat-value-add"
                                 color="success"
                                 onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.agility.isAddButtonDisabled}
+                                disabled={this.state.stats[2].isAddButtonDisabled}
                               >
                                 +
                               </Button>
@@ -466,17 +314,17 @@ class CreateCharacter extends React.Component {
                                 className="stat-value-button stat-value-subtract"
                                 color="danger"
                                 onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.wisdom.isSubtractButtonDisabled}
+                                disabled={this.state.stats[3].isSubtractButtonDisabled}
                               >
                                 -
                               </Button>
-                              {this.state.wisdom.value}
+                              {this.state.stats[3].value}
                               <Button
                                 id="add-wisdom"
                                 className="stat-value-button stat-value-add"
                                 color="success"
                                 onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.wisdom.isAddButtonDisabled}
+                                disabled={this.state.stats[3].isAddButtonDisabled}
                               >
                                 +
                               </Button>
@@ -492,17 +340,17 @@ class CreateCharacter extends React.Component {
                                 className="stat-value-button stat-value-subtract"
                                 color="danger"
                                 onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.charisma.isSubtractButtonDisabled}
+                                disabled={this.state.stats[4].isSubtractButtonDisabled}
                               >
                                 -
                               </Button>
-                              {this.state.charisma.value}
+                              {this.state.stats[4].value}
                               <Button
                                 id="add-charisma"
                                 className="stat-value-button stat-value-add"
                                 color="success"
                                 onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.charisma.isAddButtonDisabled}
+                                disabled={this.state.stats[4].isAddButtonDisabled}
                               >
                                 +
                               </Button>
