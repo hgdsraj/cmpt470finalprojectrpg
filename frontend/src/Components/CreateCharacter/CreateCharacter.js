@@ -218,6 +218,7 @@ class CreateCharacter extends React.Component {
   handleCreateCharacter = async (event) => {
     event.preventDefault();
     // TODO: get the username from the session cookie once it is implemented
+    // NOTE: anothernewuser is just a placeholder user name for now. REMOVE THIS ASAP!
     const response = await fetch(`${URL_CONSTANTS.API_CHARACTERS_ROOT}/anothernewuser/${URL_CONSTANTS.POST_API_CHARACTERS_CREATE}`, {
       method: 'POST',
       mode: 'cors',
@@ -277,6 +278,7 @@ class CreateCharacter extends React.Component {
                 color="primary"
                 id="create"
                 className="create-button"
+                disabled={this.state.remainingStatPoints > 0 || !this.state.characterName || !this.state.avatarSelection}
               >
                 {MSG_STRING_CONSTANTS.CREATE_CHARACTER_CREATE_BUTTON_MSG}
               </Button>
