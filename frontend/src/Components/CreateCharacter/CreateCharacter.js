@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   Form,
@@ -19,26 +20,66 @@ import './CreateCharacter.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
 
 function AssignStatsTable(props) {
+  const assignStatsTableRows = props.stats.map((stat, index) => {
+    return (
+      <tr key={index} className="stats-table-row">
+        <td className="stat-label">{stat.name}</td>
+        <td className="stat-value">
+          <p className="stat-value-p">
+            <Button
+              id={props.statIds[index][0]}
+              className="stat-value-button stat-value-subtract"
+              color="danger"
+              onClick={props.buttonOnClick}
+              disabled={stat.isSubtractButtonDisabled}
+            >
+              {MSG_STRING_CONSTANTS.CREATE_CHARACTER_SUBTRACT_STAT_BUTTON_MSG}
+            </Button>
+            {stat.value}
+            <Button
+              id={props.statIds[index][1]}
+              className="stat-value-button stat-value-add"
+              color="success"
+              onClick={props.buttonOnClick}
+              disabled={stat.isAddButtonDisabled}
+            >
+              {MSG_STRING_CONSTANTS.CREATE_CHARACTER_ADD_STAT_BUTTON_MSG}
+            </Button>
+          </p>
+        </td>
+      </tr>
+    )
+  });
+
   return (
     <FormGroup className="create-character-avatar-form-group">
       <Label className="create-character-form-label form-label">
-        Assign stats (You have {props.remainingStatPoints} points left to assign)
+        {`${MSG_STRING_CONSTANTS.CREATE_CHARACTER_ASSIGN_STATS_POINTS_MSG_ROOT}${props.remainingStatPoints}${MSG_STRING_CONSTANTS.CREATE_CHARACTER_ASSIGN_STATS_POINTS_MSG_END}`}
       </Label>
       <div className="create-character-assign-stats-card-wrapper">
         <Card className="create-character-assign-stats-card">
           <Table className="create-character-assign-stats-table">
             <thead>
             <tr>
-              <th>Stat</th>
-              <th>Value</th>
+              <th>{MSG_STRING_CONSTANTS.CREATE_CHARACTER_ASSIGN_STATS_STAT_MSG}</th>
+              <th>{MSG_STRING_CONSTANTS.CREATE_CHARACTER_ASSIGN_STATS_VALUE_MSG}</th>
             </tr>
             </thead>
+            <tbody>
+              {assignStatsTableRows}
+            </tbody>
           </Table>
         </Card>
       </div>
     </FormGroup>
   );
 }
+
+AssignStatsTable.propTypes = {
+  buttonOnClick: PropTypes.func,
+  stats: PropTypes.array,
+  statIds: PropTypes.array
+};
 
 function AvatarSelect(props) {
   const avatars = props.avatars.map((avatar, index) => {
@@ -61,13 +102,17 @@ function AvatarSelect(props) {
 
   return (
     <FormGroup className="create-character-avatar-form-group" tag="avatar-select">
-      <legend className="create-character-avatar-legend">Avatar</legend>
+      <legend className="create-character-avatar-legend">{MSG_STRING_CONSTANTS.CREATE_CHARACTER_AVATAR_SELECT_AVATAR_MSG}</legend>
       <div className="create-character-avatar-card-container card-container">
         {avatars}
       </div>
     </FormGroup>
   )
 }
+
+AvatarSelect.propTypes = {
+  avatars: PropTypes.array
+};
 
 class CreateCharacter extends React.Component {
   constructor(props) {
@@ -78,26 +123,31 @@ class CreateCharacter extends React.Component {
       avatarSelection: '',
       stats: [
         {
+          name: 'Stamina',
           value: 12,
           isAddButtonDisabled: false,
           isSubtractButtonDisabled: true
         },
         {
+          name: 'Strength',
           value: 10,
           isAddButtonDisabled: false,
           isSubtractButtonDisabled: true
         },
         {
+          name: 'Agility',
           value: 10,
           isAddButtonDisabled: false,
           isSubtractButtonDisabled: true
         },
         {
+          name: 'Wisdom',
           value: 11,
           isAddButtonDisabled: false,
           isSubtractButtonDisabled: true
         },
         {
+          name: 'Charisma',
           value: 11,
           isAddButtonDisabled: false,
           isSubtractButtonDisabled: true
@@ -105,7 +155,7 @@ class CreateCharacter extends React.Component {
       ]
     };
   }
-  
+
   handleCheckRemainingStatPoints = () => {
     const stats = Array.from(this.state.stats);
     if (this.state.remainingStatPoints === 0) {
@@ -197,7 +247,6 @@ class CreateCharacter extends React.Component {
   // NOTE: For avatar label names, keep them to one word, no more than 10 characters
   render () {
     // Define avatar names here
-    const avatars = ['Princess', 'Vampire', 'Knight', 'Warrior', 'Cleric', 'Hunter'];
 
     return (
       <div className="create-character-page page-container">
@@ -205,170 +254,20 @@ class CreateCharacter extends React.Component {
         {/* TODO: Change CSS such that we don't need this full-viewport-with-navbar class - use flexbox page-containers instead */}
         <div className="create-character-centered-content full-viewport-with-navbar centered content container">
           <div className="create-character-viewport-width">
-            <h1 className="create-character-header-text">Create a Character</h1>
+            <h1 className="create-character-header-text">{MSG_STRING_CONSTANTS.CREATE_CHARACTER_HEADER_MSG}</h1>
             <Form onSubmit={this.handleCreateCharacter}>
               <FormGroup className="create-character-form-group">
-                <Label for="charactername" className="create-character-form-label form-label">Character name</Label>
+                <Label for="charactername" className="create-character-form-label form-label">{MSG_STRING_CONSTANTS.CREATE_CHARACTER_CHARACTER_NAME_MSG}</Label>
                 <Input type="charactername" id="charactername" onChange={this.handleChangeCharacterName}/>
               </FormGroup>
-              <AvatarSelect avatars={avatars} onChange={this.handleChangeAvatarSelection} />
-
-              <FormGroup className="create-character-avatar-form-group">
-                <Label className="create-character-form-label form-label">
-                  Assign stats (You have {this.state.remainingStatPoints} points left to assign)
-                </Label>
-                <div className="create-character-assign-stats-card-wrapper">
-                  <Card className="create-character-assign-stats-card">
-                    <Table className="create-character-assign-stats-table">
-                      <thead>
-                        <tr>
-                          <th>Stat</th>
-                          <th>Value</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="stats-table-row">
-                          <td className="stat-label">Stamina</td>
-                          <td className="stat-value">
-                            <p className="stat-value-p">
-                              <Button
-                                id="subtract-stamina"
-                                className="stat-value-button stat-value-subtract"
-                                color="danger"
-                                onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stats[0].isSubtractButtonDisabled}
-                              >
-                                -
-                              </Button>
-                              {this.state.stats[0].value}
-                              <Button
-                                id="add-stamina"
-                                className="stat-value-button stat-value-add"
-                                color="success"
-                                onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stats[0].isAddButtonDisabled}
-                              >
-                                +
-                              </Button>
-                            </p>
-                          </td>
-                        </tr>
-                        <tr className="stats-table-row">
-                          <td className="stat-label">Strength</td>
-                          <td className="stat-value">
-                            <p className="stat-value-p">
-                              <Button
-                                id="subtract-strength"
-                                className="stat-value-button stat-value-subtract"
-                                color="danger"
-                                onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stats[1].isSubtractButtonDisabled}
-                              >
-                                -
-                              </Button>
-                              {this.state.stats[1].value}
-                              <Button
-                                id="add-strength"
-                                className="stat-value-button stat-value-add"
-                                color="success"
-                                onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stats[1].isAddButtonDisabled}
-                              >
-                                +
-                              </Button>
-                            </p>
-                          </td>
-                        </tr>
-                        <tr className="stats-table-row">
-                          <td className="stat-label">Agility</td>
-                          <td className="stat-value">
-                            <p className="stat-value-p">
-                              <Button
-                                id="subtract-agility"
-                                className="stat-value-button stat-value-subtract"
-                                color="danger"
-                                onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stats[2].isSubtractButtonDisabled}
-                              >
-                                -
-                              </Button>
-                              {this.state.stats[2].value}
-                              <Button
-                                id="add-agility"
-                                className="stat-value-button stat-value-add"
-                                color="success"
-                                onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stats[2].isAddButtonDisabled}
-                              >
-                                +
-                              </Button>
-                            </p>
-                          </td>
-                        </tr>
-                        <tr className="stats-table-row">
-                          <td className="stat-label">Wisdom</td>
-                          <td className="stat-value">
-                            <p className="stat-value-p">
-                              <Button
-                                id="subtract-wisdom"
-                                className="stat-value-button stat-value-subtract"
-                                color="danger"
-                                onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stats[3].isSubtractButtonDisabled}
-                              >
-                                -
-                              </Button>
-                              {this.state.stats[3].value}
-                              <Button
-                                id="add-wisdom"
-                                className="stat-value-button stat-value-add"
-                                color="success"
-                                onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stats[3].isAddButtonDisabled}
-                              >
-                                +
-                              </Button>
-                            </p>
-                          </td>
-                        </tr>
-                        <tr className="stats-table-row">
-                          <td className="stat-label">Charisma</td>
-                          <td className="stat-value">
-                            <p className="stat-value-p">
-                              <Button
-                                id="subtract-charisma"
-                                className="stat-value-button stat-value-subtract"
-                                color="danger"
-                                onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stats[4].isSubtractButtonDisabled}
-                              >
-                                -
-                              </Button>
-                              {this.state.stats[4].value}
-                              <Button
-                                id="add-charisma"
-                                className="stat-value-button stat-value-add"
-                                color="success"
-                                onClick={this.handleAddOrSubtractStat}
-                                disabled={this.state.stats[4].isAddButtonDisabled}
-                              >
-                                +
-                              </Button>
-                            </p>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </Card>
-                </div>
-              </FormGroup>
-
+              <AvatarSelect avatars={MSG_STRING_CONSTANTS.CREATE_CHARACTER_AVATAR_NAMES} onChange={this.handleChangeAvatarSelection} />
+              <AssignStatsTable stats={this.state.stats} statIds={MSG_STRING_CONSTANTS.CREATE_CHARACTER_STAT_IDS} buttonOnClick={this.handleAddOrSubtractStat} />
               <Button
                 color="primary"
                 id="create"
                 className="create-button"
               >
-                Create
+                {MSG_STRING_CONSTANTS.CREATE_CHARACTER_CREATE_BUTTON_MSG}
               </Button>
             </Form>
           </div>
