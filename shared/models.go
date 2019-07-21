@@ -15,6 +15,7 @@ type User struct {
 type Character struct {
 	CharacterId   int    `json:"id"`
 	CharacterName string `json:"name"`
+	Level		  int    `json:"level"`
 	Attack        int    `json:"attack"`
 	Defense       int    `json:"defense"`
 	MagicAttack   int    `json:"magic_attack"`
