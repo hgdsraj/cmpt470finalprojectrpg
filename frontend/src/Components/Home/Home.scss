@@ -4,12 +4,19 @@
   .mini-char-overview {
     margin-top: 2rem;
 
-    .overview-intro {
+    .overview-intro-flex-container {
       display: flex;
+      justify-content: center;
       flex-direction: column;
-      align-items: center;
+      min-height: 300px;
       max-width: 40%;
       float: left;
+
+      .overview-intro {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     .overview-stats {
