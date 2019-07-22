@@ -1,5 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import {
+  Form
+} from 'reactstrap';
 import Login from '../Components/Login/Login';
 
 describe('Login component', () => {
@@ -7,7 +10,11 @@ describe('Login component', () => {
   it('renders without crashing', () => {
     const wrapper = shallow(<Login />);
     expect(wrapper.find('div.login-page').exists()).toBe(true);
-    expect(wrapper.find('header.login-header').exists()).toBe(true);
+  });
+
+  it('renders a form', () => {
+    const wrapper = shallow(<Login />);
+    expect(wrapper.find(Form).exists()).toBe(true);
   });
 
   it('renders two form groups', () => {
