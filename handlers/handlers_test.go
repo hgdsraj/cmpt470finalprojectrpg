@@ -112,7 +112,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 			CharacterId:   1,
 			CharacterName: "elon",
 			Level:         1,
-			Health:        100,
+			Health:        24,
 			Stamina:       12,
 			Strength:      10,
 			Agility:       10,

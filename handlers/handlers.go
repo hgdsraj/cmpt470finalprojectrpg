@@ -202,12 +202,7 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	// TODO: maybe make a separate constructor function for this? or make default values in the database for new
 	//  characters? or allow custom values (i.e. fixed number of assignable attribute points)?
 	character := shared.Character{
-		Level:        1,
-		Attack:       5,
-		Defense:      4,
-		MagicAttack:  5,
-		MagicDefense: 4,
-		Health:       25,
+		Level: 1,
 	}
 
 	decoder := json.NewDecoder(r.Body)

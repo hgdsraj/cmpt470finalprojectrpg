@@ -10,7 +10,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        24,
 			Stamina:       12,
 			Strength:      10,
 			Agility:       10,
@@ -28,7 +28,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        32,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
 			Agility:       MaxNewCharacter.Agility,
@@ -53,7 +53,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        34,
 			Stamina:       MaxNewCharacter.Stamina + 1,
 			Strength:      MaxNewCharacter.Strength,
 			Agility:       MaxNewCharacter.Agility,
@@ -77,7 +77,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        32,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength + 1,
 			Agility:       MaxNewCharacter.Agility,
@@ -101,7 +101,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        32,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
 			Agility:       MaxNewCharacter.Agility + 1,
@@ -125,7 +125,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        32,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
 			Agility:       MaxNewCharacter.Agility,
@@ -149,7 +149,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        32,
 			Stamina:       MaxNewCharacter.Stamina,
 			Strength:      MaxNewCharacter.Strength,
 			Agility:       MaxNewCharacter.Agility,
@@ -173,7 +173,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        22,
 			Stamina:       MinNewCharacter.Stamina - 1,
 			Strength:      MinNewCharacter.Strength,
 			Agility:       MinNewCharacter.Agility,
@@ -197,7 +197,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        24,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength - 1,
 			Agility:       MinNewCharacter.Agility,
@@ -222,7 +222,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        24,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength,
 			Agility:       MinNewCharacter.Agility - 1,
@@ -246,7 +246,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        24,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength,
 			Agility:       MinNewCharacter.Agility,
@@ -270,7 +270,7 @@ func TestCharacter_Validate(t *testing.T) {
 		character := Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-			Health:        100,
+			Health:        24,
 			Stamina:       MinNewCharacter.Stamina,
 			Strength:      MinNewCharacter.Strength,
 			Agility:       MinNewCharacter.Agility,
@@ -309,7 +309,6 @@ func TestCharacter_CalculateStats(t *testing.T) {
 	character := Character{
 		CharacterId:   1,
 		CharacterName: "elon",
-		Health:        100,
 		Stamina:       12,
 		Strength:      10,
 		Agility:       10,
@@ -325,5 +324,7 @@ func TestCharacter_CalculateStats(t *testing.T) {
 		t.Fatalf("character.Attack should be equal to %v, was %v", 3, character.MagicAttack)
 	} else if character.MagicDefense != 4 {
 		t.Fatalf("character.MagicDefense should be equal to %v, was %v", 3, character.MagicDefense)
+	} else if character.Health != 24 {
+		t.Fatalf("character.Health should be equal to %v, was %v", 24, character.Health)
 	}
 }

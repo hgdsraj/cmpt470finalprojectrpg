@@ -46,7 +46,7 @@ type Response struct {
 var MinNewCharacter = Character{
 	Attack:   5,
 	Defense:  4,
-	Health:   25,
+	Health:   24,
 	Stamina:  12,
 	Strength: 10,
 	Agility:  10,
@@ -59,21 +59,22 @@ var MaxNewCharacter = Character{
 	Defense:      4,
 	MagicDefense: 4,
 	MagicAttack:  4,
-	Health:       25,
-	Stamina:      16,
-	Strength:     14,
-	Agility:      14,
-	Wisdom:       15,
-	Charisma:     15,
+	Health:   32,
+	Stamina:  16,
+	Strength: 14,
+	Agility:  14,
+	Wisdom:   15,
+	Charisma: 15,
 }
 
 var MAX_NEW_CHARACTER_ATTRIBUTE_SUM = 64
 
-func (c *Character) CalculateStats() {
-	c.Attack = int(math.Round(float64(c.Strength) / 3))
-	c.Defense = int(math.Round(float64(c.Stamina+c.Agility) / 6))
-	c.MagicAttack = int(math.Round(float64(c.Wisdom) / 3))
-	c.MagicDefense = int(math.Round(float64(c.Stamina+c.Wisdom) / 6))
+func (c *Character) CalculateStats()  {
+	c.Health =  c.Stamina * 2
+	c.Attack =  int(math.Round(float64(c.Strength) / 3))
+	c.Defense =  int(math.Round(float64(c.Stamina + c.Agility) / 6))
+	c.MagicAttack =  int(math.Round(float64(c.Wisdom) / 3))
+	c.MagicDefense  = int(math.Round(float64(c.Stamina + c.Wisdom) / 6))
 	return
 }
 
