@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -111,9 +112,9 @@ func HandleUserExists(w http.ResponseWriter, r *http.Request) {
 
 func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
-	user := shared.User{}
+	requestUser := shared.User{}
 	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&user)
+	err := decoder.Decode(&requestUser)
 	if err != nil {
 		helpers.LogAndSendErrorMessage(w, "Could not process JSON body!", http.StatusBadRequest)
 		return
@@ -121,7 +122,7 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	queryUser := shared.User{}
 	var passwordHash string
 	var passwordSalt string
-	row := Database.QueryRow("SELECT id, username, fullname, passwordhash, passwordsalt FROM users WHERE username = $1", user.Username)
+	row := Database.QueryRow("SELECT id, username, fullname, passwordhash, passwordsalt FROM users WHERE username = $1", requestUser.Username)
 	err = row.Scan(&queryUser.Id, &queryUser.Username, &queryUser.FullName, &passwordHash, &passwordSalt)
 	if err != nil {
 		strErr := fmt.Sprintf("error querying database: %v", err)
@@ -132,11 +133,43 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 		helpers.LogAndSendErrorMessage(w, strErr, header)
 		return
 	}
-	err = bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(user.Password+passwordSalt))
+	err = bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(requestUser.Password+passwordSalt))
 	if err != nil {
 		helpers.LogAndSendErrorMessage(w, "Password was incorrect!", http.StatusForbidden)
 		return
 	}
+
+	sessionToken := uuid.New().String()
+	sessionHash, err := bcrypt.GenerateFromPassword([]byte(sessionToken+passwordSalt), bcrypt.MinCost)
+	selectUserIdStatement := `SELECT 1 FROM usersessions WHERE userid = $1`
+	row = Database.QueryRow(selectUserIdStatement, queryUser.Id)
+	var temp int
+	err = row.Scan(&temp)
+	if err == sql.ErrNoRows {
+		sqlStatement := `INSERT INTO usersessions (sessionkey, userid, logintime, lastseentime)
+			VALUES ($1, $2, $3, $4)`
+		_, err = Database.Exec(sqlStatement, sessionHash, queryUser.Id, time.Now(), time.Now())
+		if err != nil {
+			strErr := fmt.Sprintf("Could not insert into database error: %v", err)
+			helpers.LogAndSendErrorMessage(w, strErr, http.StatusInternalServerError)
+			return
+		}
+	} else {
+		sqlStatement := `UPDATE usersessions SET sessionkey = $1, logintime = $2, lastseentime = $3 WHERE userid = $4`
+		_, err = Database.Exec(sqlStatement, sessionHash, time.Now(), time.Now(), queryUser.Id)
+		if err != nil {
+			strErr := fmt.Sprintf("Could not insert into database error: %v", err)
+			helpers.LogAndSendErrorMessage(w, strErr, http.StatusInternalServerError)
+			return
+		}
+	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:    "session_token",
+		Value:   string(sessionToken),
+		Path: "/api/",
+		//TODO probably should expire: Expires: time.Now().Add(3600 * time.Second),
+	})
 	resp, err := json.Marshal(queryUser)
 	if err != nil {
 		helpers.LogAndSendErrorMessage(w, "Could not marshal JSON body!", http.StatusInternalServerError)
@@ -147,6 +180,27 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("error writing: %v", err)
 	}
+
+
+}
+
+func HandleTestUserLoggedIn(w http.ResponseWriter, r *http.Request) {
+	username := mux.Vars(r)["username"]
+	if !helpers.UserLoggedIn(username, r) {
+		helpers.LogAndSendErrorMessage(w, "User not authenticated, please log in!", http.StatusForbidden)
+		return
+	}
+	responseToEncode := shared.Response{"User is logged in"}
+	encodedResponse, err := json.Marshal(responseToEncode)
+	if err != nil {
+		log.Printf(helpers.JsonError, err)
+	}
+	w.WriteHeader(http.StatusOK)
+	_, err = w.Write(encodedResponse)
+	if err != nil {
+		log.Printf("error writing: %v", err)
+	}
+
 }
 
 func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
@@ -195,7 +249,7 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
 	username := mux.Vars(r)["username"]
-	if !helpers.UserLoggedIn(username) {
+	if !helpers.UserLoggedIn(username, r) {
 		helpers.LogAndSendErrorMessage(w, "User not authenticated, please log in!", http.StatusForbidden)
 		return
 	}
@@ -266,7 +320,7 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
 	username := mux.Vars(r)["username"]
-	if !helpers.UserLoggedIn(username) {
+	if !helpers.UserLoggedIn(username, r) {
 		helpers.LogAndSendErrorMessage(w, "User not authenticated, please log in!", http.StatusForbidden)
 		return
 	}

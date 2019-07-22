@@ -4,6 +4,8 @@ package handlers
 import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gorilla/mux"
+	"os"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/shared"
 
 	"encoding/json"
@@ -55,7 +57,6 @@ func TestHandleConfig(t *testing.T) {
 func TestHandleCharacterCreate(t *testing.T) {
 	SetupConfig()
 	db, mock, err := sqlmock.New()
-
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
@@ -652,4 +653,11 @@ func TestHandleUserCharacters(t *testing.T) {
 	testUserDoesntExist()
 
 	//TODO find a way to test that we don't get other users characters
+}
+
+func TestMain(m *testing.M) {
+	helpers.Test = true
+	code := m.Run()
+	helpers.Test = false // safety
+	os.Exit(code)
 }
