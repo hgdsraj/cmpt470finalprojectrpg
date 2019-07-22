@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './AlertList.scss';
 import {
   ReactComponent as AlertListStyle
@@ -33,5 +34,10 @@ function AlertList(props) {
     </div>
   );
 }
+
+AlertList.propTypes = {
+  messages: PropTypes.array,
+  isErrorAlertList: PropTypes.bool
+};
 
 export default AlertList;

@@ -1,0 +1,73 @@
+.home-page {
+  min-height: 100vh;
+
+  .mini-char-overview {
+    margin-top: 2rem;
+
+    .overview-intro-flex-container {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 300px;
+      max-width: 40%;
+      float: left;
+
+      .overview-intro {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    .overview-stats {
+      max-width: 60%;
+      min-width: 60%;
+      float: right;
+    }
+
+    .overview-clear {
+      clear: both;
+    }
+  }
+
+  .showcase-container {
+    margin-bottom: 20px;
+  }
+
+  .explore-map-cardimg {
+    max-height: 128px;
+    max-width: 128px;
+  }
+
+  .cardbody {
+    padding: 15px;
+
+    .cardtitle-wrapper {
+      display: block;
+      margin-bottom: .75rem;
+
+      .cardtitle {
+        display: inline;
+      }
+
+      .cardsubtitle {
+        display: inline;
+        color: #5a6268;
+        margin-left: 10px;
+      }
+
+    }
+
+    .cardtitle {
+      font-weight: bold;
+    }
+
+    .cardsubtitle {
+      color: #5a6268;
+    }
+
+    .cardtext-color {
+      color: #000000;
+    }
+  }
+}

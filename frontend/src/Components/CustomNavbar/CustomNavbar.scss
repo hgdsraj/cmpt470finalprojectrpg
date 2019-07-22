@@ -1,0 +1,23 @@
+.app-navbar {
+
+  .nav-brand {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .nav-link {
+    color: #ffffff;
+    &:hover {
+      color: #d0d0d0
+    }
+
+  }
+
+  .disabled {
+    color: #5a6268;
+  }
+
+  .log-out-button {
+    padding: 0;
+  }
+}

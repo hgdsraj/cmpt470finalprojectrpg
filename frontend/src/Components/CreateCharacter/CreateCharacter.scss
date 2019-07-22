@@ -1,0 +1,70 @@
+.create-character-page {
+  .create-character-centered-content {
+    .create-character-viewport-width {
+      min-width: 50vh;
+      max-width: 50vh;
+    }
+
+    .create-character-avatar-legend {
+      font-size: 18px;
+    }
+
+    .create-character-avatar-card-container {
+      display: flex;
+      justify-content: left;
+      flex-wrap: wrap;
+      margin-top: 0;
+
+      .create-character-avatar-card {
+        min-width: 90px;
+        min-height: 90px;
+        max-width: 90px;
+        max-height: 90px;
+      }
+
+      .create-character-avatar-form-group {
+        padding: 10px 10px 0 10px;
+      }
+
+      .create-character-avatar-form-label {
+        margin-left: 10px;
+      }
+
+      .form-check-input {
+        position: relative;
+        margin: 0;
+      }
+    }
+
+    .create-character-assign-stats-table {
+      margin-bottom: 0;
+
+      .stat-label {
+        min-width: 200px;
+      }
+
+      .stat-value {
+        min-width: 150px;
+      }
+
+      .stat-value-p {
+        margin-bottom: 0;
+      }
+
+      .stat-value-button {
+        border-radius: 25px;
+      }
+
+      .stat-value-add {
+        padding: 2px 9px;
+        margin-left: 5px;
+      }
+
+      .stat-value-subtract {
+        padding: 2px 11px;
+        margin-right: 5px;
+      }
+    }
+
+  }
+}

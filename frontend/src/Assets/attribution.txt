@@ -1,0 +1,11 @@
+zombie.png -  Graphic artist: Stephen "Redshrike" Challener (https://opengameart.org/users/redshrike). contributors: Benjamin K. Smith (https://opengameart.org/users/bencreating), Johannes Sjölund (wulax)
+
+imp.png - Graphic artist: Stephen "Redshrike" Challener (https://opengameart.org/users/redshrike), contributors: William.Thompsonj (https://opengameart.org/users/williamthompsonj)
+
+goblin.png - Graphic artist: Stephen "Redshrike" Challener (https://opengameart.org/users/redshrike), contributors: William.Thompsonj (https://opengameart.org/users/williamthompsonj)
+
+grass_map.png - Graphic artist: Lanea Zimmerman (AKA Sharm) contributors: Adam Pruner
+
+blue_potion.png - Graphic artist: Reid, contributors: Anzhel (https://opengameart.org/users/anzhel), Adam Pruner
+
+princess_avatar.png - Graphic artist: Lanea Zimmerman (AKA Sharm), contributors: Adam Pruner
