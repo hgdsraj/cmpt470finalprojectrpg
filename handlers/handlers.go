@@ -26,7 +26,6 @@ type Config struct {
 	Local    bool   `json:"local"`
 }
 
-
 func SetupConfig() {
 	production := os.Getenv("HEROKU")
 	if production != "" {
@@ -203,11 +202,12 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	// TODO: maybe make a separate constructor function for this? or make default values in the database for new
 	//  characters? or allow custom values (i.e. fixed number of assignable attribute points)?
 	character := shared.Character{
-		Attack:  5,
-		Defense: 4,
+		Level:        1,
+		Attack:       5,
+		Defense:      4,
 		MagicAttack:  5,
 		MagicDefense: 4,
-		Health:  25,
+		Health:       25,
 	}
 
 	decoder := json.NewDecoder(r.Body)
@@ -244,9 +244,9 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sqlStatement := `INSERT INTO Characters (charactername, attack, defense, magic_attack, magic_defense, health, stamina, strength, agility, wisdom, charisma, userid)
-			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`
-	_, err = Database.Exec(sqlStatement, character.CharacterName, character.Attack,
+	sqlStatement := `INSERT INTO Characters (charactername, characterlevel, attack, defense, magic_attack, magic_defense, health, stamina, strength, agility, wisdom, charisma, userid)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`
+	_, err = Database.Exec(sqlStatement, character.CharacterName, character.Level, character.Attack,
 		character.Defense, character.MagicAttack, character.MagicDefense, character.Health,
 		character.Stamina, character.Strength, character.Agility, character.Wisdom, character.Charisma, userId)
 

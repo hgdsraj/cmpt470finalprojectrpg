@@ -15,6 +15,7 @@ type User struct {
 type Character struct {
 	CharacterId   int    `json:"id"`
 	CharacterName string `json:"name"`
+	Level         int    `json:"level"`
 	Attack        int    `json:"attack"`
 	Defense       int    `json:"defense"`
 	MagicAttack   int    `json:"magic_attack"`
@@ -54,25 +55,25 @@ var MinNewCharacter = Character{
 }
 
 var MaxNewCharacter = Character{
-	Attack:   5,
-	Defense:  4,
-	MagicDefense:  4,
+	Attack:       5,
+	Defense:      4,
+	MagicDefense: 4,
 	MagicAttack:  4,
-	Health:   25,
-	Stamina:  16,
-	Strength: 14,
-	Agility:  14,
-	Wisdom:   15,
-	Charisma: 15,
+	Health:       25,
+	Stamina:      16,
+	Strength:     14,
+	Agility:      14,
+	Wisdom:       15,
+	Charisma:     15,
 }
 
 var MAX_NEW_CHARACTER_ATTRIBUTE_SUM = 64
 
-func (c *Character) CalculateStats()  {
-	c.Attack =  int(math.Round(float64(c.Strength) / 3))
-	c.Defense =  int(math.Round(float64(c.Stamina + c.Agility) / 6))
-	c.MagicAttack =  int(math.Round(float64(c.Wisdom) / 3))
-	c.MagicDefense  = int(math.Round(float64(c.Stamina + c.Wisdom) / 6))
+func (c *Character) CalculateStats() {
+	c.Attack = int(math.Round(float64(c.Strength) / 3))
+	c.Defense = int(math.Round(float64(c.Stamina+c.Agility) / 6))
+	c.MagicAttack = int(math.Round(float64(c.Wisdom) / 3))
+	c.MagicDefense = int(math.Round(float64(c.Stamina+c.Wisdom) / 6))
 	return
 }
 

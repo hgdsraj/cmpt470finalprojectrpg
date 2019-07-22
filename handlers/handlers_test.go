@@ -111,6 +111,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 		character := shared.Character{
 			CharacterId:   1,
 			CharacterName: "elon",
+			Level:         1,
 			Health:        100,
 			Stamina:       12,
 			Strength:      10,
@@ -122,7 +123,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 
-		mock.ExpectExec("INSERT INTO Characters").WithArgs(character.CharacterName, character.Attack,
+		mock.ExpectExec("INSERT INTO Characters").WithArgs(character.CharacterName, character.Level, character.Attack,
 			character.Defense, character.MagicAttack, character.MagicDefense, character.Health, character.Stamina,
 			character.Strength, character.Agility, character.Wisdom, character.Charisma, user.Id).
 			WillReturnResult(sqlmock.NewResult(1, 1))
@@ -152,7 +153,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 		handler.ServeHTTP(rr, req)
 		// Check the status code is what we expect.
 		if status := rr.Code; status != http.StatusCreated {
-			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
+			t.Errorf("wrong status code: got %v want %v", status, http.StatusCreated)
 		}
 		character.UserId = user.Id
 		expectedBody, err := json.Marshal(character)
@@ -170,7 +171,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 		character := shared.Character{
 			CharacterId:   1,
 			CharacterName: "elon",
-
+			Level:         1,
 			Health:        100,
 			Stamina:       65,
 			Strength:      10,
@@ -219,6 +220,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 		character := shared.Character{
 			CharacterId:   1,
 			CharacterName: "elon",
+			Level:         1,
 			Health:        100,
 			Stamina:       12,
 			Strength:      10,
@@ -230,7 +232,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 
-		mock.ExpectExec("INSERT INTO Characters").WithArgs(character.CharacterName, character.Attack,
+		mock.ExpectExec("INSERT INTO Characters").WithArgs(character.CharacterName, character.Level, character.Attack,
 			character.Defense, character.MagicAttack, character.MagicDefense, character.Health, character.Stamina,
 			character.Strength, character.Agility, character.Wisdom, character.Charisma, user.Id).
 			WillReturnResult(sqlmock.NewResult(1, 1))
@@ -270,7 +272,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 		}
 		if responseCharacter.Attack != 3 {
 			t.Fatalf("responseCharacter.Attack should be equal to %v, was %v", 3,
-			responseCharacter.Attack)
+				responseCharacter.Attack)
 		} else if responseCharacter.Defense != 4 {
 			t.Fatalf("character.Defense should be equal to %v, was %v", 4,
 				responseCharacter.Defense)
