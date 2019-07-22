@@ -65,7 +65,7 @@ func TestDatabase(w http.ResponseWriter, r *http.Request) {
 	responseToEncode := shared.Response{"Database is connected!!"}
 	encodedResponse, err := json.Marshal(responseToEncode)
 	if err != nil {
-		log.Printf(helpers.JsonError, err)
+		log.Printf(helpers.JsonEncodingErrorFormatString, err)
 	}
 	_, err = w.Write(encodedResponse)
 	if err != nil {
@@ -105,7 +105,7 @@ func HandleUserExists(w http.ResponseWriter, r *http.Request) {
 
 	_, err = w.Write(resp)
 	if err != nil {
-		log.Printf("error writing: %v", err)
+		log.Printf(helpers.WritingErrorFormatString, err)
 	}
 
 }
@@ -178,7 +178,7 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 
 	_, err = w.Write([]byte(resp))
 	if err != nil {
-		log.Printf("error writing: %v", err)
+		log.Printf(helpers.WritingErrorFormatString, err)
 	}
 
 
@@ -193,12 +193,12 @@ func HandleTestUserLoggedIn(w http.ResponseWriter, r *http.Request) {
 	responseToEncode := shared.Response{"User is logged in"}
 	encodedResponse, err := json.Marshal(responseToEncode)
 	if err != nil {
-		log.Printf(helpers.JsonError, err)
+		log.Printf(helpers.JsonEncodingErrorFormatString, err)
 	}
 	w.WriteHeader(http.StatusOK)
 	_, err = w.Write(encodedResponse)
 	if err != nil {
-		log.Printf("error writing: %v", err)
+		log.Printf(helpers.WritingErrorFormatString, err)
 	}
 
 }
@@ -236,11 +236,11 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 	responseToEncode := shared.Response{"Successfully created user"}
 	encodedResponse, err := json.Marshal(responseToEncode)
 	if err != nil {
-		log.Printf(helpers.JsonError, err)
+		log.Printf(helpers.JsonEncodingErrorFormatString, err)
 	}
 	_, err = w.Write(encodedResponse)
 	if err != nil {
-		log.Printf("error writing: %v", err)
+		log.Printf(helpers.WritingErrorFormatString, err)
 	}
 
 }
@@ -308,11 +308,11 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	encodedResponse, err := json.Marshal(character)
 	if err != nil {
-		log.Printf(helpers.JsonError, err)
+		log.Printf(helpers.JsonEncodingErrorFormatString, err)
 	}
 	_, err = w.Write(encodedResponse)
 	if err != nil {
-		log.Printf("error writing: %v", err)
+		log.Printf(helpers.WritingErrorFormatString, err)
 	}
 
 }
@@ -378,7 +378,7 @@ func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 
 	_, err = w.Write(resp)
 	if err != nil {
-		log.Printf("error writing: %v", err)
+		log.Printf(helpers.WritingErrorFormatString, err)
 	}
 
 }

@@ -39,7 +39,7 @@ func main() {
 	api := r.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/users/{username}", handlers.HandleUserExists).Methods("GET")
 	api.HandleFunc("/users/login", handlers.HandleUserLogin).Methods("POST")
-	api.HandleFunc("/users/test_user_logged_in/{username}", handlers.HandleTestUserLoggedIn).Methods("POST")
+	api.HandleFunc("/users/{username}/logged_in", handlers.HandleTestUserLoggedIn).Methods("POST")
 	api.HandleFunc("/users/create", handlers.HandleUserCreate).Methods("POST")
 	api.HandleFunc("/characters/{username}/create", handlers.HandleCharacterCreate).Methods("POST")
 	api.HandleFunc("/characters/{username}", handlers.HandleUserCharacters).Methods("GET")
