@@ -3,6 +3,7 @@ package main
 import (
 	h "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
 
 	"sfu.ca/apruner/cmpt470finalprojectrpg/db"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/handlers"
@@ -38,6 +39,7 @@ func main() {
 	api := r.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/users/{username}", handlers.HandleUserExists).Methods("GET")
 	api.HandleFunc("/users/login", handlers.HandleUserLogin).Methods("POST")
+	api.HandleFunc("/users/{username}/logged_in", handlers.HandleTestUserLoggedIn).Methods("GET")
 	api.HandleFunc("/users/create", handlers.HandleUserCreate).Methods("POST")
 	api.HandleFunc("/characters/{username}/create", handlers.HandleCharacterCreate).Methods("POST")
 	api.HandleFunc("/characters/{username}", handlers.HandleUserCharacters).Methods("GET")
@@ -52,6 +54,7 @@ func main() {
 
 	database := db.OpenDb()
 	handlers.Database = database
+	helpers.Database = database
 	handlers.SetupConfig()
 	// Configure websocket route
 
