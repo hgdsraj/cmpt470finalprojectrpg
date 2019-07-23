@@ -37,12 +37,12 @@ func main() {
 
 	// Non chat backend API endpoints
 	api := r.PathPrefix("/api").Subrouter()
-	api.HandleFunc("/users/{username}", handlers.HandleUserExists).Methods("GET")
+	api.HandleFunc("/users/exists/{username}", handlers.HandleUserExists).Methods("GET")
 	api.HandleFunc("/users/login", handlers.HandleUserLogin).Methods("POST")
-	api.HandleFunc("/users/{username}/logged_in", handlers.HandleTestUserLoggedIn).Methods("GET")
+	api.HandleFunc("/users/logged_in", handlers.HandleTestUserLoggedIn).Methods("GET")
 	api.HandleFunc("/users/create", handlers.HandleUserCreate).Methods("POST")
-	api.HandleFunc("/characters/{username}/create", handlers.HandleCharacterCreate).Methods("POST")
-	api.HandleFunc("/characters/{username}", handlers.HandleUserCharacters).Methods("GET")
+	api.HandleFunc("/characters/create", handlers.HandleCharacterCreate).Methods("POST")
+	api.HandleFunc("/characters", handlers.HandleUserCharacters).Methods("GET")
 
 	if os.Getenv("DISABLE_STATIC_FILE_SERVER") != "true" {
 		r.PathPrefix("").Handler(http.StripPrefix("", http.FileServer(http.Dir(STATIC))))
