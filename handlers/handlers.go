@@ -165,9 +165,9 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:    "session_token",
-		Value:   string(sessionToken),
-		Path: "/api/",
+		Name:  "session_token",
+		Value: string(sessionToken),
+		Path:  "/api/",
 		//TODO probably should expire: Expires: time.Now().Add(3600 * time.Second),
 	})
 	resp, err := json.Marshal(queryUser)
@@ -180,7 +180,6 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf(helpers.WritingErrorFormatString, err)
 	}
-
 
 }
 

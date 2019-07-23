@@ -14,7 +14,7 @@ import (
 var JsonEncodingErrorFormatString = "json encoding error: %v"
 var WritingErrorFormatString = "error writing: %v"
 var Database *sql.DB
-var Test = false;
+var Test = false
 
 func UserLoggedIn(username string, r *http.Request) bool {
 	if Test {
@@ -35,8 +35,8 @@ func UserLoggedIn(username string, r *http.Request) bool {
 	}
 	sessionToken := c.Value
 	var (
-		passwordSalt string
-		userId string
+		passwordSalt       string
+		userId             string
 		hashedSessionToken string
 	)
 	query := `SELECT passwordsalt, id FROM users WHERE username = $1`

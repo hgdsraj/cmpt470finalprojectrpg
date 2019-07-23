@@ -14,9 +14,9 @@ import (
 	"time"
 )
 
-var clients = make(map[string]map[*websocket.Conn]bool)          // connected clients
-var broadcast = make(map[string](chan Message))                  // broadcast channel
-var handleMessagesRoutineExit = make(map[string](chan struct{})) // broadcast channel
+var clients = make(map[string]map[*websocket.Conn]bool)        // connected clients
+var broadcast = make(map[string]chan Message)                  // broadcast channel
+var handleMessagesRoutineExit = make(map[string]chan struct{}) // broadcast channel
 
 var channels = make([]string, 0)
 var clientsMutex = &sync.Mutex{}
@@ -118,7 +118,7 @@ func CreateChannel(w http.ResponseWriter, r *http.Request) {
 	channelName := r.FormValue("channel_name")
 	channels = append(channels, channelName)
 	fmt.Println(channels)
-	exitChannel := make(chan struct{});
+	exitChannel := make(chan struct{})
 	handleMessagesRoutineExit[channelName] = exitChannel
 
 	go HandleMessages(channelName, exitChannel)
@@ -152,7 +152,7 @@ func GetChannels(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		_, err := w.Write([]byte(fmt.Sprintf("getChannels error: %v", err)))
 		if err != nil {
-			log.Printf("getChannels error: %v", err);
+			log.Printf("getChannels error: %v", err)
 		}
 		return
 	}
@@ -174,9 +174,9 @@ func HandleChatroom(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		_, err := w.Write([]byte(fmt.Sprintf("HandleChatroom template parse error: %v", err)))
-		log.Printf("HandleChatroom template parse error: %v", err);
+		log.Printf("HandleChatroom template parse error: %v", err)
 		if err != nil {
-			log.Printf("HandleChatroom template parse error: %v", err);
+			log.Printf("HandleChatroom template parse error: %v", err)
 		}
 		return
 	}
@@ -186,9 +186,9 @@ func HandleChatroom(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		_, err := w.Write([]byte(fmt.Sprintf("HandleChatroom template execute error: %v", err)))
-		log.Printf("HandleChatroom template execute error: %v", err);
+		log.Printf("HandleChatroom template execute error: %v", err)
 		if err != nil {
-			log.Printf("HandleChatroom template execute error: %v", err);
+			log.Printf("HandleChatroom template execute error: %v", err)
 		}
 		return
 	}
