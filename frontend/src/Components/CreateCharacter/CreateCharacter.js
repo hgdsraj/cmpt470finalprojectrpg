@@ -1,20 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Card,
-  CardImg,
-  Table
-} from 'reactstrap';
-import {
-  NUMERIC_CONSTANTS,
-  MSG_STRING_CONSTANTS,
-  URL_CONSTANTS
-} from '../../Constants/Constants';
+import {Button, Card, CardImg, Form, FormGroup, Input, Label, Table} from 'reactstrap';
+import {MSG_STRING_CONSTANTS, NUMERIC_CONSTANTS, URL_CONSTANTS} from '../../Constants/Constants';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './CreateCharacter.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
@@ -48,7 +35,7 @@ function AssignStatsTable(props) {
           </p>
         </td>
       </tr>
-    )
+    );
   });
 
   return (
@@ -66,7 +53,7 @@ function AssignStatsTable(props) {
             </tr>
             </thead>
             <tbody>
-              {assignStatsTableRows}
+            {assignStatsTableRows}
             </tbody>
           </Table>
         </Card>
@@ -88,7 +75,7 @@ function AvatarSelect(props) {
     return (
       <FormGroup key={index} className="create-character-avatar-form-group" check>
         <Card className="create-character-avatar-card">
-          <CardImg src={PrincessAvatar} />
+          <CardImg src={PrincessAvatar}/>
         </Card>
         <div className="create-character-avatar-label-wrapper">
           <Input id={avatarInputId} type="radio" name="avatar-select" onChange={props.onChange}/>
@@ -103,12 +90,13 @@ function AvatarSelect(props) {
 
   return (
     <FormGroup className="create-character-avatar-form-group" tag="avatar-select">
-      <legend className="create-character-avatar-legend">{MSG_STRING_CONSTANTS.CREATE_CHARACTER_AVATAR_SELECT_AVATAR_MSG}</legend>
+      <legend
+        className="create-character-avatar-legend">{MSG_STRING_CONSTANTS.CREATE_CHARACTER_AVATAR_SELECT_AVATAR_MSG}</legend>
       <div className="create-character-avatar-card-container card-container">
         {avatars}
       </div>
     </FormGroup>
-  )
+  );
 }
 
 AvatarSelect.propTypes = {
@@ -173,7 +161,7 @@ class CreateCharacter extends React.Component {
     this.setState({
       stats
     });
-  }
+  };
 
   handleAddOrSubtractStat = (event) => {
     const splitTargetId = event.target.id.split('-');
@@ -206,14 +194,14 @@ class CreateCharacter extends React.Component {
         stats
       }, this.handleCheckRemainingStatPoints);
     }
-  }
+  };
 
   handleChangeAvatarSelection = (event) => {
     const avatarSelection = event.target.id;
     this.setState({
       avatarSelection
     });
-  }
+  };
 
   handleCreateCharacter = async (event) => {
     event.preventDefault();
@@ -237,22 +225,22 @@ class CreateCharacter extends React.Component {
     const body = await response.json();
     console.log(body);
     // TODO: redirect to home page (implement after cookies/sessions is properly hooked up)
-  }
+  };
 
   handleChangeCharacterName = (event) => {
     const characterName = event.target.value;
     this.setState({
       characterName
     });
-  }
+  };
 
   // NOTE: For avatar label names, keep them to one word, no more than 10 characters
-  render () {
+  render() {
     // Define avatar names here
 
     return (
       <div className="create-character-page page-container">
-        <CustomNavbar />
+        <CustomNavbar/>
         {/* TODO: Change CSS such that we don't need this full-viewport-with-navbar class - use flexbox page-containers instead */}
         <div className="create-character-centered-content full-viewport-with-navbar centered content container">
           <div className="create-character-viewport-width">
@@ -262,7 +250,8 @@ class CreateCharacter extends React.Component {
                 <Label for="charactername" className="create-character-form-label form-label">
                   {MSG_STRING_CONSTANTS.CREATE_CHARACTER_CHARACTER_NAME_MSG}
                 </Label>
-                <Input type="charactername" id="charactername" onChange={this.handleChangeCharacterName}/>
+                <Input type="charactername" id="charactername"
+                       onChange={this.handleChangeCharacterName}/>
               </FormGroup>
               <AvatarSelect
                 avatars={MSG_STRING_CONSTANTS.CREATE_CHARACTER_AVATAR_NAMES}

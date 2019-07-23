@@ -1,21 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Link
-} from 'react-router-dom';
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from 'reactstrap';
+import {Link} from 'react-router-dom';
+import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
 import CustomPopover from '../CustomPopover/CustomPopover';
-import {
-  NUMERIC_CONSTANTS,
-  MSG_STRING_CONSTANTS,
-  URL_CONSTANTS
-} from '../../Constants/Constants';
+import {MSG_STRING_CONSTANTS, NUMERIC_CONSTANTS, URL_CONSTANTS} from '../../Constants/Constants';
 import './Login.scss';
 
 // Login page component
@@ -29,10 +17,10 @@ class Login extends React.Component {
       isUsernameLongEnough: false,
       isPasswordLongEnough: false,
       isLoginPopoverOpen: false
-    }
+    };
   }
 
-  componentWillMount () {
+  componentWillMount() {
     document.addEventListener('mousedown', this.handleClick);
   }
 
@@ -64,7 +52,7 @@ class Login extends React.Component {
     console.log(body);
     this.props.handleAppLogin();
     // TODO: Redirect to home page (once it is built)
-  }
+  };
 
   // Small util function to handle clicks outside of the popover
   handleClick = (event) => {
@@ -72,7 +60,7 @@ class Login extends React.Component {
       return;
     }
     this.handleCloseLoginPopover();
-  }
+  };
 
   handleChangeUsername = (event) => {
     const username = event.target.value;
@@ -80,7 +68,7 @@ class Login extends React.Component {
       username,
       isUsernameLongEnough: username.length >= NUMERIC_CONSTANTS.MINIMUM_USERNAME_LENGTH
     });
-  }
+  };
 
   handleChangePassword = (event) => {
     const password = event.target.value;
@@ -88,20 +76,20 @@ class Login extends React.Component {
       password,
       isPasswordLongEnough: password.length >= NUMERIC_CONSTANTS.MINIMUM_PASSWORD_LENGTH
     });
-  }
+  };
 
   handleOpenLoginPopover = (lastLoginStatus) => {
     this.setState({
       isLoginPopoverOpen: true,
       lastLoginStatus
     });
-  }
+  };
 
   handleCloseLoginPopover = () => {
     this.setState({
       isLoginPopoverOpen: false
     });
-  }
+  };
 
   renderLoginPopover = () => {
     const loginPopoverHeaderMessage = MSG_STRING_CONSTANTS.LOGIN_UNSUCCESSFUL_POPOVER_MSG;
@@ -130,20 +118,22 @@ class Login extends React.Component {
         />
       </div>
     );
-  }
+  };
 
-  render () {
+  render() {
     return (
       <div className="login-page page-container">
         <div className="full-viewport centered content login-centered-content container">
           <h1 className="login-header-text">{MSG_STRING_CONSTANTS.LOGIN_WELCOME_MSG}</h1>
           <Form onSubmit={this.handleLogin}>
             <FormGroup className="login-form-group">
-              <Label for="username" className="form-label login-form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
+              <Label for="username"
+                     className="form-label login-form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
               <Input type="username" id="username" onChange={this.handleChangeUsername}/>
             </FormGroup>
             <FormGroup className="login-form-group">
-              <Label for="password" className="form-label login-form-label">{MSG_STRING_CONSTANTS.PASSWORD_LABEL_MSG}</Label>
+              <Label for="password"
+                     className="form-label login-form-label">{MSG_STRING_CONSTANTS.PASSWORD_LABEL_MSG}</Label>
               <Input type="password" id="password" onChange={this.handleChangePassword}/>
             </FormGroup>
             <Button
@@ -169,7 +159,7 @@ class Login extends React.Component {
     );
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClick);
   }
 }

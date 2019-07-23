@@ -5,22 +5,22 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Nav, Navbar,
+  Nav,
+  Navbar,
   NavbarBrand,
   NavItem,
   NavLink,
   UncontrolledDropdown
 } from 'reactstrap';
-import {
-  MSG_STRING_CONSTANTS
-} from '../../Constants/Constants';
+import {MSG_STRING_CONSTANTS} from '../../Constants/Constants';
 
 function CustomNavbar() {
   return (
     <div className="app-navbar-wrapper bg-dark">
       <div className="app-navbar container">
         <Navbar color="dark" expand="md">
-          <NavbarBrand className="nav-brand" href="/">{MSG_STRING_CONSTANTS.NAVBAR_NAV_BRAND_MSG}</NavbarBrand>
+          <NavbarBrand className="nav-brand"
+                       href="/">{MSG_STRING_CONSTANTS.NAVBAR_NAV_BRAND_MSG}</NavbarBrand>
           <Nav className="ml-auto" navbar>
             <NavItem>
               <NavLink href="/">
@@ -75,7 +75,7 @@ function CustomNavbar() {
         </Navbar>
       </div>
     </div>
-  )
+  );
 }
 
 export default CustomNavbar;
