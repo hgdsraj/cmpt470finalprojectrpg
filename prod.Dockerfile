@@ -1,5 +1,5 @@
 FROM golang:latest as gobuild
-LABEL version="1.4"
+LABEL version="1.5"
 
 RUN mkdir -p /go/src/sfu.ca/apruner/cmpt470finalprojectrpg
 
