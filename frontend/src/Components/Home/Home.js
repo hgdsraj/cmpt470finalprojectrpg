@@ -1,19 +1,8 @@
 import React from 'react';
-import {
-  Card,
-  CardImg,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  CardText,
-  Table,
-  Button
-} from 'reactstrap';
+import {Button, Card, CardBody, CardImg, CardSubtitle, CardText, CardTitle, Table} from 'reactstrap';
 import './Home.scss';
 import CustomNavbar from "../CustomNavbar/CustomNavbar";
-import {
-  MSG_STRING_CONSTANTS
-} from '../../Constants/Constants';
+import {MSG_STRING_CONSTANTS} from '../../Constants/Constants';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
 import Goblin from '../../Assets/goblin.png';
 import Zombie from '../../Assets/zombie.png';
@@ -46,11 +35,15 @@ class Home extends React.Component {
             <div className="mini-char-overview-wrapper">
               <div className="mini-char-overview-intro-flex-container overview-intro-flex-container">
                 <div className="mini-char-overview-intro overview-intro">
-                  <CardImg className="mini-char-overview-cardimg cardimg" src={mockCharacterData.avatar}/>
+                  <CardImg className="mini-char-overview-cardimg cardimg"
+                           src={mockCharacterData.avatar}/>
                   <CardBody className="mini-char-overview-cardbody cardbody">
-                    <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">{mockCharacterData.name}</CardTitle>
-                    <CardSubtitle className="mini-char-overview-cardsubtitle cardsubtitle">{MSG_STRING_CONSTANTS.LEVEL_MSG + mockCharacterData.level.toString()}</CardSubtitle>
-                    <CardText className="mini-char-overview-cardtext cardtext cardtext-color">{mockCharacterData.text}</CardText>
+                    <CardTitle
+                      className="mini-char-overview-cardtitle cardtitle cardtext-color">{mockCharacterData.name}</CardTitle>
+                    <CardSubtitle
+                      className="mini-char-overview-cardsubtitle cardsubtitle">{MSG_STRING_CONSTANTS.LEVEL_MSG + mockCharacterData.level.toString()}</CardSubtitle>
+                    <CardText
+                      className="mini-char-overview-cardtext cardtext cardtext-color">{mockCharacterData.text}</CardText>
                   </CardBody>
                 </div>
               </div>
@@ -86,13 +79,13 @@ class Home extends React.Component {
                   </tbody>
                 </Table>
               </div>
-              <div className="overview-clear" />
+              <div className="overview-clear"/>
             </div>
           </Card>
         </div>
       </div>
     );
-  }
+  };
 
   renderBattleShowcase = () => {
     // TODO: fetch NPCs to battle (near level) and map them to cards instead of using mock data
@@ -123,11 +116,14 @@ class Home extends React.Component {
           <CardImg className="battle-npc-cardimg cardimg" src={npcData.npcImgSrc}/>
           <CardBody className="battle-npc-cardbody cardbody">
             <div className="battle-npc-cardtitle-wrapper cardtitle-wrapper">
-              <CardTitle className="battle-npc-cardtitle cardtitle cardtext-color">{npcData.npcTitle}</CardTitle>
-              <CardSubtitle className="battle-npc-cardsubtitle cardsubtitle">{MSG_STRING_CONSTANTS.LEVEL_MSG + npcData.npcLevel.toString()}</CardSubtitle>
+              <CardTitle
+                className="battle-npc-cardtitle cardtitle cardtext-color">{npcData.npcTitle}</CardTitle>
+              <CardSubtitle
+                className="battle-npc-cardsubtitle cardsubtitle">{MSG_STRING_CONSTANTS.LEVEL_MSG + npcData.npcLevel.toString()}</CardSubtitle>
             </div>
             <CardText className="battle-npc-cardtext cardtext cardtext-color">{npcData.npcText}</CardText>
-            <Button color="primary" className="battle-npc-button cardbutton">{MSG_STRING_CONSTANTS.HOME_BATTLE_SHOWCASE_CARD_BUTTON_MSG}</Button>
+            <Button color="primary"
+                    className="battle-npc-button cardbutton">{MSG_STRING_CONSTANTS.HOME_BATTLE_SHOWCASE_CARD_BUTTON_MSG}</Button>
           </CardBody>
         </Card>
       );
@@ -144,7 +140,7 @@ class Home extends React.Component {
         </div>
       </div>
     );
-  }
+  };
 
   renderExploreShowcase = () => {
     // TODO: Fetch explore maps and map them to map cards instead of using mock data
@@ -173,7 +169,8 @@ class Home extends React.Component {
           <CardBody className="explore-map-cardbody cardbody">
             <CardTitle className="explore-map-title cardtitle cardtext-color">{mapData.mapTitle}</CardTitle>
             <CardText className="explore-map-text cardtext cardtext-color">{mapData.mapText}</CardText>
-            <Button color="primary" className="explore-map-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_MAP_CARD_BUTTON_MSG}</Button>
+            <Button color="primary"
+                    className="explore-map-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_MAP_CARD_BUTTON_MSG}</Button>
           </CardBody>
         </Card>
       );
@@ -213,11 +210,15 @@ class Home extends React.Component {
           <CardImg className="explore-shop-cardimg cardimg" src={shopItemData.shopItemImgSrc}/>
           <CardBody className="explore-shop-cardbody cardbody">
             <div className="explore-shop-cardtitle-wrapper cardtitle-wrapper">
-              <CardTitle className="explore-shop-cardtitle cardtitle cardtext-color">{shopItemData.shopItemTitle}</CardTitle>
-              <CardSubtitle className="explore-shop-cardsubtitle cardsubtitle">{shopItemData.shopItemSubtitle}</CardSubtitle>
+              <CardTitle
+                className="explore-shop-cardtitle cardtitle cardtext-color">{shopItemData.shopItemTitle}</CardTitle>
+              <CardSubtitle
+                className="explore-shop-cardsubtitle cardsubtitle">{shopItemData.shopItemSubtitle}</CardSubtitle>
             </div>
-            <CardText className="explore-shop-text cardtext cardtext-color">{shopItemData.shopItemText}</CardText>
-            <Button color="primary" className="explore-shop-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_SHOP_CARD_BUTTON_MSG}</Button>
+            <CardText
+              className="explore-shop-text cardtext cardtext-color">{shopItemData.shopItemText}</CardText>
+            <Button color="primary"
+                    className="explore-shop-button cardbutton">{MSG_STRING_CONSTANTS.HOME_EXPLORE_SHOWCASE_SHOP_CARD_BUTTON_MSG}</Button>
           </CardBody>
         </Card>
       );
@@ -238,19 +239,19 @@ class Home extends React.Component {
         </div>
       </div>
     );
-  }
+  };
 
-  render () {
+  render() {
     return (
       <div className="home-page page-container">
-        <CustomNavbar />
+        <CustomNavbar/>
         <div className="home-page-content content container">
           {this.renderMiniCharacterOverview()}
           {this.renderBattleShowcase()}
           {this.renderExploreShowcase()}
         </div>
       </div>
-    )
+    );
   }
 }
 

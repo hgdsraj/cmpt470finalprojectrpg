@@ -1,21 +1,9 @@
 import React from 'react';
-import {
-  Link
-} from 'react-router-dom';
-import {
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button
-} from 'reactstrap';
+import {Link} from 'react-router-dom';
+import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
 import CustomPopover from '../CustomPopover/CustomPopover';
 import AlertList from '../AlertList/AlertList';
-import {
-  NUMERIC_CONSTANTS,
-  MSG_STRING_CONSTANTS,
-  URL_CONSTANTS
-} from '../../Constants/Constants';
+import {MSG_STRING_CONSTANTS, NUMERIC_CONSTANTS, URL_CONSTANTS} from '../../Constants/Constants';
 import './Signup.scss';
 
 class Signup extends React.Component {
@@ -30,10 +18,10 @@ class Signup extends React.Component {
       isPasswordLongEnough: false,
       isSignupPopoverOpen: false,
       lastSignupStatus: 0
-    }
+    };
   }
 
-  componentWillMount () {
+  componentWillMount() {
     document.addEventListener('mousedown', this.handleClick);
   }
 
@@ -64,7 +52,7 @@ class Signup extends React.Component {
     const body = await response.json();
     console.log(body);
     // TODO: Redirect to create character page (once it is built)
-  }
+  };
 
   checkIfUsernameExists = async (username) => {
     let rootUrl = URL_CONSTANTS.GET_API_USERS_USERNAME;
@@ -74,7 +62,7 @@ class Signup extends React.Component {
       }
     });
     return response.status === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200;
-  }
+  };
 
   // Small util function to handle clicks outside of the popover
   handleClick = (event) => {
@@ -82,7 +70,7 @@ class Signup extends React.Component {
       return;
     }
     this.handleCloseSignupPopover();
-  }
+  };
 
   handleChangeUsername = async (event) => {
     const username = event.target.value;
@@ -95,7 +83,7 @@ class Signup extends React.Component {
       isUsernameTaken,
       isUsernameLongEnough: username ? username.length >= NUMERIC_CONSTANTS.MINIMUM_USERNAME_LENGTH : false
     });
-  }
+  };
 
   handleChangePassword = (event) => {
     const password = event.target.value;
@@ -103,27 +91,27 @@ class Signup extends React.Component {
       password,
       isPasswordLongEnough: password.length >= NUMERIC_CONSTANTS.MINIMUM_PASSWORD_LENGTH
     });
-  }
+  };
 
   handleChangeFullname = (event) => {
     const fullname = event.target.value;
     this.setState({
       fullname
     });
-  }
+  };
 
   handleOpenSignupPopover = (lastSignupStatus) => {
     this.setState({
       isSignupPopoverOpen: true,
       lastSignupStatus
     });
-  }
+  };
 
   handleCloseSignupPopover = () => {
     this.setState({
       isSignupPopoverOpen: false
     });
-  }
+  };
 
   renderUsernameAlertList = () => {
     const messages = [];
@@ -135,9 +123,9 @@ class Signup extends React.Component {
       return null;
     }
     return (
-      <AlertList messages={messages} isErrorAlertList={true} />
+      <AlertList messages={messages} isErrorAlertList={true}/>
     );
-  }
+  };
 
   renderPasswordAlertList = () => {
     const messages = [];
@@ -147,9 +135,9 @@ class Signup extends React.Component {
       return null;
     }
     return (
-      <AlertList messages={messages} isErrorAlertList={true} />
+      <AlertList messages={messages} isErrorAlertList={true}/>
     );
-  }
+  };
 
   renderSignupPopover = () => {
     const signupPopoverHeaderMessage = MSG_STRING_CONSTANTS.SIGNUP_UNSUCCESSFUL_POPOVER_MSG;
@@ -174,33 +162,36 @@ class Signup extends React.Component {
         />
       </div>
     );
-  } 
+  };
 
-  render () {
+  render() {
     return (
       <div className="signup-page page-container">
         <div className="full-viewport centered content signup-centered-content container">
           <h1>{MSG_STRING_CONSTANTS.SIGNUP_SIGNUP_HEADER_MSG}</h1>
           <Form onSubmit={this.handleSignup}>
             <FormGroup className="signup-form-group">
-              <Label for="username" className="form-label signup-form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
-              <Input type="username" id="username" onChange={this.handleChangeUsername} />
+              <Label for="username"
+                     className="form-label signup-form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
+              <Input type="username" id="username" onChange={this.handleChangeUsername}/>
               {this.renderUsernameAlertList()}
             </FormGroup>
             <FormGroup className="signup-form-group">
-              <Label for="password" className="form-label signup-form-label">{MSG_STRING_CONSTANTS.PASSWORD_LABEL_MSG}</Label>
-              <Input type="password" id="password" onChange={this.handleChangePassword} />
+              <Label for="password"
+                     className="form-label signup-form-label">{MSG_STRING_CONSTANTS.PASSWORD_LABEL_MSG}</Label>
+              <Input type="password" id="password" onChange={this.handleChangePassword}/>
               {this.renderPasswordAlertList()}
             </FormGroup>
             <FormGroup className="signup-form-group">
-              <Label for="fullname" className="form-label signup-form-label">{MSG_STRING_CONSTANTS.FULL_NAME_LABEL}</Label>
-              <Input type="fullname" id="fullname" onChange={this.handleChangeFullname} />
+              <Label for="fullname"
+                     className="form-label signup-form-label">{MSG_STRING_CONSTANTS.FULL_NAME_LABEL}</Label>
+              <Input type="fullname" id="fullname" onChange={this.handleChangeFullname}/>
             </FormGroup>
             <div className="signup-button-row">
               <Button
                 color="primary"
                 disabled={this.state.isUsernameTaken ||
-                  !(this.state.isUsernameLongEnough && this.state.isPasswordLongEnough)}
+                !(this.state.isUsernameLongEnough && this.state.isPasswordLongEnough)}
                 id="signup"
                 className="signup-button"
               >
@@ -216,10 +207,10 @@ class Signup extends React.Component {
           </Form>
         </div>
       </div>
-    )
+    );
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClick);
   }
 }

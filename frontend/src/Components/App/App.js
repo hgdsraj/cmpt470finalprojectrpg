@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  HashRouter as Router,
-  Route
-} from 'react-router-dom'
+import {HashRouter as Router, Route} from 'react-router-dom';
 import Login from '../Login/Login';
 import Signup from '../Signup/Signup';
 import Home from '../Home/Home';
@@ -20,21 +17,21 @@ class App extends React.Component {
     this.setState({
       isLoggedIn: true
     });
-  }
+  };
 
   handleLogout = () => {
     this.setState({
       isLoggedIn: false
     });
-  }
+  };
 
   render() {
     return (
       <Router>
-        <Route exact path="/" component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/createcharacter" component={CreateCharacter} />
+        <Route exact path="/" component={Home}/>
+        <Route path="/login" component={Login}/>
+        <Route path="/signup" component={Signup}/>
+        <Route path="/createcharacter" component={CreateCharacter}/>
       </Router>
     );
   }

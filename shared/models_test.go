@@ -304,7 +304,6 @@ func TestCharacter_Validate(t *testing.T) {
 	charismaTooLow()
 }
 
-
 func TestCharacter_CalculateStats(t *testing.T) {
 	character := Character{
 		CharacterId:   1,

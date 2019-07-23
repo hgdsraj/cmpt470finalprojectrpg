@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -8,7 +7,7 @@ import (
 
 // Up is executed when this migration is applied
 func Up_20190718122322(txn *sql.Tx) {
-	
+
 	_, err := txn.Exec(`ALTER TABLE characters
 						ADD COLUMN stamina INT NOT NULL DEFAULT 0,
 						ADD COLUMN strength INT NOT NULL DEFAULT 0,

@@ -1,27 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  Popover,
-  PopoverHeader,
-  PopoverBody
-} from 'reactstrap';
+import {Button, Popover, PopoverBody, PopoverHeader} from 'reactstrap';
 import './CustomPopover.scss';
-import {
-  ReactComponent as Clear
-} from '../../Assets/CloseIcon24px.svg';
+import {ReactComponent as Clear} from '../../Assets/CloseIcon24px.svg';
 
 // Functional wrapper component for the reactstrap popover
 function CustomPopover(props) {
   let closeButton = null;
-  let popoverHeaderClassName = 'popover-header'
+  let popoverHeaderClassName = 'popover-header';
   if (props.isErrorPopover) {
-    popoverHeaderClassName += ' popover-header-error'
+    popoverHeaderClassName += ' popover-header-error';
   }
   if (props.hasCloseButton) {
     closeButton = <Button className="popover-close-button" onClick={props.handleClose}>
-      <Clear />
-    </Button>
+      <Clear/>
+    </Button>;
   }
   return (
     <Popover placement={props.placement} target={props.target} className={props.className} isOpen={props.isOpen}>

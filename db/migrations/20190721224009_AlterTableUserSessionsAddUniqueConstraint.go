@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -13,7 +12,6 @@ func Up_20190721224009(txn *sql.Tx) {
 	if err != nil {
 		log.Fatalf("fatal error while running usersessions userid uniqueness migration %v", err)
 	}
-
 }
 
 // Down is executed when this migration is rolled back
@@ -23,5 +21,4 @@ func Down_20190721224009(txn *sql.Tx) {
 	if err != nil {
 		log.Fatalf("fatal error while running usersessions userid uniqueness migration %v", err)
 	}
-
 }

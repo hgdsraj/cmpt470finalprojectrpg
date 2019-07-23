@@ -24,7 +24,7 @@ func loggingMiddleware(next http.Handler) http.Handler {
 func main() {
 
 	r := mux.NewRouter()
-	if 	production := os.Getenv("HEROKU"); production == "" {
+	if production := os.Getenv("HEROKU"); production == "" {
 		r.Use(loggingMiddleware)
 	}
 	r.HandleFunc("/config.json", handlers.HandleConfig)
