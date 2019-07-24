@@ -1,12 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	h "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
-
 	"sfu.ca/apruner/cmpt470finalprojectrpg/db"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/handlers"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
 
 	"fmt"
 	"log"
@@ -21,9 +21,72 @@ func loggingMiddleware(next http.Handler) http.Handler {
 	return h.CombinedLoggingHandler(os.Stdout, next)
 }
 
-func main() {
+func healthCheck(database *sql.DB, server *http.Server) {
+	const maxTicks = 100
+	var currentTicks int64 = 0
+	for {
+		currentTicks += 1
+		log.Println(currentTicks)
+		_, err := database.Query("SELECT 1 FROM Users")
+		if err == nil {
+			break
+		} else if currentTicks >= maxTicks {
+			log.Fatalf("Could not connect to database successfully")
+		}
+		time.Sleep(2*time.Second)
+	}
+	err := server.Close()
+	log.Println(err)
+}
 
+func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	_, err := w.Write([]byte("Server is starting!"))
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func getServer(router *mux.Router) *http.Server{
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+		log.Printf("no port supplied. defaulting to %v\n", port)
+	}
+	host := os.Getenv("HOST")
+	if host == "" {
+		host = "0.0.0.0"
+		log.Printf("no HOST supplied. defaulting to %v\n", host)
+	}
+	log.Printf("http server created on %v:%v\n", host, port)
+
+	return &http.Server{
+		Handler:      router,
+		Addr:         fmt.Sprintf("%v:%v", host, port),
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+
+}
+
+func main() {
+	database := db.OpenDb()
+	handlers.Database = database
+	helpers.Database = database
 	r := mux.NewRouter()
+	r.PathPrefix("/").HandlerFunc(healthCheckHandler)
+	srv := getServer(r)
+	go func() {
+		var err error
+		defer func() {
+			if err != nil {
+				log.Println(err)
+			}
+		}()
+		err = srv.ListenAndServe()
+	}()
+	healthCheck(database, srv)
+
+	r = mux.NewRouter()
 	if production := os.Getenv("HEROKU"); production == "" {
 		r.Use(loggingMiddleware)
 	}
@@ -52,29 +115,9 @@ func main() {
 	// Start listening for incoming chat messages
 	//go handlers.HandleMessages()
 
-	database := db.OpenDb()
-	handlers.Database = database
-	helpers.Database = database
 	handlers.SetupConfig()
 	// Configure websocket route
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8000"
-		log.Printf("no port supplied. defaulting to %v\n", port)
-	}
-	host := os.Getenv("HOST")
-	if host == "" {
-		host = "0.0.0.0"
-		log.Printf("no HOST supplied. defaulting to %v\n", host)
-	}
-	srv := &http.Server{
-		Handler:      r,
-		Addr:         fmt.Sprintf("%v:%v", host, port),
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
-	log.Printf("http server starting on %v:%v\n", host, port)
+	srv = getServer(r)
 
 	log.Fatal(srv.ListenAndServe())
 }

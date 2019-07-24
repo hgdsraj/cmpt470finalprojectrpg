@@ -1,0 +1,36 @@
+
+version: '3'
+volumes:
+  postgres_data: {}
+services:
+  app:
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - migration
+      - db
+  migration:
+    build:
+      context: .
+      dockerfile: migration.Dockerfile
+    depends_on:
+      - db
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: rpg
+      POSTGRES_PASSWORD: game
+      POSTGRES_DB: rpggame
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+#  web:
+#    build:
+#      context: .
+#      dockerfile: nginx.Dockerfile
+#    depends_on:
+#      - app
+#    ports:
+#      - 80:80

@@ -34,8 +34,9 @@ func (c *DatabaseConfig) setupConfig() error {
 	dbyml := DataBaseYamlParsing{}
 	err = yaml.Unmarshal(yamlFile, &dbyml)
 	c.Open = dbyml.Development.Open
-	c.Open += " host=localhost port=5432"
-
+	if os.Getenv("COMPOSE") == "" {
+		c.Open += " host=localhost port=5432"
+	}
 	if err != nil {
 		log.Fatalf("Unmarshal: %v", err)
 	}
