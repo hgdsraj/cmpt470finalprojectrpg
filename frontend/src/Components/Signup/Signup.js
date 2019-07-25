@@ -3,7 +3,14 @@ import {Link} from 'react-router-dom';
 import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
 import CustomPopover from '../CustomPopover/CustomPopover';
 import AlertList from '../AlertList/AlertList';
-import {MSG_STRING_CONSTANTS, NUMERIC_CONSTANTS, URL_CONSTANTS} from '../../Constants/Constants';
+import {
+  STRINGS
+} from '../../Constants/SignupConstants';
+import {
+  GLOBAL_NUMBERS,
+  GLOBAL_STRINGS,
+  GLOBAL_URLS
+} from '../../Constants/GlobalConstants';
 import './Signup.scss';
 
 class Signup extends React.Component {
@@ -28,7 +35,7 @@ class Signup extends React.Component {
   // Signup handler, hit the create new user backend and redirect to the create character page if successful
   handleSignup = async (event) => {
     event.preventDefault();
-    const response = await fetch(URL_CONSTANTS.POST_API_USERS_CREATE, {
+    const response = await fetch(GLOBAL_URLS.POST_API_USERS_CREATE, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -40,13 +47,13 @@ class Signup extends React.Component {
         fullname: this.state.fullname
       })
     });
-    if (response.status !== NUMERIC_CONSTANTS.HTTP_STATUS_CODE_201) {
+    if (response.status !== GLOBAL_NUMBERS.HTTP_STATUS_CODE_201) {
       this.handleOpenSignupPopover(response.status);
       return;
     } else {
       this.handleCloseSignupPopover();
       this.setState({
-        lastSignupStatus: NUMERIC_CONSTANTS.HTTP_STATUS_CODE_201
+        lastSignupStatus: GLOBAL_NUMBERS.HTTP_STATUS_CODE_201
       });
     }
     const body = await response.json();
@@ -55,13 +62,13 @@ class Signup extends React.Component {
   };
 
   checkIfUsernameExists = async (username) => {
-    let rootUrl = URL_CONSTANTS.GET_API_USERS_USERNAME;
+    let rootUrl = GLOBAL_URLS.GET_API_USERS_USERNAME;
     let response = await fetch(`${rootUrl}${username}`, {
       headers: {
         'Accept': 'application/json'
       }
     });
-    return response.status === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_200;
+    return response.status === GLOBAL_NUMBERS.HTTP_STATUS_CODE_200;
   };
 
   // Small util function to handle clicks outside of the popover
@@ -81,7 +88,7 @@ class Signup extends React.Component {
     this.setState({
       username,
       isUsernameTaken,
-      isUsernameLongEnough: username ? username.length >= NUMERIC_CONSTANTS.MINIMUM_USERNAME_LENGTH : false
+      isUsernameLongEnough: username ? username.length >= GLOBAL_NUMBERS.MINIMUM_USERNAME_LENGTH : false
     });
   };
 
@@ -89,7 +96,7 @@ class Signup extends React.Component {
     const password = event.target.value;
     this.setState({
       password,
-      isPasswordLongEnough: password.length >= NUMERIC_CONSTANTS.MINIMUM_PASSWORD_LENGTH
+      isPasswordLongEnough: password.length >= GLOBAL_NUMBERS.MINIMUM_PASSWORD_LENGTH
     });
   };
 
@@ -116,9 +123,9 @@ class Signup extends React.Component {
   renderUsernameAlertList = () => {
     const messages = [];
     if (!this.state.isUsernameLongEnough) {
-      messages.push(MSG_STRING_CONSTANTS.USERNAME_TOO_SHORT_ALERT_MSG);
+      messages.push(GLOBAL_STRINGS.USERNAME_TOO_SHORT_ALERT_MSG);
     } else if (this.state.isUsernameTaken) {
-      messages.push(MSG_STRING_CONSTANTS.USERNAME_TAKEN_ALERT_MSG);
+      messages.push(GLOBAL_STRINGS.USERNAME_TAKEN_ALERT_MSG);
     } else {
       return null;
     }
@@ -130,7 +137,7 @@ class Signup extends React.Component {
   renderPasswordAlertList = () => {
     const messages = [];
     if (!this.state.isPasswordLongEnough) {
-      messages.push(MSG_STRING_CONSTANTS.PASSWORD_TOO_SHORT_ALERT_MSG);
+      messages.push(GLOBAL_STRINGS.PASSWORD_TOO_SHORT_ALERT_MSG);
     } else {
       return null;
     }
@@ -140,12 +147,12 @@ class Signup extends React.Component {
   };
 
   renderSignupPopover = () => {
-    const signupPopoverHeaderMessage = MSG_STRING_CONSTANTS.SIGNUP_UNSUCCESSFUL_POPOVER_MSG;
+    const signupPopoverHeaderMessage = STRINGS.SIGNUP_UNSUCCESSFUL_POPOVER_MSG;
     let signupPopoverBodyMessage;
-    if (this.state.lastSignupStatus === NUMERIC_CONSTANTS.HTTP_STATUS_CODE_409) {
-      signupPopoverBodyMessage = MSG_STRING_CONSTANTS.SIGNUP_USERNAME_TAKEN_POPOVER_MSG;
+    if (this.state.lastSignupStatus === GLOBAL_NUMBERS.HTTP_STATUS_CODE_409) {
+      signupPopoverBodyMessage = STRINGS.SIGNUP_USERNAME_TAKEN_POPOVER_MSG;
     } else {
-      signupPopoverBodyMessage = MSG_STRING_CONSTANTS.UNEXPECTED_ERROR_MSG;
+      signupPopoverBodyMessage = GLOBAL_STRINGS.UNEXPECTED_ERROR_MSG;
     }
 
     return (
@@ -168,24 +175,21 @@ class Signup extends React.Component {
     return (
       <div className="signup-page page-container">
         <div className="full-viewport centered content signup-centered-content container">
-          <h1>{MSG_STRING_CONSTANTS.SIGNUP_SIGNUP_HEADER_MSG}</h1>
+          <h1>{STRINGS.SIGNUP_SIGNUP_HEADER_MSG}</h1>
           <Form onSubmit={this.handleSignup}>
             <FormGroup className="signup-form-group">
-              <Label for="username"
-                     className="form-label signup-form-label">{MSG_STRING_CONSTANTS.USERNAME_LABEL_MSG}</Label>
-              <Input type="username" id="username" onChange={this.handleChangeUsername}/>
+              <Label for="username" className="form-label signup-form-label">{GLOBAL_STRINGS.USERNAME_LABEL_MSG}</Label>
+              <Input type="username" id="username" onChange={this.handleChangeUsername} />
               {this.renderUsernameAlertList()}
             </FormGroup>
             <FormGroup className="signup-form-group">
-              <Label for="password"
-                     className="form-label signup-form-label">{MSG_STRING_CONSTANTS.PASSWORD_LABEL_MSG}</Label>
-              <Input type="password" id="password" onChange={this.handleChangePassword}/>
+              <Label for="password" className="form-label signup-form-label">{GLOBAL_STRINGS.PASSWORD_LABEL_MSG}</Label>
+              <Input type="password" id="password" onChange={this.handleChangePassword} />
               {this.renderPasswordAlertList()}
             </FormGroup>
             <FormGroup className="signup-form-group">
-              <Label for="fullname"
-                     className="form-label signup-form-label">{MSG_STRING_CONSTANTS.FULL_NAME_LABEL}</Label>
-              <Input type="fullname" id="fullname" onChange={this.handleChangeFullname}/>
+              <Label for="fullname" className="form-label signup-form-label">{GLOBAL_STRINGS.FULL_NAME_LABEL}</Label>
+              <Input type="fullname" id="fullname" onChange={this.handleChangeFullname} />
             </FormGroup>
             <div className="signup-button-row">
               <Button
@@ -195,12 +199,12 @@ class Signup extends React.Component {
                 id="signup"
                 className="signup-button"
               >
-                {MSG_STRING_CONSTANTS.SIGNUP_BUTTON_MSG}
+                {STRINGS.SIGNUP_BUTTON_MSG}
               </Button>
               {this.renderSignupPopover()}
               <Link to="/">
                 <Button color="primary" className="back-to-login-button">
-                  {MSG_STRING_CONSTANTS.SIGNUP_BACK_TO_LOGIN_MSG}
+                  {STRINGS.SIGNUP_BACK_TO_LOGIN_MSG}
                 </Button>
               </Link>
             </div>

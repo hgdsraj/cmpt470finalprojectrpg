@@ -1,0 +1,23 @@
+const STRINGS = {
+  HOME_MINI_CHAR_OVERVIEW_HEADER_MSG: 'Hello, ',
+  HOME_MINI_CHAR_OVERVIEW_STAT_MSG: 'Stat',
+  HOME_MINI_CHAR_OVERVIEW_VALUE_MSG: 'Value',
+  HOME_MINI_CHAR_OVERVIEW_HEALTH_STAT_MSG: 'Health',
+  HOME_MINI_CHAR_OVERVIEW_ATTACK_STAT_MSG: 'Attack',
+  HOME_MINI_CHAR_OVERVIEW_DEFENSE_STAT_MSG: 'Defense',
+  HOME_MINI_CHAR_OVERVIEW_MAGIC_ATTACK_STAT_MSG: 'Magic Attack',
+  HOME_MINI_CHAR_OVERVIEW_MAGIC_DEFENSE_STAT_MSG: 'Magic Defense',
+  HOME_BATTLE_SHOWCASE_TITLE_MSG: 'Battle (Coming Soon)',
+  HOME_BATTLE_SHOWCASE_SUBTITLE_MSG: 'Battle the following NPCs to level up your character in combat',
+  HOME_BATTLE_SHOWCASE_CARD_BUTTON_MSG: 'Fight',
+  HOME_EXPLORE_SHOWCASE_TITLE_MSG: 'Explore (Coming Soon)',
+  HOME_EXPLORE_SHOWCASE_MAP_SUBTITLE_MSG: 'Explore the following maps to find new items and complete quests',
+  HOME_EXPLORE_SHOWCASE_SHOP_SUBTITLE_MSG: 'Or visit the shop to purchase items that you may find useful',
+  HOME_EXPLORE_SHOWCASE_MAP_CARD_BUTTON_MSG: 'Explore',
+  HOME_EXPLORE_SHOWCASE_SHOP_CARD_BUTTON_MSG: 'Purchase',
+  HOME_LEVEL_MSG: 'Level '
+};
+
+export {
+  STRINGS
+}
