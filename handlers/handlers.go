@@ -141,6 +141,9 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 
 	sessionToken := uuid.New().String()
 	sessionHash, err := bcrypt.GenerateFromPassword([]byte(sessionToken+passwordSalt), bcrypt.MinCost)
+	if err != nil {
+		helpers.LogAndSendErrorMessage(w, err.Error(), http.StatusInternalServerError)
+	}
 	selectUserIdStatement := `SELECT 1 FROM usersessions WHERE userid = $1`
 	row = Database.QueryRow(selectUserIdStatement, queryUser.Id)
 	var temp int
@@ -170,6 +173,12 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 		Path:  "/api/",
 		//TODO probably should expire: Expires: time.Now().Add(3600 * time.Second),
 	})
+	http.SetCookie(w, &http.Cookie{
+		Name:  "username",
+		Value: string(queryUser.Username),
+		Path:  "/api/",
+		//TODO probably should expire: Expires: time.Now().Add(3600 * time.Second),
+	})
 	resp, err := json.Marshal(queryUser)
 	if err != nil {
 		helpers.LogAndSendErrorMessage(w, "Could not marshal JSON body!", http.StatusInternalServerError)
@@ -184,9 +193,8 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleTestUserLoggedIn(w http.ResponseWriter, r *http.Request) {
-	username := mux.Vars(r)["username"]
-	if !helpers.UserLoggedIn(username, r) {
-		helpers.LogAndSendErrorMessage(w, "User not authenticated, please log in!", http.StatusForbidden)
+	if _, err := helpers.UserLoggedIn(r); err != nil {
+		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("User not authenticated, please log in! error: %v", err), http.StatusForbidden)
 		return
 	}
 	responseToEncode := shared.Response{"User is logged in"}
@@ -247,9 +255,12 @@ func HandleUserCreate(w http.ResponseWriter, r *http.Request) {
 // HandleCharacterCreate takes name and uid values
 func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
-	username := mux.Vars(r)["username"]
-	if !helpers.UserLoggedIn(username, r) {
-		helpers.LogAndSendErrorMessage(w, "User not authenticated, please log in!", http.StatusForbidden)
+	username, err := helpers.GetUsername(r)
+	if err != nil {
+		helpers.LogAndSendErrorMessage(w, err.Error(), http.StatusUnauthorized)
+	}
+	if _, err := helpers.UserLoggedIn(r); err != nil {
+		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("User not authenticated, please log in! error: %v", err), http.StatusForbidden)
 		return
 	}
 	// TODO: maybe make a separate constructor function for this? or make default values in the database for new
@@ -259,7 +270,7 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&character) // store uid and name
+	err = decoder.Decode(&character) // store uid and name
 	if err != nil {
 		helpers.LogAndSendErrorMessage(w, "Could not process JSON body!", http.StatusBadRequest)
 		return
@@ -318,14 +329,18 @@ func HandleCharacterCreate(w http.ResponseWriter, r *http.Request) {
 
 func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
-	username := mux.Vars(r)["username"]
-	if !helpers.UserLoggedIn(username, r) {
-		helpers.LogAndSendErrorMessage(w, "User not authenticated, please log in!", http.StatusForbidden)
+	if _, err := helpers.UserLoggedIn(r); err != nil {
+		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("User not authenticated, please log in! error: %v", err), http.StatusForbidden)
 		return
 	}
+	username, err := helpers.GetUsername(r)
+	if err != nil {
+		helpers.LogAndSendErrorMessage(w, err.Error(), http.StatusUnauthorized)
+	}
+
 	var userId int
 	row := Database.QueryRow(`SELECT id  FROM users WHERE username = $1`, username)
-	err := row.Scan(&userId)
+	err = row.Scan(&userId)
 	if err != nil {
 		var strErr string
 		var header int

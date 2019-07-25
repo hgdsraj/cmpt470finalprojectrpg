@@ -2,9 +2,10 @@
 package handlers
 
 import (
+	"database/sql"
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gorilla/mux"
-	"os"
+	"golang.org/x/crypto/bcrypt"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/shared"
 
@@ -63,6 +64,7 @@ func TestHandleCharacterCreate(t *testing.T) {
 
 	// set database to be our mock db
 	Database = db
+	helpers.Database = db
 	defer func() {
 		// we make sure that all expectations were met
 		if err := mock.ExpectationsWereMet(); err != nil {
@@ -78,20 +80,28 @@ func TestHandleCharacterCreate(t *testing.T) {
 	}
 
 	testBadBody := func() {
+		salt := "salt"
+		sessionKey := "key"
+		passwordSaltRows := sqlmock.NewRows([]string{"passwordsalt", "id"}).AddRow("salt", user.Id)
+		hashedKey, err := bcrypt.GenerateFromPassword([]byte(sessionKey+salt), bcrypt.MinCost)
+		if err != nil {
+			t.Fatal(err)
+		}
+		sessionKeyRows := sqlmock.NewRows([]string{"sessionkey"}).AddRow(hashedKey)
+		mock.ExpectQuery("SELECT").WillReturnRows(passwordSaltRows)
+		mock.ExpectQuery("SELECT").WillReturnRows(sessionKeyRows)
+
 		req, err := http.NewRequest("POST", "/characters/create", bytes.NewReader([]byte("{zz}")))
 		if err != nil {
 			t.Fatal(err)
 		}
 
 		rr := httptest.NewRecorder()
+		http.SetCookie(rr, &http.Cookie{Name: "username", Value: "ilon"})
+		http.SetCookie(rr, &http.Cookie{Name: "session_token", Value: sessionKey})
+		req.Header = http.Header{"Cookie": rr.HeaderMap["Set-Cookie"]}
+
 		handler := http.HandlerFunc(HandleCharacterCreate)
-
-		vars := map[string]string{
-			"username": user.Username,
-		}
-
-		// Hack to try to fake gorilla/mux vars
-		req = mux.SetURLVars(req, vars)
 
 		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 		// directly and pass in our Request and ResponseRecorder.
@@ -109,6 +119,17 @@ func TestHandleCharacterCreate(t *testing.T) {
 	}
 
 	testSuccessfulCreation := func() {
+		salt := "salt"
+		sessionKey := "key"
+		passwordSaltRows := sqlmock.NewRows([]string{"passwordsalt", "id"}).AddRow("salt", user.Id)
+		hashedKey, err := bcrypt.GenerateFromPassword([]byte(sessionKey+salt), bcrypt.MinCost)
+		if err != nil {
+			t.Fatal(err)
+		}
+		sessionKeyRows := sqlmock.NewRows([]string{"sessionkey"}).AddRow(hashedKey)
+		mock.ExpectQuery("SELECT").WillReturnRows(passwordSaltRows)
+		mock.ExpectQuery("SELECT").WillReturnRows(sessionKeyRows)
+
 		character := shared.Character{
 			CharacterId:   1,
 			CharacterName: "elon",
@@ -140,14 +161,11 @@ func TestHandleCharacterCreate(t *testing.T) {
 		}
 
 		rr := httptest.NewRecorder()
+		http.SetCookie(rr, &http.Cookie{Name: "username", Value: "ilon"})
+		http.SetCookie(rr, &http.Cookie{Name: "session_token", Value: sessionKey})
+		req.Header = http.Header{"Cookie": rr.HeaderMap["Set-Cookie"]}
+
 		handler := http.HandlerFunc(HandleCharacterCreate)
-
-		vars := map[string]string{
-			"username": user.Username,
-		}
-
-		// Hack to try to fake gorilla/mux vars
-		req = mux.SetURLVars(req, vars)
 
 		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 		// directly and pass in our Request and ResponseRecorder.
@@ -169,6 +187,17 @@ func TestHandleCharacterCreate(t *testing.T) {
 	}
 
 	testInvalidCharacter := func() {
+		salt := "salt"
+		sessionKey := "key"
+		passwordSaltRows := sqlmock.NewRows([]string{"passwordsalt", "id"}).AddRow("salt", user.Id)
+		hashedKey, err := bcrypt.GenerateFromPassword([]byte(sessionKey+salt), bcrypt.MinCost)
+		if err != nil {
+			t.Fatal(err)
+		}
+		sessionKeyRows := sqlmock.NewRows([]string{"sessionkey"}).AddRow(hashedKey)
+		mock.ExpectQuery("SELECT").WillReturnRows(passwordSaltRows)
+		mock.ExpectQuery("SELECT").WillReturnRows(sessionKeyRows)
+
 		character := shared.Character{
 			CharacterId:   1,
 			CharacterName: "elon",
@@ -192,14 +221,11 @@ func TestHandleCharacterCreate(t *testing.T) {
 		}
 
 		rr := httptest.NewRecorder()
+		http.SetCookie(rr, &http.Cookie{Name: "username", Value: "ilon"})
+		http.SetCookie(rr, &http.Cookie{Name: "session_token", Value: sessionKey})
+		req.Header = http.Header{"Cookie": rr.HeaderMap["Set-Cookie"]}
+
 		handler := http.HandlerFunc(HandleCharacterCreate)
-
-		vars := map[string]string{
-			"username": user.Username,
-		}
-
-		// Hack to try to fake gorilla/mux vars
-		req = mux.SetURLVars(req, vars)
 
 		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 		// directly and pass in our Request and ResponseRecorder.
@@ -218,6 +244,17 @@ func TestHandleCharacterCreate(t *testing.T) {
 	}
 
 	testAbilitiesCalculated := func() {
+		salt := "salt"
+		sessionKey := "key"
+		passwordSaltRows := sqlmock.NewRows([]string{"passwordsalt", "id"}).AddRow("salt", user.Id)
+		hashedKey, err := bcrypt.GenerateFromPassword([]byte(sessionKey+salt), bcrypt.MinCost)
+		if err != nil {
+			t.Fatal(err)
+		}
+		sessionKeyRows := sqlmock.NewRows([]string{"sessionkey"}).AddRow(hashedKey)
+		mock.ExpectQuery("SELECT").WillReturnRows(passwordSaltRows)
+		mock.ExpectQuery("SELECT").WillReturnRows(sessionKeyRows)
+
 		character := shared.Character{
 			CharacterId:   1,
 			CharacterName: "elon",
@@ -249,14 +286,11 @@ func TestHandleCharacterCreate(t *testing.T) {
 		}
 
 		rr := httptest.NewRecorder()
+		http.SetCookie(rr, &http.Cookie{Name: "username", Value: "ilon"})
+		http.SetCookie(rr, &http.Cookie{Name: "session_token", Value: sessionKey})
+		req.Header = http.Header{"Cookie": rr.HeaderMap["Set-Cookie"]}
+
 		handler := http.HandlerFunc(HandleCharacterCreate)
-
-		vars := map[string]string{
-			"username": user.Username,
-		}
-
-		// Hack to try to fake gorilla/mux vars
-		req = mux.SetURLVars(req, vars)
 
 		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 		// directly and pass in our Request and ResponseRecorder.
@@ -304,6 +338,7 @@ func TestHandleUserCreate(t *testing.T) {
 
 	// set database to be our mock db
 	Database = db
+	helpers.Database = db
 	defer func() {
 		// we make sure that all expectations were met
 		if err := mock.ExpectationsWereMet(); err != nil {
@@ -428,6 +463,7 @@ func TestHandleUserExists(t *testing.T) {
 
 	// set database to be our mock db
 	Database = db
+	helpers.Database = db
 	defer func() {
 		// we make sure that all expectations were met
 		if err := mock.ExpectationsWereMet(); err != nil {
@@ -516,10 +552,83 @@ func TestHandleUserExists(t *testing.T) {
 }
 
 func TestHandleUserLogin(t *testing.T) {
-	// Todo: how to handle bcrypt?
-	//bcrypt.CompareHashAndPassword = func(a, b []byte) error {
-	//	return nil
-	//}
+	SetupConfig()
+	db, mock, err := sqlmock.New()
+
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+
+	// set database to be our mock db
+	Database = db
+	helpers.Database = db
+	defer func() {
+		// we make sure that all expectations were met
+		if err := mock.ExpectationsWereMet(); err != nil {
+			t.Errorf("there were unfulfilled expectations: %s", err)
+		}
+	}()
+
+	user := shared.User{
+		Id:       420,
+		Username: "ilon",
+		Password: "mask",
+		FullName: "ilonmask",
+	}
+
+	salt := "salt"
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password+salt), bcrypt.MinCost)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	passwordSaltRows := sqlmock.NewRows([]string{"id", "username", "fullname", "passwordhash", "passwordsalt"}).
+		AddRow(user.Id, user.Username, user.FullName, hashedPassword, salt)
+	mock.ExpectQuery("SELECT").WillReturnRows(passwordSaltRows)
+	mock.ExpectQuery("SELECT").WillReturnError(sql.ErrNoRows)
+	mock.ExpectExec("INSERT").WillReturnResult(sqlmock.NewResult(1, 1))
+
+	marshalledUser, err := json.Marshal(user)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req, err := http.NewRequest("GET", "/users/login", bytes.NewReader(marshalledUser))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	req.Header = http.Header{"Cookie": rr.HeaderMap["Set-Cookie"]}
+
+	handler := http.HandlerFunc(HandleUserLogin)
+
+	// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
+	// directly and pass in our Request and ResponseRecorder.
+	handler.ServeHTTP(rr, req)
+
+	// Check the status code is what we expect.
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
+	}
+	responseUser := shared.User{}
+
+	err = json.Unmarshal(rr.Body.Bytes(), &responseUser)
+	if err != nil {
+		t.Fatalf("error unmarshalling user login response: %v\n", err)
+	}
+
+	expectedUser := shared.User{
+		Id:       user.Id,
+		Username: user.Username,
+		Password: "",
+		FullName: user.FullName,
+
+	}
+	if eq := reflect.DeepEqual(expectedUser, responseUser); !eq {
+		t.Fatalf("expectedUser not equal to responseUser\nexpected:\n%v\ngot:\n%v\n",
+			expectedUser, responseUser)
+	}
 }
 
 func TestHandleUserCharacters(t *testing.T) {
@@ -532,6 +641,7 @@ func TestHandleUserCharacters(t *testing.T) {
 
 	// set database to be our mock db
 	Database = db
+	helpers.Database = db
 	defer func() {
 		// we make sure that all expectations were met
 		if err := mock.ExpectationsWereMet(); err != nil {
@@ -564,6 +674,16 @@ func TestHandleUserCharacters(t *testing.T) {
 	}
 
 	testGetCharacters := func() {
+		salt := "salt"
+		sessionKey := "key"
+		passwordSaltRows := sqlmock.NewRows([]string{"passwordsalt", "id"}).AddRow("salt", user.Id)
+		hashedKey, err := bcrypt.GenerateFromPassword([]byte(sessionKey+salt), bcrypt.MinCost)
+		if err != nil {
+			t.Fatal(err)
+		}
+		sessionKeyRows := sqlmock.NewRows([]string{"sessionkey"}).AddRow(hashedKey)
+		mock.ExpectQuery("SELECT").WillReturnRows(passwordSaltRows)
+		mock.ExpectQuery("SELECT").WillReturnRows(sessionKeyRows)
 
 		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
 		characterRows := sqlmock.NewRows([]string{"characterid", "charactername", "attack", "defense", "health",
@@ -577,20 +697,17 @@ func TestHandleUserCharacters(t *testing.T) {
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 		mock.ExpectQuery("SELECT").WillReturnRows(characterRows)
 
-		req, err := http.NewRequest("GET", "/characters/ilon", nil)
+		req, err := http.NewRequest("GET", "/characters/", nil)
 		if err != nil {
 			t.Fatal(err)
 		}
 
 		rr := httptest.NewRecorder()
+		http.SetCookie(rr, &http.Cookie{Name: "username", Value: "ilon"})
+		http.SetCookie(rr, &http.Cookie{Name: "session_token", Value: sessionKey})
+		req.Header = http.Header{"Cookie": rr.HeaderMap["Set-Cookie"]}
+
 		handler := http.HandlerFunc(HandleUserCharacters)
-
-		vars := map[string]string{
-			"username": user.Username,
-		}
-
-		// Hack to try to fake gorilla/mux vars
-		req = mux.SetURLVars(req, vars)
 
 		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 		// directly and pass in our Request and ResponseRecorder.
@@ -618,25 +735,32 @@ func TestHandleUserCharacters(t *testing.T) {
 	}
 
 	testUserDoesntExist := func() {
+		salt := "salt"
+		sessionKey := "key"
+		passwordSaltRows := sqlmock.NewRows([]string{"passwordsalt", "id"}).AddRow("salt", user.Id)
+		hashedKey, err := bcrypt.GenerateFromPassword([]byte(sessionKey+salt), bcrypt.MinCost)
+		if err != nil {
+			t.Fatal(err)
+		}
+		sessionKeyRows := sqlmock.NewRows([]string{"sessionkey"}).AddRow(hashedKey)
+		mock.ExpectQuery("SELECT").WillReturnRows(passwordSaltRows)
+		mock.ExpectQuery("SELECT").WillReturnRows(sessionKeyRows)
 
 		userRows := sqlmock.NewRows([]string{"id"})
 
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 
-		req, err := http.NewRequest("GET", "/characters/ilon", nil)
+		req, err := http.NewRequest("GET", "/characters/", nil)
 		if err != nil {
 			t.Fatal(err)
 		}
 
 		rr := httptest.NewRecorder()
+		http.SetCookie(rr, &http.Cookie{Name: "username", Value: "ilon"})
+		http.SetCookie(rr, &http.Cookie{Name: "session_token", Value: sessionKey})
+		req.Header = http.Header{"Cookie": rr.HeaderMap["Set-Cookie"]}
+
 		handler := http.HandlerFunc(HandleUserCharacters)
-
-		vars := map[string]string{
-			"username": user.Username,
-		}
-
-		// Hack to try to fake gorilla/mux vars
-		req = mux.SetURLVars(req, vars)
 
 		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 		// directly and pass in our Request and ResponseRecorder.
@@ -653,11 +777,4 @@ func TestHandleUserCharacters(t *testing.T) {
 	testUserDoesntExist()
 
 	//TODO find a way to test that we don't get other users characters
-}
-
-func TestMain(m *testing.M) {
-	helpers.Test = true
-	code := m.Run()
-	helpers.Test = false // safety
-	os.Exit(code)
 }
