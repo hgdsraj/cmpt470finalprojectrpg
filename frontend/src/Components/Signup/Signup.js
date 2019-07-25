@@ -199,7 +199,7 @@ class Signup extends React.Component {
                 id="signup"
                 className="signup-button"
               >
-                {STRINGS.SIGNUP_BUTTON_MSG}
+                {STRINGS.SIGNUP_SIGNUP_BUTTON_MSG}
               </Button>
               {this.renderSignupPopover()}
               <Link to="/">
