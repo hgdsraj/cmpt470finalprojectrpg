@@ -219,8 +219,6 @@ class CreateCharacter extends React.Component {
 
   handleCreateCharacter = async (event) => {
     event.preventDefault();
-    // TODO: get the username from the session cookie once it is implemented
-    // NOTE: anothernewuser is just a placeholder user name for now. REMOVE THIS ASAP!
     const response = await fetch(`${GLOBAL_URLS.POST_API_CHARACTERS_CREATE}`, {
       method: 'POST',
       mode: 'cors',
