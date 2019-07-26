@@ -1,26 +1,26 @@
-const NUMBERS = {
-  CREATE_CHARACTER_STAT_INDEX_MAP: {
-    'stamina': 0,
-    'strength': 1,
-    'agility': 2,
-    'wisdom': 3,
-    'charisma': 4
-  },
-  CREATE_CHARACTER_MIN_STAT_VALUES: [
-    12,
-    10,
-    10,
-    11,
-    11
-  ],
-  CREATE_CHARACTER_MAX_STAT_VALUES: [
-    16,
-    14,
-    14,
-    15,
-    15
-  ]
-};
+// const NUMBERS = {
+//   CREATE_CHARACTER_STAT_INDEX_MAP: {
+//     'stamina': 0,
+//     'strength': 1,
+//     'agility': 2,
+//     'wisdom': 3,
+//     'charisma': 4
+//   },
+//   CREATE_CHARACTER_MIN_STAT_VALUES: [
+//     12,
+//     10,
+//     10,
+//     11,
+//     11
+//   ],
+//   CREATE_CHARACTER_MAX_STAT_VALUES: [
+//     16,
+//     14,
+//     14,
+//     15,
+//     15
+//   ]
+// };
 
 const STRINGS = {
   CREATE_CHARACTER_HEADER_MSG: 'Create a character',
@@ -73,6 +73,6 @@ const STRINGS = {
 };
 
 export {
-  NUMBERS,
+  // NUMBERS,
   STRINGS
 }

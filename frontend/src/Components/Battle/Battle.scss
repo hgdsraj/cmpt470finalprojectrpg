@@ -1,32 +1,32 @@
-.create-character-page {
-  .create-character-centered-content {
-    .create-character-viewport-width {
+.battle-page {
+  .battle-centered-content {
+    .battle-viewport-width {
       min-width: 50vh;
       max-width: 50vh;
     }
 
-    .create-character-avatar-legend {
+    .battle-avatar-legend {
       font-size: 18px;
     }
 
-    .create-character-avatar-card-container {
+    .battle-avatar-card-container {
       display: flex;
       justify-content: left;
       flex-wrap: wrap;
       margin-top: 0;
 
-      .create-character-avatar-card {
+      .battle-avatar-card {
         min-width: 90px;
         min-height: 90px;
         max-width: 90px;
         max-height: 90px;
       }
 
-      .create-character-avatar-form-group {
+      .battle-avatar-form-group {
         padding: 10px 10px 0 10px;
       }
 
-      .create-character-avatar-form-label {
+      .battle-avatar-form-label {
         margin-left: 10px;
       }
 
@@ -36,7 +36,7 @@
       }
     }
 
-    .create-character-assign-stats-table {
+    .battle-assign-stats-table {
       margin-bottom: 0;
 
       .stat-label {
