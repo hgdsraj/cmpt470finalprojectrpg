@@ -1,5 +1,5 @@
 import React from 'react';
-import {HashRouter as Router, Route} from 'react-router-dom';
+import {HashRouter as Router, Route, Redirect} from 'react-router-dom';
 import {
   GLOBAL_NUMBERS,
   GLOBAL_URLS
@@ -18,24 +18,27 @@ class App extends React.Component {
     };
   }
 
-  handleCheckAuth = async () => {
-    const response = await fetch(GLOBAL_URLS.GET_API_USERS_LOGGED_IN, {
+  async componentDidMount() {
+    const response = await fetch(GLOBAL_URLS.GET_API_USERS_LOGGED_IN);
+    this.setState({
+      isAuthenticated: response.status !== GLOBAL_NUMBERS.HTTP_STATUS_CODE_403
     });
-    if (response.status === GLOBAL_NUMBERS.HTTP_STATUS_CODE_403) {
-      this.setState({
-        isAuthenticated: false
-      });
+  }
+
+  handleRenderHomeRoute = () => {
+    let HomeComponent = null;
+    if (this.state.isAuthenticated) {
+      HomeComponent = <Home />
     } else {
-      this.setState({
-        isAuthenticated: true
-      });
+      HomeComponent = <Redirect to="/login"/>
     }
+    return HomeComponent;
   };
 
   render() {
     return (
       <Router>
-        <Route exact path="/" component={Home}/>
+        <Route exact path="/" render={this.handleRenderHomeRoute}/>
         <Route path="/login" component={Login}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/createcharacter" component={CreateCharacter}/>
