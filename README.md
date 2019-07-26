@@ -29,7 +29,6 @@ docker-compose build
 docker-compose up app
 ```
 - Wait for migrations to run (2-3 mins)
-- TODO: use latest migration as reference for healthcheck
 - Visit localhost:8000 in your browser. Voila!
 
 ### To build and run the app locally (using go build, recommended for development)

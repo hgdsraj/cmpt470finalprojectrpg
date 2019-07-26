@@ -28,6 +28,7 @@ func healthCheck(database *sql.DB, server *http.Server) {
 		currentTicks += 1
 		log.Println(currentTicks)
 		_, err := database.Query("SELECT 1 FROM Users")
+		// TODO: use latest migration as reference for healthcheck
 		if err == nil {
 			break
 		} else if currentTicks >= maxTicks {
