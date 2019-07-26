@@ -1,70 +1,29 @@
 .battle-page {
+  min-height: 100vh;
   .battle-centered-content {
+
     .battle-viewport-width {
-      min-width: 50vh;
-      max-width: 50vh;
-    }
+      min-width: 100vh;
+      max-width: 100vh;
 
-    .battle-avatar-legend {
-      font-size: 18px;
-    }
-
-    .battle-avatar-card-container {
-      display: flex;
-      justify-content: left;
-      flex-wrap: wrap;
-      margin-top: 0;
-
-      .battle-avatar-card {
-        min-width: 90px;
-        min-height: 90px;
-        max-width: 90px;
-        max-height: 90px;
+      .battle-header-text {
+        text-align: center;
+        margin-bottom: 50px;
       }
 
-      .battle-avatar-form-group {
-        padding: 10px 10px 0 10px;
-      }
+      .battle-card-container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 15px;
+        margin-bottom: 15px;
 
-      .battle-avatar-form-label {
-        margin-left: 10px;
-      }
-
-      .form-check-input {
-        position: relative;
-        margin: 0;
+        .card {
+          align-items: center;
+          justify-content: center;
+          max-width: 45%;
+          min-width: 45%;
+        }
       }
     }
-
-    .battle-assign-stats-table {
-      margin-bottom: 0;
-
-      .stat-label {
-        min-width: 200px;
-      }
-
-      .stat-value {
-        min-width: 150px;
-      }
-
-      .stat-value-p {
-        margin-bottom: 0;
-      }
-
-      .stat-value-button {
-        border-radius: 25px;
-      }
-
-      .stat-value-add {
-        padding: 2px 9px;
-        margin-left: 5px;
-      }
-
-      .stat-value-subtract {
-        padding: 2px 11px;
-        margin-right: 5px;
-      }
-    }
-
   }
 }
