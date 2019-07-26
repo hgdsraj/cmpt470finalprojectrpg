@@ -19,11 +19,9 @@
   - Test the app: `go test ./...`
 - Voila! You are ready to build with either docker or go build
 
-### Build the app with docker (CURRENTLY NOT WORKING, IGNORE THIS)
-- Ensure you have docker installed (`brew install docker` or `sudo apt-get install docker`)
-- Stop apache and postgres if you have them running locally
-    - sudo service nginx stop
-    - sudo service apache2
+### Build the app with docker
+- Ensure you have docker (and compose) installed 
+        (`brew install docker` or `sudo apt-get install docker`)
 - Run:
 ```
 docker-compose down -v --rmi all --remove-orphans
@@ -31,7 +29,7 @@ docker-compose build
 docker-compose up app
 ```
 - Wait for migrations to run (2-3 mins)
-- TODO: why wait? : https://docs.docker.com/compose/startup-order/
+- TODO: use latest migration as reference for healthcheck
 - Visit localhost:8000 in your browser. Voila!
 
 ### To build and run the app locally (using go build, recommended for development)

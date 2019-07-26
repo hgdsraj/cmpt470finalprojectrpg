@@ -33,7 +33,7 @@ func healthCheck(database *sql.DB, server *http.Server) {
 		} else if currentTicks >= maxTicks {
 			log.Fatalf("Could not connect to database successfully")
 		}
-		time.Sleep(2*time.Second)
+		time.Sleep(2 * time.Second)
 	}
 	err := server.Close()
 	log.Println(err)
@@ -46,7 +46,7 @@ func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getServer(router *mux.Router) *http.Server{
+func getServer(router *mux.Router) *http.Server {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
@@ -76,13 +76,7 @@ func main() {
 	r.PathPrefix("/").HandlerFunc(healthCheckHandler)
 	srv := getServer(r)
 	go func() {
-		var err error
-		defer func() {
-			if err != nil {
-				log.Println(err)
-			}
-		}()
-		err = srv.ListenAndServe()
+		log.Println(srv.ListenAndServe())
 	}()
 	healthCheck(database, srv)
 
