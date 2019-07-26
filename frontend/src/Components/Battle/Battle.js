@@ -21,8 +21,6 @@ import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './Battle.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
 import Goblin from "../../Assets/goblin.png";
-import Zombie from "../../Assets/zombie.png";
-import Imp from "../../Assets/imp.png";
 
 class Battle extends React.Component {
   // constructor(props) {
@@ -67,26 +65,18 @@ class Battle extends React.Component {
   // }
   //
   render() {
-    const mockNPCs = [
-      {
-        npcTitle: 'Goblin',
-        npcLevel: 1,
-        npcText: 'Some text about the goblin',
-        npcImgSrc: Goblin
-      },
-      {
-        npcTitle: 'Zombie',
-        npcLevel: 2,
-        npcText: 'Some text about the zombie',
-        npcImgSrc: Zombie
-      },
-      {
-        npcTitle: 'Imp',
-        npcLevel: 3,
-        npcText: 'Some text about the imp',
-        npcImgSrc: Imp
-      }
-    ];
+    const mockNPCData = {
+      title: 'Goblin',
+      level: 1,
+      text: 'Some text about the goblin',
+      avatar: Goblin,
+      currentHealth: 25,
+      maxHealth: 25,
+      attack: 5,
+      defense: 4,
+      magicAttack: 4,
+      magicDefense: 3
+    };
 
     const mockCharacterData = {
       name: 'Annabelle',
@@ -165,11 +155,11 @@ class Battle extends React.Component {
                     <div className="char-overview-intro-flex-container overview-intro-flex-container">
                       <div className="char-overview-intro overview-intro">
                         <CardImg className="char-overview-cardimg cardimg"
-                                 src={mockCharacterData.avatar}/>
+                                 src={mockNPCData.avatar}/>
                         <CardBody className="char-overview-cardbody cardbody">
-                          <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{mockCharacterData.name}</CardTitle>
-                          <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.HOME_LEVEL_MSG + mockCharacterData.level.toString()}</CardSubtitle>
-                          <CardText className="char-overview-cardtext cardtext cardtext-color">{mockCharacterData.text}</CardText>
+                          <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{mockNPCData.title}</CardTitle>
+                          <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.HOME_LEVEL_MSG + mockNPCData.level.toString()}</CardSubtitle>
+                          <CardText className="char-overview-cardtext cardtext cardtext-color">{mockNPCData.text}</CardText>
                         </CardBody>
                       </div>
                     </div>
@@ -184,23 +174,23 @@ class Battle extends React.Component {
                         <tbody>
                         <tr>
                           <td>{STRINGS.BATTLE_HEALTH_STAT_MSG}</td>
-                          <td>{mockCharacterData.currentHealth}/{mockCharacterData.maxHealth}</td>
+                          <td>{mockNPCData.currentHealth}/{mockNPCData.maxHealth}</td>
                         </tr>
                         <tr>
                           <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
-                          <td>{mockCharacterData.attack}</td>
+                          <td>{mockNPCData.attack}</td>
                         </tr>
                         <tr>
                           <td>{STRINGS.BATTLE_DEFENSE_STAT_MSG}</td>
-                          <td>{mockCharacterData.defense}</td>
+                          <td>{mockNPCData.defense}</td>
                         </tr>
                         <tr>
                           <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
-                          <td>{mockCharacterData.magicAttack}</td>
+                          <td>{mockNPCData.magicAttack}</td>
                         </tr>
                         <tr>
                           <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
-                          <td>{mockCharacterData.magicDefense}</td>
+                          <td>{mockNPCData.magicDefense}</td>
                         </tr>
                         </tbody>
                       </Table>
