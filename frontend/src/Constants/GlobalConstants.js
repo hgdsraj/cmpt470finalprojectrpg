@@ -23,8 +23,7 @@ const GLOBAL_STRINGS = {
 const GLOBAL_URLS = {
   POST_API_USERS_LOGIN: '/api/users/login',
   POST_API_USERS_CREATE: '/api/users/create',
-  API_CHARACTERS_ROOT: 'api/characters/',
-  POST_API_CHARACTERS_CREATE: '/create',
+  POST_API_CHARACTERS_CREATE: 'api/characters/create',
   GET_API_USERS_USERNAME: '/api/users/'
 };
 

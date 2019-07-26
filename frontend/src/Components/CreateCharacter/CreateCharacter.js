@@ -181,7 +181,7 @@ class CreateCharacter extends React.Component {
     const splitTargetId = event.target.id.split('-');
     const operation = splitTargetId[0];
     const statIndex = NUMBERS.CREATE_CHARACTER_STAT_INDEX_MAP[splitTargetId[1]];
-    if (operation === 'add') {
+    if (operation === STRINGS.CREATE_CHARACTER_ADD_STAT_MSG) {
       const stat = {...this.state.stats[statIndex]};
       if (stat.value === NUMBERS.CREATE_CHARACTER_MAX_STAT_VALUES[statIndex] - 1) {
         stat.isAddButtonDisabled = true;
@@ -219,9 +219,7 @@ class CreateCharacter extends React.Component {
 
   handleCreateCharacter = async (event) => {
     event.preventDefault();
-    // TODO: get the username from the session cookie once it is implemented
-    // NOTE: anothernewuser is just a placeholder user name for now. REMOVE THIS ASAP!
-    const response = await fetch(`${GLOBAL_URLS.API_CHARACTERS_ROOT}/anothernewuser/${GLOBAL_URLS.POST_API_CHARACTERS_CREATE}`, {
+    const response = await fetch(`${GLOBAL_URLS.POST_API_CHARACTERS_CREATE}`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -248,10 +246,7 @@ class CreateCharacter extends React.Component {
     });
   };
 
-  // NOTE: For avatar label names, keep them to one word, no more than 10 characters
   render() {
-    // Define avatar names here
-
     return (
       <div className="create-character-page page-container">
         <CustomNavbar/>
