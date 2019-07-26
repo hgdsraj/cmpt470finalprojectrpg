@@ -56,7 +56,6 @@ class Login extends React.Component {
     }
     const body = await response.json();
     console.log(body);
-    this.props.handleAppLogin();
     // TODO: Redirect to home page (once it is built)
   };
 

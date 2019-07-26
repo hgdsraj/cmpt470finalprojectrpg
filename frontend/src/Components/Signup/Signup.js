@@ -62,7 +62,7 @@ class Signup extends React.Component {
   };
 
   checkIfUsernameExists = async (username) => {
-    let rootUrl = GLOBAL_URLS.GET_API_USERS_USERNAME;
+    let rootUrl = GLOBAL_URLS.GET_API_USERS_EXISTS;
     let response = await fetch(`${rootUrl}${username}`, {
       headers: {
         'Accept': 'application/json'

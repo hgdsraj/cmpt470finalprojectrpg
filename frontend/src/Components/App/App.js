@@ -1,5 +1,9 @@
 import React from 'react';
 import {HashRouter as Router, Route} from 'react-router-dom';
+import {
+  GLOBAL_NUMBERS,
+  GLOBAL_URLS
+} from '../../Constants/GlobalConstants';
 import Login from '../Login/Login';
 import Signup from '../Signup/Signup';
 import Home from '../Home/Home';
@@ -10,20 +14,22 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false
+      isAuthenticated: false
     };
   }
 
-  handleLogin = () => {
-    this.setState({
-      isLoggedIn: true
+  handleCheckAuth = async () => {
+    const response = await fetch(GLOBAL_URLS.GET_API_USERS_LOGGED_IN, {
     });
-  };
-
-  handleLogout = () => {
-    this.setState({
-      isLoggedIn: false
-    });
+    if (response.status === GLOBAL_NUMBERS.HTTP_STATUS_CODE_403) {
+      this.setState({
+        isAuthenticated: false
+      });
+    } else {
+      this.setState({
+        isAuthenticated: true
+      });
+    }
   };
 
   render() {
