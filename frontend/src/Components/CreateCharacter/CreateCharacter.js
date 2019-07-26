@@ -221,7 +221,7 @@ class CreateCharacter extends React.Component {
     event.preventDefault();
     // TODO: get the username from the session cookie once it is implemented
     // NOTE: anothernewuser is just a placeholder user name for now. REMOVE THIS ASAP!
-    const response = await fetch(`${GLOBAL_URLS.API_CHARACTERS_ROOT}/anothernewuser/${GLOBAL_URLS.POST_API_CHARACTERS_CREATE}`, {
+    const response = await fetch(`${GLOBAL_URLS.POST_API_CHARACTERS_CREATE}`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -248,10 +248,7 @@ class CreateCharacter extends React.Component {
     });
   };
 
-  // NOTE: For avatar label names, keep them to one word, no more than 10 characters
   render() {
-    // Define avatar names here
-
     return (
       <div className="create-character-page page-container">
         <CustomNavbar/>
