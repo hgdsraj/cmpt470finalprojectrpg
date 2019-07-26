@@ -181,7 +181,7 @@ class CreateCharacter extends React.Component {
     const splitTargetId = event.target.id.split('-');
     const operation = splitTargetId[0];
     const statIndex = NUMBERS.CREATE_CHARACTER_STAT_INDEX_MAP[splitTargetId[1]];
-    if (operation === 'add') {
+    if (operation === STRINGS.CREATE_CHARACTER_ADD_STAT_MSG) {
       const stat = {...this.state.stats[statIndex]};
       if (stat.value === NUMBERS.CREATE_CHARACTER_MAX_STAT_VALUES[statIndex] - 1) {
         stat.isAddButtonDisabled = true;
