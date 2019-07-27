@@ -25,7 +25,9 @@
 const STRINGS = {
   BATTLE_HEADER_MSG: 'You are challenged to a battle!',
   BATTLE_CHARACTER_NAME_MSG: 'Character name',
-  BATTLE_CONTAINER_HEADER_MSG: 'Place Holder Battle Text',
+  BATTLE_CONTAINER_HEADER_MSG_1: 'A ',
+  BATTLE_CONTAINER_HEADER_MSG_2: ' wants to scrap, choose a course of action.',
+  BATTLE_LEVEL_MSG: 'Level ',
   BATTLE_STAT_MSG: 'Stat',
   BATTLE_VALUE_MSG: 'Value',
   BATTLE_HEALTH_STAT_MSG: 'Health',
