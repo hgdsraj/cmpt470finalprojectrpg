@@ -35,6 +35,7 @@ const STRINGS = {
   BATTLE_DEFENSE_STAT_MSG: 'Defense',
   BATTLE_MAGIC_ATTACK_STAT_MSG: 'Magic Attack',
   BATTLE_MAGIC_DEFENSE_STAT_MSG: 'Magic Defense',
+  BATTLE_LOG_CONTAINER_HEADER_MSG: 'Battle Log',
 };
 
 export {

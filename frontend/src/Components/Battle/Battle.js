@@ -6,6 +6,9 @@ import {
   FormGroup,
   Input,
   Label,
+  ListGroup,
+  ListGroupItem,
+  Progress,
   Card,
   CardImg,
   Table, CardBody, CardTitle, CardSubtitle, CardText
@@ -68,7 +71,7 @@ class Battle extends React.Component {
     const mockNPCData = {
       title: 'Goblin',
       level: 1,
-      text: 'Some text about the goblin',
+      text: 'Here is some text about the Goblin',
       avatar: Goblin,
       currentHealth: 25,
       maxHealth: 25,
@@ -99,13 +102,12 @@ class Battle extends React.Component {
           <div className="battle-viewport-width">
             <h1 className="battle-header-text">{STRINGS.BATTLE_HEADER_MSG}</h1>
             <div className="battle-container container">
-              {/*TODO: maybe make this below the cards*/}
-              <h3 className="battle-container-header-text">{STRINGS.BATTLE_CONTAINER_HEADER_MSG_1 + mockNPCData.title + STRINGS.BATTLE_CONTAINER_HEADER_MSG_2}</h3>
               <div className="battle-card-container container">
                 <Card className="battle-character-card">
                   <div className="char-overview-wrapper">
                     <div className="char-overview-intro-flex-container overview-intro-flex-container">
                       <div className="char-overview-intro overview-intro">
+                        <Progress className="battle-char-health-bar health-bar" value="45" color="danger" />
                         <CardImg className="char-overview-cardimg cardimg"
                                  src={mockCharacterData.avatar}/>
                         <CardBody className="char-overview-cardbody cardbody">
@@ -124,10 +126,6 @@ class Battle extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                          <td>{STRINGS.BATTLE_HEALTH_STAT_MSG}</td>
-                          <td>{mockCharacterData.currentHealth}/{mockCharacterData.maxHealth}</td>
-                        </tr>
                         <tr>
                           <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
                           <td>{mockCharacterData.attack}</td>
@@ -154,6 +152,7 @@ class Battle extends React.Component {
                   <div className="char-overview-wrapper">
                     <div className="char-overview-intro-flex-container overview-intro-flex-container">
                       <div className="char-overview-intro overview-intro">
+                        <Progress className="battle-npc-health-bar health-bar" value="75" color="danger" />
                         <CardImg className="char-overview-cardimg cardimg"
                                  src={mockNPCData.avatar}/>
                         <CardBody className="char-overview-cardbody cardbody">
@@ -172,10 +171,6 @@ class Battle extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                          <td>{STRINGS.BATTLE_HEALTH_STAT_MSG}</td>
-                          <td>{mockNPCData.currentHealth}/{mockNPCData.maxHealth}</td>
-                        </tr>
                         <tr>
                           <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
                           <td>{mockNPCData.attack}</td>
@@ -199,11 +194,25 @@ class Battle extends React.Component {
                   </div>
                 </Card>
               </div>
+              <h3 className="battle-container-header-text">{STRINGS.BATTLE_CONTAINER_HEADER_MSG_1 + mockNPCData.title + STRINGS.BATTLE_CONTAINER_HEADER_MSG_2}</h3>
               <div className="battle-buttons-container container">
+                {/*TODO: maybe make these into dropdowns, each with their own respective selections*/}
+                {/*TODO: OR make these into modals that contain all available attacks or items or whatever*/}
                 <Button className="attack-button battle-button" color="danger">Attack</Button>{' '}
                 <Button className="magic-button battle-button" color="primary">Magic Attack</Button>{' '}
                 <Button className="inventory-button battle-button" color="success">Inventory</Button>{' '}
                 <Button className="escape-button battle-button" color="warning">Run Away!</Button>{' '}
+              </div>
+              <div className="battle-log-container container">
+                {/*TODO: make it so that the most recent action is always at the top*/}
+                <h3 className="battle-log-container-header-text">{STRINGS.BATTLE_LOG_CONTAINER_HEADER_MSG}</h3>
+                <ListGroup className="battle-log">
+                  <ListGroupItem>Goblin hits you for 4 damage</ListGroupItem>
+                  <ListGroupItem>You hit goblin for 5 damage</ListGroupItem>
+                  <ListGroupItem>Goblin attacks bit misses!</ListGroupItem>
+                  <ListGroupItem>You cast fireball at the Goblin for 3 damage</ListGroupItem>
+                  <ListGroupItem>Goblin hits you for 4 damage</ListGroupItem>
+                </ListGroup>
               </div>
             </div>
           </div>

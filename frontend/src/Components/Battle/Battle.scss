@@ -8,6 +8,7 @@
 
       .battle-header-text {
         text-align: center;
+        margin-top: 25px;
         margin-bottom: 50px;
       }
 
@@ -27,6 +28,17 @@
             justify-content: center;
             max-width: 45%;
             min-width: 45%;
+
+            .char-overview-wrapper {
+              max-width: 90%;
+              min-width: 90%;
+
+              .health-bar {
+                margin-top: 15px;
+                margin-right: 15px;
+                margin-left: 15px;
+              }
+            }
           }
         }
 
@@ -38,6 +50,12 @@
 
           .battle-button {
             min-width: 20%;
+            color: black;
+          }
+        }
+
+        .battle-log-container {
+          .battle-log {
             color: black;
           }
         }
