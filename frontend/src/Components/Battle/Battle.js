@@ -207,9 +207,10 @@ class Battle extends React.Component {
                 {/*TODO: make it so that the most recent action is always at the top*/}
                 <h3 className="battle-log-container-header-text">{STRINGS.BATTLE_LOG_CONTAINER_HEADER_MSG}</h3>
                 <ListGroup className="battle-log">
+                  <ListGroupItem>List ordered such that most recent actions go on top</ListGroupItem>
                   <ListGroupItem>Goblin hits you for 4 damage</ListGroupItem>
                   <ListGroupItem>You hit goblin for 5 damage</ListGroupItem>
-                  <ListGroupItem>Goblin attacks bit misses!</ListGroupItem>
+                  <ListGroupItem>Goblin attacks you but misses!</ListGroupItem>
                   <ListGroupItem>You cast fireball at the Goblin for 3 damage</ListGroupItem>
                   <ListGroupItem>Goblin hits you for 4 damage</ListGroupItem>
                 </ListGroup>
