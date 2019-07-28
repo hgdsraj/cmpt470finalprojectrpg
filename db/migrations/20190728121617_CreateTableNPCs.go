@@ -8,9 +8,9 @@ import (
 // Up is executed when this migration is applied
 func Up_20190728121617(txn *sql.Tx) {
 	_, err := txn.Exec(`CREATE TABLE IF NOT EXISTS NPCs(
-		NPCID SERIAL primary key not null,
-		NPCName text not null unique,
-		NPCType text not null,
+		ID SERIAL primary key not null,
+		Name text not null unique,
+		Type text not null,
 		Level int not null,
 		Description text not null,
 		Attack int not null,
