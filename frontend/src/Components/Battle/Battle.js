@@ -138,6 +138,7 @@ class Battle extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      winner: '',
       // TODO: get character and npc data and assign it (mock data for now)
       CharacterData: {
         name: 'Annabelle',
@@ -214,6 +215,11 @@ class Battle extends React.Component {
         currentHealth: newNPCHealth
       }
     }));
+    if (newNPCHealth === 0) {
+      this.setState(prevState => ({
+        winner: prevState.CharacterData.name
+      }));
+    }
     // TODO: create battle log component and log stuff like this in there
     console.log('You hit the npc for ', damage, ' damage leaving them with ', newNPCHealth, ' health');
   };
@@ -229,6 +235,11 @@ class Battle extends React.Component {
         currentHealth: newCharacterHealth
       }
     }));
+    if (newCharacterHealth === 0) {
+      this.setState(prevState => ({
+        winner: prevState.NPCData.name
+      }));
+    }
     // TODO: create battle log component and log stuff like this in there
     console.log('The npc hit you for ', damage, ' damage leaving you with ', newCharacterHealth, ' health');
   };
