@@ -137,33 +137,38 @@ NpcCard.propTypes = {
 class Battle extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      // TODO: get character and npc data and assign it
+      mockCharacterData: {
+        name: 'Annabelle',
+        avatar: PrincessAvatar,
+        level: 1,
+        text: 'Here is some text about the character',
+        currentHealth: 22,
+        maxHealth: 25,
+        attack: 5,
+        defense: 4,
+        magicAttack: 4,
+        magicDefense: 3
+      },
+      mockNPCData: {
+        name: 'Goblin',
+        level: 1,
+        text: 'Here is some text about the Goblin',
+        avatar: Goblin,
+        currentHealth: 15,
+        maxHealth: 25,
+        attack: 5,
+        defense: 4,
+        magicAttack: 4,
+        magicDefense: 3
+      }
+    }
   };
 
-  mockNPCData = {
-    name: 'Goblin',
-    level: 1,
-    text: 'Here is some text about the Goblin',
-    avatar: Goblin,
-    currentHealth: 15,
-    maxHealth: 25,
-    attack: 5,
-    defense: 4,
-    magicAttack: 4,
-    magicDefense: 3
-  };
-
-  mockCharacterData = {
-    name: 'Annabelle',
-    avatar: PrincessAvatar,
-    level: 1,
-    text: 'Here is some text about the character',
-    currentHealth: 22,
-    maxHealth: 25,
-    attack: 5,
-    defense: 4,
-    magicAttack: 4,
-    magicDefense: 3
-  };
+  // handleAttack = () => {
+  //
+  // }
 
   render() {
     return (
@@ -175,14 +180,20 @@ class Battle extends React.Component {
             <h1 className="battle-header-text">{STRINGS.BATTLE_HEADER_MSG}</h1>
             <div className="battle-container container">
               <div className="battle-card-container container">
-                <CharacterCard character={this.mockCharacterData}/>
-                <NpcCard npc={this.mockNPCData}/>
+                <CharacterCard character={this.state.mockCharacterData}/>
+                <NpcCard npc={this.state.mockNPCData}/>
               </div>
               <h3 className="battle-container-header-text">{STRINGS.BATTLE_CONTAINER_HEADER_MSG}</h3>
               <div className="battle-buttons-container container">
                 {/*TODO: maybe make these into dropdowns, each with their own respective selections*/}
                 {/*TODO: OR make these into modals that contain all available attacks or items or whatever*/}
-                <Button className="attack-button battle-button" color="danger">{STRINGS.BATTLE_BUTTON_ATTACK}</Button>{' '}
+                <Button
+                    className="attack-button battle-button"
+                    color="danger"
+                    // onClick={this.handleAttack()}
+                >
+                  {STRINGS.BATTLE_BUTTON_ATTACK}
+                </Button>
                 <Button className="magic-button battle-button" color="primary">{STRINGS.BATTLE_BUTTON_MAGIC}</Button>{' '}
                 <Button className="inventory-button battle-button" color="success">{STRINGS.BATTLE_BUTTON_INVENTORY}</Button>{' '}
                 <Button className="escape-button battle-button" color="warning">{STRINGS.BATTLE_BUTTON_ESCAPE}</Button>{' '}
