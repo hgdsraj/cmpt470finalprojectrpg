@@ -138,8 +138,8 @@ class Battle extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // TODO: get character and npc data and assign it
-      mockCharacterData: {
+      // TODO: get character and npc data and assign it (mock data for now)
+      CharacterData: {
         name: 'Annabelle',
         avatar: PrincessAvatar,
         level: 2,
@@ -149,9 +149,9 @@ class Battle extends React.Component {
         attack: 8,
         defense: 4,
         magicAttack: 7,
-        magicDefense: 5
+        magicDefense: 7
       },
-      mockNPCData: {
+      NPCData: {
         name: 'Goblin',
         level: 1,
         text: 'Here is some text about the Goblin',
@@ -160,7 +160,7 @@ class Battle extends React.Component {
         maxHealth: 25,
         attack: 5,
         defense: 4,
-        magicAttack: 4,
+        magicAttack: 12,
         magicDefense: 3
       }
     }
@@ -169,33 +169,66 @@ class Battle extends React.Component {
   // TODO: expand this method (or make more helper methods) to allow for different attack types, accuracy calculations,
   //  critical hits (this is just the basic method for now)
   handleAttack = () => {
-    let damage = this.state.mockCharacterData.attack - this.state.mockCharacterData.defense;
+    let damage = this.state.CharacterData.attack - this.state.NPCData.defense;
     if (damage < 0) {
       damage = 0;
     }
-    this.calculateNewNPCHealth(damage);
+    this.calculateAndSetNewNPCHealth(damage);
+    this.npcAttack();
   };
 
   // TODO: will expand same as attack method
   handleMagicAttack = () => {
-    let damage = this.state.mockCharacterData.magicAttack - this.state.mockCharacterData.magicDefense;
+    let damage = this.state.CharacterData.magicAttack - this.state.NPCData.magicDefense;
     if (damage < 0) {
       damage = 0;
     }
-    this.calculateNewNPCHealth(damage);
+    this.calculateAndSetNewNPCHealth(damage);
+    this.npcAttack();
   };
 
-  calculateNewNPCHealth = (damage) => {
-    let newNPCHealth = this.state.mockNPCData.currentHealth - damage;
+  npcAttack = () => {
+    const attackType = Math.round(Math.random()); // generates 0 or 1
+    let damage = 0;
+    if (attackType === 0) {   // Normal attack
+      damage = this.state.NPCData.attack - this.state.CharacterData.defense;
+    } else {                  // Magic attack
+      damage = this.state.NPCData.magicAttack - this.state.CharacterData.magicDefense;
+    }
+    if (damage < 0) {
+      damage = 0;
+    }
+    this.calculateAndSetNewCharacterHealth(damage);
+  };
+
+  calculateAndSetNewNPCHealth = (damage) => {
+    let newNPCHealth = this.state.NPCData.currentHealth - damage;
     if (newNPCHealth < 0) {
       newNPCHealth = 0;
     }
     this.setState(prevState => ({
-      mockNPCData: {
-        ...prevState.mockNPCData,     // keep all other key-value pairs
+      NPCData: {
+        ...prevState.NPCData,     // keep all other key-value pairs
         currentHealth: newNPCHealth
       }
-    }))
+    }));
+    // TODO: create battle log component and log stuff like this in there
+    console.log('You hit the npc for ', damage, ' damage leaving them with ', newNPCHealth, ' health');
+  };
+
+  calculateAndSetNewCharacterHealth = (damage) => {
+    let newCharacterHealth = this.state.CharacterData.currentHealth - damage;
+    if (newCharacterHealth < 0) {
+      newCharacterHealth = 0;
+    }
+    this.setState(prevState => ({
+      CharacterData: {
+        ...prevState.CharacterData,     // keep all other key-value pairs
+        currentHealth: newCharacterHealth
+      }
+    }));
+    // TODO: create battle log component and log stuff like this in there
+    console.log('The npc hit you for ', damage, ' damage leaving you with ', newCharacterHealth, ' health');
   };
 
   render() {
@@ -208,8 +241,8 @@ class Battle extends React.Component {
             <h1 className="battle-header-text">{STRINGS.BATTLE_HEADER_MSG}</h1>
             <div className="battle-container container">
               <div className="battle-card-container container">
-                <CharacterCard character={this.state.mockCharacterData}/>
-                <NpcCard npc={this.state.mockNPCData}/>
+                <CharacterCard character={this.state.CharacterData}/>
+                <NpcCard npc={this.state.NPCData}/>
               </div>
               <h3 className="battle-container-header-text">{STRINGS.BATTLE_CONTAINER_HEADER_MSG}</h3>
               <div className="battle-buttons-container container">
