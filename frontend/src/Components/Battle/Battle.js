@@ -9,59 +9,15 @@ import {
   Table, CardBody, CardTitle, CardSubtitle, CardText
 } from 'reactstrap';
 import {
-  NUMBERS,
   STRINGS
 } from '../../Constants/BattleConstants';
-import {
-  GLOBAL_URLS
-} from '../../Constants/GlobalConstants';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './Battle.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
 import Goblin from "../../Assets/goblin.png";
 
 class Battle extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     characterName: '',
-  //     remainingStatPoints: 10,
-  //     avatarSelection: '',
-  //     stats: [
-  //       {
-  //         name: 'Stamina',
-  //         value: 12,
-  //         isAddButtonDisabled: false,
-  //         isSubtractButtonDisabled: true
-  //       },
-  //       {
-  //         name: 'Strength',
-  //         value: 10,
-  //         isAddButtonDisabled: false,
-  //         isSubtractButtonDisabled: true
-  //       },
-  //       {
-  //         name: 'Agility',
-  //         value: 10,
-  //         isAddButtonDisabled: false,
-  //         isSubtractButtonDisabled: true
-  //       },
-  //       {
-  //         name: 'Wisdom',
-  //         value: 11,
-  //         isAddButtonDisabled: false,
-  //         isSubtractButtonDisabled: true
-  //       },
-  //       {
-  //         name: 'Charisma',
-  //         value: 11,
-  //         isAddButtonDisabled: false,
-  //         isSubtractButtonDisabled: true
-  //       }
-  //     ]
-  //   };
-  // }
-  //
+
   renderBattleCardContainer = () => {
     const mockNPCData = {
       title: 'Goblin',
