@@ -1,0 +1,64 @@
+.battle-page {
+  min-height: 100vh;
+  .battle-centered-content {
+
+    .battle-viewport-width {
+      min-width: 90%;
+
+      .battle-header-text {
+        text-align: center;
+        margin-top: 25px;
+        margin-bottom: 50px;
+      }
+
+      .battle-container {
+        .battle-container-header-text {
+          text-align: center;
+        }
+
+        .battle-card-container {
+          display: flex;
+          justify-content: space-around;
+          margin-top: 15px;
+          margin-bottom: 15px;
+
+          .card {
+            align-items: center;
+            justify-content: center;
+            max-width: 45%;
+            min-width: 45%;
+
+            .char-overview-wrapper {
+              max-width: 90%;
+              min-width: 90%;
+
+              .health-bar {
+                margin-top: 15px;
+                margin-right: 15px;
+                margin-left: 15px;
+              }
+            }
+          }
+        }
+
+        .battle-buttons-container {
+          display: flex;
+          justify-content: space-around;
+          margin-top: 30px;
+          margin-bottom: 15px;
+
+          .battle-button {
+            min-width: 20%;
+            color: black;
+          }
+        }
+
+        .battle-log-container {
+          .battle-log {
+            color: black;
+          }
+        }
+      }
+    }
+  }
+}
