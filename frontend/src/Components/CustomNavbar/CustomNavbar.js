@@ -29,7 +29,7 @@ function CustomNavbar() {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/" disabled>
+              <NavLink href="/#/battle">
                 {STRINGS.NAVBAR_NAV_BATTLE_MSG}
               </NavLink>
             </NavItem>
