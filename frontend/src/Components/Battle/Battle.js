@@ -88,8 +88,10 @@ class Battle extends React.Component {
       magicAttack: 4,
       magicDefense: 3
     };
-    return (
-      <div className="battle-card-container container">
+
+    // TODO: not sure about the const or if it's even necessary to have this outside battle-card-container
+    const characterCard = () => {
+      return (
         <Card className="battle-character-card">
           <div className="char-overview-wrapper">
             <div className="char-overview-intro-flex-container overview-intro-flex-container">
@@ -135,6 +137,12 @@ class Battle extends React.Component {
             <div className="overview-clear"/>
           </div>
         </Card>
+      );
+    };
+
+    // TODO: not sure about the const
+    const npcCard = () => {
+      return (
         <Card className="battle-npc-card">
           <div className="char-overview-wrapper">
             <div className="char-overview-intro-flex-container overview-intro-flex-container">
@@ -180,6 +188,13 @@ class Battle extends React.Component {
             <div className="overview-clear"/>
           </div>
         </Card>
+      );
+    };
+
+    return (
+      <div className="battle-card-container container">
+        {characterCard()}
+        {npcCard()}
       </div>
     );
   };
