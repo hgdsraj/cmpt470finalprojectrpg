@@ -142,21 +142,21 @@ class Battle extends React.Component {
       mockCharacterData: {
         name: 'Annabelle',
         avatar: PrincessAvatar,
-        level: 1,
+        level: 2,
         text: 'Here is some text about the character',
-        currentHealth: 22,
+        currentHealth: 25,
         maxHealth: 25,
-        attack: 5,
+        attack: 8,
         defense: 4,
-        magicAttack: 4,
-        magicDefense: 3
+        magicAttack: 7,
+        magicDefense: 5
       },
       mockNPCData: {
         name: 'Goblin',
         level: 1,
         text: 'Here is some text about the Goblin',
         avatar: Goblin,
-        currentHealth: 15,
+        currentHealth: 25,
         maxHealth: 25,
         attack: 5,
         defense: 4,
@@ -166,9 +166,20 @@ class Battle extends React.Component {
     }
   };
 
-  // handleAttack = () => {
-  //
-  // }
+  // TODO: expand this method to allow for different attack types (this is just the basic method for now)
+  handleAttack = () => {
+    let damage = this.state.mockCharacterData.attack - this.state.mockCharacterData.defense;
+    if (damage < 0) {
+      damage = 0;
+    }
+    const newNPCHealth = this.state.mockNPCData.currentHealth - damage;
+    this.setState(prevState => ({
+      mockNPCData: {
+        ...prevState.mockNPCData,     // keep all other key-value pairs
+        currentHealth: newNPCHealth
+      }
+    }))
+  };
 
   render() {
     return (
@@ -190,7 +201,7 @@ class Battle extends React.Component {
                 <Button
                     className="attack-button battle-button"
                     color="danger"
-                    // onClick={this.handleAttack()}
+                    onClick={this.handleAttack}
                 >
                   {STRINGS.BATTLE_BUTTON_ATTACK}
                 </Button>
