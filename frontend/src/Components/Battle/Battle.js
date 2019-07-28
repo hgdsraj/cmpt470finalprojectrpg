@@ -174,6 +174,7 @@ class Battle extends React.Component {
       damage = 0;
     }
     this.calculateAndSetNewNPCHealth(damage);
+    // TODO: add delay
     this.npcAttack();
   };
 
@@ -184,6 +185,7 @@ class Battle extends React.Component {
       damage = 0;
     }
     this.calculateAndSetNewNPCHealth(damage);
+    // TODO: add delay
     this.npcAttack();
   };
 
