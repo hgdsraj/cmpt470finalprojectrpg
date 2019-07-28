@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
 import CustomPopover from '../CustomPopover/CustomPopover';
@@ -58,7 +59,20 @@ class Signup extends React.Component {
     }
     const body = await response.json();
     console.log(body);
-    // TODO: Redirect to create character page (once it is built)
+
+    // After signup, automatically log the user in, and redirect to create character page
+    await fetch(GLOBAL_URLS.POST_API_USERS_LOGIN, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      })
+    });
+    this.props.handleAuthenticate();
   };
 
   checkIfUsernameExists = async (username) => {
@@ -218,5 +232,9 @@ class Signup extends React.Component {
     document.removeEventListener('mousedown', this.handleClick);
   }
 }
+
+Signup.propTypes = {
+  handleAuthenticate: PropTypes.func
+};
 
 export default Signup;

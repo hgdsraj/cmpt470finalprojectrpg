@@ -50,7 +50,7 @@ class App extends React.Component {
       <Router>
         <Route exact path="/" render={() => this.handleRenderProtectedPage(<Home />)}/>
         <Route path="/login" component={() => this.handleRenderLoginOrSignupPage(<Login handleAuthenticate={this.handleAuthenticate}/>)}/>
-        <Route path="/signup" component={() => this.handleRenderLoginOrSignupPage(<Signup />)}/>
+        <Route path="/signup" component={() => this.handleRenderLoginOrSignupPage(<Signup handleAuthenticate={this.handleAuthenticate}/>)}/>
         <Route path="/createcharacter" component={() => this.handleRenderProtectedPage(<CreateCharacter />)}/>
         <Route path="/battle" component={() => this.handleRenderProtectedPage(<Battle />)}/>
       </Router>
