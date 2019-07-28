@@ -23,7 +23,7 @@ import Goblin from "../../Assets/goblin.png";
 
 function CharacterCard(props) {
   const character = props.character;
-  let healthValue = Math.round(character.currentHealth / character.maxHealth * 100);
+  const healthValue = Math.round(character.currentHealth / character.maxHealth * 100);
   return (
     <Card className="battle-character-card">
       <div className="char-overview-wrapper">
@@ -79,7 +79,7 @@ CharacterCard.propTypes = {
 
 function NpcCard(props) {
   const npc = props.npc;
-  let healthValue = Math.round(npc.currentHealth / npc.maxHealth * 100);
+  const healthValue = Math.round(npc.currentHealth / npc.maxHealth * 100);
   return (
     <Card className="battle-npc-card">
       <div className="char-overview-wrapper">
