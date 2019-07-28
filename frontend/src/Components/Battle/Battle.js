@@ -62,7 +62,7 @@ class Battle extends React.Component {
   //   };
   // }
   //
-  render() {
+  renderBattleCardContainer = () => {
     const mockNPCData = {
       title: 'Goblin',
       level: 1,
@@ -88,7 +88,102 @@ class Battle extends React.Component {
       magicAttack: 4,
       magicDefense: 3
     };
-
+    return (
+      <div className="battle-card-container container">
+        <Card className="battle-character-card">
+          <div className="char-overview-wrapper">
+            <div className="char-overview-intro-flex-container overview-intro-flex-container">
+              <div className="char-overview-intro overview-intro">
+                <Progress className="battle-char-health-bar health-bar" value="45" color="danger" />
+                <CardImg className="char-overview-cardimg cardimg"
+                         src={mockCharacterData.avatar}/>
+                <CardBody className="char-overview-cardbody cardbody">
+                  <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{mockCharacterData.name}</CardTitle>
+                  <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + mockCharacterData.level.toString()}</CardSubtitle>
+                  <CardText className="char-overview-cardtext cardtext cardtext-color">{mockCharacterData.text}</CardText>
+                </CardBody>
+              </div>
+            </div>
+            <div className="char-overview-stats overview-stats">
+              <Table>
+                <thead>
+                <tr>
+                  <th>{STRINGS.BATTLE_STAT_MSG}</th>
+                  <th>{STRINGS.BATTLE_VALUE_MSG}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
+                  <td>{mockCharacterData.attack}</td>
+                </tr>
+                <tr>
+                  <td>{STRINGS.BATTLE_DEFENSE_STAT_MSG}</td>
+                  <td>{mockCharacterData.defense}</td>
+                </tr>
+                <tr>
+                  <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
+                  <td>{mockCharacterData.magicAttack}</td>
+                </tr>
+                <tr>
+                  <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
+                  <td>{mockCharacterData.magicDefense}</td>
+                </tr>
+                </tbody>
+              </Table>
+            </div>
+            <div className="overview-clear"/>
+          </div>
+        </Card>
+        <Card className="battle-npc-card">
+          <div className="char-overview-wrapper">
+            <div className="char-overview-intro-flex-container overview-intro-flex-container">
+              <div className="char-overview-intro overview-intro">
+                <Progress className="battle-npc-health-bar health-bar" value="75" color="danger" />
+                <CardImg className="char-overview-cardimg cardimg"
+                         src={mockNPCData.avatar}/>
+                <CardBody className="char-overview-cardbody cardbody">
+                  <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{mockNPCData.title}</CardTitle>
+                  <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + mockNPCData.level.toString()}</CardSubtitle>
+                  <CardText className="char-overview-cardtext cardtext cardtext-color">{mockNPCData.text}</CardText>
+                </CardBody>
+              </div>
+            </div>
+            <div className="char-overview-stats overview-stats">
+              <Table>
+                <thead>
+                <tr>
+                  <th>{STRINGS.BATTLE_STAT_MSG}</th>
+                  <th>{STRINGS.BATTLE_VALUE_MSG}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
+                  <td>{mockNPCData.attack}</td>
+                </tr>
+                <tr>
+                  <td>{STRINGS.BATTLE_DEFENSE_STAT_MSG}</td>
+                  <td>{mockNPCData.defense}</td>
+                </tr>
+                <tr>
+                  <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
+                  <td>{mockNPCData.magicAttack}</td>
+                </tr>
+                <tr>
+                  <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
+                  <td>{mockNPCData.magicDefense}</td>
+                </tr>
+                </tbody>
+              </Table>
+            </div>
+            <div className="overview-clear"/>
+          </div>
+        </Card>
+      </div>
+    );
+  };
+  render() {
     return (
       <div className="battle-page page-container">
         <CustomNavbar/>
@@ -97,109 +192,17 @@ class Battle extends React.Component {
           <div className="battle-viewport-width">
             <h1 className="battle-header-text">{STRINGS.BATTLE_HEADER_MSG}</h1>
             <div className="battle-container container">
-              <div className="battle-card-container container">
-                <Card className="battle-character-card">
-                  <div className="char-overview-wrapper">
-                    <div className="char-overview-intro-flex-container overview-intro-flex-container">
-                      <div className="char-overview-intro overview-intro">
-                        <Progress className="battle-char-health-bar health-bar" value="45" color="danger" />
-                        <CardImg className="char-overview-cardimg cardimg"
-                                 src={mockCharacterData.avatar}/>
-                        <CardBody className="char-overview-cardbody cardbody">
-                          <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{mockCharacterData.name}</CardTitle>
-                          <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + mockCharacterData.level.toString()}</CardSubtitle>
-                          <CardText className="char-overview-cardtext cardtext cardtext-color">{mockCharacterData.text}</CardText>
-                        </CardBody>
-                      </div>
-                    </div>
-                    <div className="char-overview-stats overview-stats">
-                      <Table>
-                        <thead>
-                        <tr>
-                          <th>{STRINGS.BATTLE_STAT_MSG}</th>
-                          <th>{STRINGS.BATTLE_VALUE_MSG}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                          <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
-                          <td>{mockCharacterData.attack}</td>
-                        </tr>
-                        <tr>
-                          <td>{STRINGS.BATTLE_DEFENSE_STAT_MSG}</td>
-                          <td>{mockCharacterData.defense}</td>
-                        </tr>
-                        <tr>
-                          <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
-                          <td>{mockCharacterData.magicAttack}</td>
-                        </tr>
-                        <tr>
-                          <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
-                          <td>{mockCharacterData.magicDefense}</td>
-                        </tr>
-                        </tbody>
-                      </Table>
-                    </div>
-                    <div className="overview-clear"/>
-                  </div>
-                </Card>
-                <Card className="battle-npc-card">
-                  <div className="char-overview-wrapper">
-                    <div className="char-overview-intro-flex-container overview-intro-flex-container">
-                      <div className="char-overview-intro overview-intro">
-                        <Progress className="battle-npc-health-bar health-bar" value="75" color="danger" />
-                        <CardImg className="char-overview-cardimg cardimg"
-                                 src={mockNPCData.avatar}/>
-                        <CardBody className="char-overview-cardbody cardbody">
-                          <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{mockNPCData.title}</CardTitle>
-                          <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + mockNPCData.level.toString()}</CardSubtitle>
-                          <CardText className="char-overview-cardtext cardtext cardtext-color">{mockNPCData.text}</CardText>
-                        </CardBody>
-                      </div>
-                    </div>
-                    <div className="char-overview-stats overview-stats">
-                      <Table>
-                        <thead>
-                        <tr>
-                          <th>{STRINGS.BATTLE_STAT_MSG}</th>
-                          <th>{STRINGS.BATTLE_VALUE_MSG}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                          <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
-                          <td>{mockNPCData.attack}</td>
-                        </tr>
-                        <tr>
-                          <td>{STRINGS.BATTLE_DEFENSE_STAT_MSG}</td>
-                          <td>{mockNPCData.defense}</td>
-                        </tr>
-                        <tr>
-                          <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
-                          <td>{mockNPCData.magicAttack}</td>
-                        </tr>
-                        <tr>
-                          <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
-                          <td>{mockNPCData.magicDefense}</td>
-                        </tr>
-                        </tbody>
-                      </Table>
-                    </div>
-                    <div className="overview-clear"/>
-                  </div>
-                </Card>
-              </div>
-              <h3 className="battle-container-header-text">{STRINGS.BATTLE_CONTAINER_HEADER_MSG_1 + mockNPCData.title + STRINGS.BATTLE_CONTAINER_HEADER_MSG_2}</h3>
+              {this.renderBattleCardContainer()}
+              <h3 className="battle-container-header-text">{STRINGS.BATTLE_CONTAINER_HEADER_MSG}</h3>
               <div className="battle-buttons-container container">
                 {/*TODO: maybe make these into dropdowns, each with their own respective selections*/}
                 {/*TODO: OR make these into modals that contain all available attacks or items or whatever*/}
-                <Button className="attack-button battle-button" color="danger">Attack</Button>{' '}
-                <Button className="magic-button battle-button" color="primary">Magic Attack</Button>{' '}
-                <Button className="inventory-button battle-button" color="success">Inventory</Button>{' '}
-                <Button className="escape-button battle-button" color="warning">Run Away!</Button>{' '}
+                <Button className="attack-button battle-button" color="danger">{STRINGS.BATTLE_BUTTON_ATTACK}</Button>{' '}
+                <Button className="magic-button battle-button" color="primary">{STRINGS.BATTLE_BUTTON_MAGIC}</Button>{' '}
+                <Button className="inventory-button battle-button" color="success">{STRINGS.BATTLE_BUTTON_INVENTORY}</Button>{' '}
+                <Button className="escape-button battle-button" color="warning">{STRINGS.BATTLE_BUTTON_ESCAPE}</Button>{' '}
               </div>
               <div className="battle-log-container container">
-                {/*TODO: make it so that the most recent action is always at the top*/}
                 <h3 className="battle-log-container-header-text">{STRINGS.BATTLE_LOG_CONTAINER_HEADER_MSG}</h3>
                 <ListGroup className="battle-log">
                   <ListGroupItem>List ordered such that most recent actions go on top</ListGroupItem>
