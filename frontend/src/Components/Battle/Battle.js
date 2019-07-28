@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   ListGroup,
@@ -20,144 +21,147 @@ import './Battle.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
 import Goblin from "../../Assets/goblin.png";
 
-class Battle extends React.Component {
-
-  renderBattleCardContainer = () => {
-    const mockNPCData = {
-      title: 'Goblin',
-      level: 1,
-      text: 'Here is some text about the Goblin',
-      avatar: Goblin,
-      currentHealth: 25,
-      maxHealth: 25,
-      attack: 5,
-      defense: 4,
-      magicAttack: 4,
-      magicDefense: 3
-    };
-
-    const mockCharacterData = {
-      name: 'Annabelle',
-      avatar: PrincessAvatar,
-      level: 1,
-      text: 'Here is some text about the character',
-      currentHealth: 25,
-      maxHealth: 25,
-      attack: 5,
-      defense: 4,
-      magicAttack: 4,
-      magicDefense: 3
-    };
-
-    // TODO: not sure about the const or if it's even necessary to have this outside battle-card-container
-    const characterCard = () => {
-      return (
-        <Card className="battle-character-card">
-          <div className="char-overview-wrapper">
-            <div className="char-overview-intro-flex-container overview-intro-flex-container">
-              <div className="char-overview-intro overview-intro">
-                <Progress className="battle-char-health-bar health-bar" value="45" color="danger" />
-                <CardImg className="char-overview-cardimg cardimg"
-                         src={mockCharacterData.avatar}/>
-                <CardBody className="char-overview-cardbody cardbody">
-                  <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{mockCharacterData.name}</CardTitle>
-                  <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + mockCharacterData.level.toString()}</CardSubtitle>
-                  <CardText className="char-overview-cardtext cardtext cardtext-color">{mockCharacterData.text}</CardText>
-                </CardBody>
-              </div>
-            </div>
-            <div className="char-overview-stats overview-stats">
-              <Table>
-                <thead>
-                <tr>
-                  <th>{STRINGS.BATTLE_STAT_MSG}</th>
-                  <th>{STRINGS.BATTLE_VALUE_MSG}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
-                  <td>{mockCharacterData.attack}</td>
-                </tr>
-                <tr>
-                  <td>{STRINGS.BATTLE_DEFENSE_STAT_MSG}</td>
-                  <td>{mockCharacterData.defense}</td>
-                </tr>
-                <tr>
-                  <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
-                  <td>{mockCharacterData.magicAttack}</td>
-                </tr>
-                <tr>
-                  <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
-                  <td>{mockCharacterData.magicDefense}</td>
-                </tr>
-                </tbody>
-              </Table>
-            </div>
-            <div className="overview-clear"/>
+function CharacterCard(props) {
+  const character = props.character;
+  return (
+    <Card className="battle-character-card">
+      <div className="char-overview-wrapper">
+        <div className="char-overview-intro-flex-container overview-intro-flex-container">
+          <div className="char-overview-intro overview-intro">
+            <Progress className="battle-char-health-bar health-bar" value="45" color="danger" />
+            <CardImg className="char-overview-cardimg cardimg"
+                     src={character.avatar}/>
+            <CardBody className="char-overview-cardbody cardbody">
+              <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{character.name}</CardTitle>
+              <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + character.level.toString()}</CardSubtitle>
+              <CardText className="char-overview-cardtext cardtext cardtext-color">{character.text}</CardText>
+            </CardBody>
           </div>
-        </Card>
-      );
-    };
-
-    // TODO: not sure about the const
-    const npcCard = () => {
-      return (
-        <Card className="battle-npc-card">
-          <div className="char-overview-wrapper">
-            <div className="char-overview-intro-flex-container overview-intro-flex-container">
-              <div className="char-overview-intro overview-intro">
-                <Progress className="battle-npc-health-bar health-bar" value="75" color="danger" />
-                <CardImg className="char-overview-cardimg cardimg"
-                         src={mockNPCData.avatar}/>
-                <CardBody className="char-overview-cardbody cardbody">
-                  <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{mockNPCData.title}</CardTitle>
-                  <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + mockNPCData.level.toString()}</CardSubtitle>
-                  <CardText className="char-overview-cardtext cardtext cardtext-color">{mockNPCData.text}</CardText>
-                </CardBody>
-              </div>
-            </div>
-            <div className="char-overview-stats overview-stats">
-              <Table>
-                <thead>
-                <tr>
-                  <th>{STRINGS.BATTLE_STAT_MSG}</th>
-                  <th>{STRINGS.BATTLE_VALUE_MSG}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
-                  <td>{mockNPCData.attack}</td>
-                </tr>
-                <tr>
-                  <td>{STRINGS.BATTLE_DEFENSE_STAT_MSG}</td>
-                  <td>{mockNPCData.defense}</td>
-                </tr>
-                <tr>
-                  <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
-                  <td>{mockNPCData.magicAttack}</td>
-                </tr>
-                <tr>
-                  <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
-                  <td>{mockNPCData.magicDefense}</td>
-                </tr>
-                </tbody>
-              </Table>
-            </div>
-            <div className="overview-clear"/>
-          </div>
-        </Card>
-      );
-    };
-
-    return (
-      <div className="battle-card-container container">
-        {characterCard()}
-        {npcCard()}
+        </div>
+        <div className="char-overview-stats overview-stats">
+          <Table>
+            <thead>
+            <tr>
+              <th>{STRINGS.BATTLE_STAT_MSG}</th>
+              <th>{STRINGS.BATTLE_VALUE_MSG}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
+              <td>{character.attack}</td>
+            </tr>
+            <tr>
+              <td>{STRINGS.BATTLE_DEFENSE_STAT_MSG}</td>
+              <td>{character.defense}</td>
+            </tr>
+            <tr>
+              <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
+              <td>{character.magicAttack}</td>
+            </tr>
+            <tr>
+              <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
+              <td>{character.magicDefense}</td>
+            </tr>
+            </tbody>
+          </Table>
+        </div>
+        <div className="overview-clear"/>
       </div>
-    );
+    </Card>
+  );
+}
+
+CharacterCard.propTypes = {
+  character: PropTypes.object
+};
+
+function NpcCard(props) {
+  const npc = props.npc;
+  return (
+    <Card className="battle-npc-card">
+      <div className="char-overview-wrapper">
+        <div className="char-overview-intro-flex-container overview-intro-flex-container">
+          <div className="char-overview-intro overview-intro">
+            <Progress className="battle-npc-health-bar health-bar" value="75" color="danger" />
+            <CardImg className="char-overview-cardimg cardimg"
+                     src={npc.avatar}/>
+            <CardBody className="char-overview-cardbody cardbody">
+              <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{npc.name}</CardTitle>
+              <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + npc.level.toString()}</CardSubtitle>
+              <CardText className="char-overview-cardtext cardtext cardtext-color">{npc.text}</CardText>
+            </CardBody>
+          </div>
+        </div>
+        <div className="char-overview-stats overview-stats">
+          <Table>
+            <thead>
+            <tr>
+              <th>{STRINGS.BATTLE_STAT_MSG}</th>
+              <th>{STRINGS.BATTLE_VALUE_MSG}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{STRINGS.BATTLE_ATTACK_STAT_MSG}</td>
+              <td>{npc.attack}</td>
+            </tr>
+            <tr>
+              <td>{STRINGS.BATTLE_DEFENSE_STAT_MSG}</td>
+              <td>{npc.defense}</td>
+            </tr>
+            <tr>
+              <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
+              <td>{npc.magicAttack}</td>
+            </tr>
+            <tr>
+              <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
+              <td>{npc.magicDefense}</td>
+            </tr>
+            </tbody>
+          </Table>
+        </div>
+        <div className="overview-clear"/>
+      </div>
+    </Card>
+  );
+}
+
+NpcCard.propTypes = {
+  npc: PropTypes.object
+};
+
+class Battle extends React.Component {
+  constructor(props) {
+    super(props);
   };
+
+  mockNPCData = {
+    name: 'Goblin',
+    level: 1,
+    text: 'Here is some text about the Goblin',
+    avatar: Goblin,
+    currentHealth: 25,
+    maxHealth: 25,
+    attack: 5,
+    defense: 4,
+    magicAttack: 4,
+    magicDefense: 3
+  };
+
+  mockCharacterData = {
+    name: 'Annabelle',
+    avatar: PrincessAvatar,
+    level: 1,
+    text: 'Here is some text about the character',
+    currentHealth: 25,
+    maxHealth: 25,
+    attack: 5,
+    defense: 4,
+    magicAttack: 4,
+    magicDefense: 3
+  };
+
   render() {
     return (
       <div className="battle-page page-container">
@@ -167,7 +171,10 @@ class Battle extends React.Component {
           <div className="battle-viewport-width">
             <h1 className="battle-header-text">{STRINGS.BATTLE_HEADER_MSG}</h1>
             <div className="battle-container container">
-              {this.renderBattleCardContainer()}
+              <div className="battle-card-container container">
+                <CharacterCard character={this.mockCharacterData}/>
+                <NpcCard npc={this.mockNPCData}/>
+              </div>
               <h3 className="battle-container-header-text">{STRINGS.BATTLE_CONTAINER_HEADER_MSG}</h3>
               <div className="battle-buttons-container container">
                 {/*TODO: maybe make these into dropdowns, each with their own respective selections*/}
