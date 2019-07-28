@@ -13,4 +13,24 @@ describe('Battle component', () => {
     const wrapper = shallow(<Battle/>);
     expect(wrapper.find(CustomNavbar).exists()).toBe(true);
   });
+
+  it('renders a character card', () => {
+    const wrapper = shallow(<Battle/>);
+    expect(wrapper.find('div.battle-character-card').exists()).toBe(true);
+  });
+
+  it('renders an npc card', () => {
+    const wrapper = shallow(<Battle/>);
+    expect(wrapper.find('div.battle-npc-card').exists()).toBe(true);
+  });
+
+  it('renders battle buttons container', () => {
+    const wrapper = shallow(<Battle/>);
+    expect(wrapper.find('div.battle-buttons-container').exists()).toBe(true);
+  });
+
+  it('renders battle log container', () => {
+    const wrapper = shallow(<Battle/>);
+    expect(wrapper.find('div.battle-log-container').exists()).toBe(true);
+  });
 });
