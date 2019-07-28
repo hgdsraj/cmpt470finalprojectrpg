@@ -23,12 +23,13 @@ import Goblin from "../../Assets/goblin.png";
 
 function CharacterCard(props) {
   const character = props.character;
+  let healthValue = Math.round(character.currentHealth / character.maxHealth * 100);
   return (
     <Card className="battle-character-card">
       <div className="char-overview-wrapper">
         <div className="char-overview-intro-flex-container overview-intro-flex-container">
           <div className="char-overview-intro overview-intro">
-            <Progress className="battle-char-health-bar health-bar" value="45" color="danger" />
+            <Progress className="battle-char-health-bar health-bar" value={healthValue} color="danger" />
             <CardImg className="char-overview-cardimg cardimg"
                      src={character.avatar}/>
             <CardBody className="char-overview-cardbody cardbody">
@@ -73,17 +74,18 @@ function CharacterCard(props) {
 }
 
 CharacterCard.propTypes = {
-  character: PropTypes.object
+  character: PropTypes.object,
 };
 
 function NpcCard(props) {
   const npc = props.npc;
+  let healthValue = Math.round(character.currentHealth / character.maxHealth * 100);
   return (
     <Card className="battle-npc-card">
       <div className="char-overview-wrapper">
         <div className="char-overview-intro-flex-container overview-intro-flex-container">
           <div className="char-overview-intro overview-intro">
-            <Progress className="battle-npc-health-bar health-bar" value="75" color="danger" />
+            <Progress className="battle-npc-health-bar health-bar" value={healthValue} color="danger" />
             <CardImg className="char-overview-cardimg cardimg"
                      src={npc.avatar}/>
             <CardBody className="char-overview-cardbody cardbody">
@@ -141,7 +143,7 @@ class Battle extends React.Component {
     level: 1,
     text: 'Here is some text about the Goblin',
     avatar: Goblin,
-    currentHealth: 25,
+    currentHealth: 15,
     maxHealth: 25,
     attack: 5,
     defense: 4,
@@ -154,7 +156,7 @@ class Battle extends React.Component {
     avatar: PrincessAvatar,
     level: 1,
     text: 'Here is some text about the character',
-    currentHealth: 25,
+    currentHealth: 22,
     maxHealth: 25,
     attack: 5,
     defense: 4,
