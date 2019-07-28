@@ -1,27 +1,3 @@
-// const NUMBERS = {
-//   BATTLE_STAT_INDEX_MAP: {
-//     'stamina': 0,
-//     'strength': 1,
-//     'agility': 2,
-//     'wisdom': 3,
-//     'charisma': 4
-//   },
-//   BATTLE_MIN_STAT_VALUES: [
-//     12,
-//     10,
-//     10,
-//     11,
-//     11
-//   ],
-//   BATTLE_MAX_STAT_VALUES: [
-//     16,
-//     14,
-//     14,
-//     15,
-//     15
-//   ]
-// };
-
 const STRINGS = {
   BATTLE_HEADER_MSG: 'You are challenged to a battle!',
   BATTLE_CHARACTER_NAME_MSG: 'Character name',
@@ -42,6 +18,5 @@ const STRINGS = {
 };
 
 export {
-  // NUMBERS,
   STRINGS
 }

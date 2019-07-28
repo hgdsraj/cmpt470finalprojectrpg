@@ -6,7 +6,11 @@ import {
   Progress,
   Card,
   CardImg,
-  Table, CardBody, CardTitle, CardSubtitle, CardText
+  Table,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
+  CardText
 } from 'reactstrap';
 import {
   STRINGS
@@ -176,6 +180,7 @@ class Battle extends React.Component {
               <div className="battle-log-container container">
                 <h3 className="battle-log-container-header-text">{STRINGS.BATTLE_LOG_CONTAINER_HEADER_MSG}</h3>
                 <ListGroup className="battle-log">
+                  {/*TODO: build a battle log, below is temporary just for mockup purposes*/}
                   <ListGroupItem>List ordered such that most recent actions go on top</ListGroupItem>
                   <ListGroupItem>Goblin hits you for 4 damage</ListGroupItem>
                   <ListGroupItem>You hit goblin for 5 damage</ListGroupItem>
