@@ -166,13 +166,30 @@ class Battle extends React.Component {
     }
   };
 
-  // TODO: expand this method to allow for different attack types (this is just the basic method for now)
+  // TODO: expand this method (or make more helper methods) to allow for different attack types, accuracy calculations,
+  //  critical hits (this is just the basic method for now)
   handleAttack = () => {
     let damage = this.state.mockCharacterData.attack - this.state.mockCharacterData.defense;
     if (damage < 0) {
       damage = 0;
     }
-    const newNPCHealth = this.state.mockNPCData.currentHealth - damage;
+    this.calculateNewNPCHealth(damage);
+  };
+
+  // TODO: will expand same as attack method
+  handleMagicAttack = () => {
+    let damage = this.state.mockCharacterData.magicAttack - this.state.mockCharacterData.magicDefense;
+    if (damage < 0) {
+      damage = 0;
+    }
+    this.calculateNewNPCHealth(damage);
+  };
+
+  calculateNewNPCHealth = (damage) => {
+    let newNPCHealth = this.state.mockNPCData.currentHealth - damage;
+    if (newNPCHealth < 0) {
+      newNPCHealth = 0;
+    }
     this.setState(prevState => ({
       mockNPCData: {
         ...prevState.mockNPCData,     // keep all other key-value pairs
@@ -205,7 +222,13 @@ class Battle extends React.Component {
                 >
                   {STRINGS.BATTLE_BUTTON_ATTACK}
                 </Button>
-                <Button className="magic-button battle-button" color="primary">{STRINGS.BATTLE_BUTTON_MAGIC}</Button>{' '}
+                <Button
+                    className="magic-button battle-button"
+                    color="primary"
+                    onClick={this.handleMagicAttack}
+                >
+                  {STRINGS.BATTLE_BUTTON_MAGIC}
+                </Button>
                 <Button className="inventory-button battle-button" color="success">{STRINGS.BATTLE_BUTTON_INVENTORY}</Button>{' '}
                 <Button className="escape-button battle-button" color="warning">{STRINGS.BATTLE_BUTTON_ESCAPE}</Button>{' '}
               </div>
