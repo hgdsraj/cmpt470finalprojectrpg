@@ -14,7 +14,7 @@ const STRINGS = {
   BATTLE_BUTTON_ATTACK: 'Attack',
   BATTLE_BUTTON_MAGIC: 'Magic Attack',
   BATTLE_BUTTON_INVENTORY: 'Inventory',
-  BATTLE_BUTTON_ESCAPE: 'Run Away!'
+  BATTLE_BUTTON_ESCAPE: 'Run Away'
 };
 
 export {
