@@ -25,24 +25,31 @@ class App extends React.Component {
     });
   }
 
-  handleRenderHomeRoute = () => {
-    let HomeComponent = null;
+  handleRenderProtectedPage = (page) => {
     if (this.state.isAuthenticated) {
-      HomeComponent = <Home />
+      return page;
     } else {
-      HomeComponent = <Redirect to="/login"/>
+      return <Redirect to="/login"/>
     }
-    return HomeComponent;
   };
+
+  handleRenderLoginOrSignupPage = (page) => {
+    if (this.state.isAuthenticated) {
+      return <Home />;
+    } else {
+      return page;
+    }
+  };
+
 
   render() {
     return (
       <Router>
-        <Route exact path="/" render={this.handleRenderHomeRoute}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/signup" component={Signup}/>
-        <Route path="/createcharacter" component={CreateCharacter}/>
-        <Route path="/battle" component={Battle}/>
+        <Route exact path="/" render={() => this.handleRenderProtectedPage(<Home />)}/>
+        <Route path="/login" component={() => this.handleRenderLoginOrSignupPage(<Login />)}/>
+        <Route path="/signup" component={() => this.handleRenderLoginOrSignupPage(<Signup />)}/>
+        <Route path="/createcharacter" component={() => this.handleRenderProtectedPage(<CreateCharacter />)}/>
+        <Route path="/battle" component={() => this.handleRenderProtectedPage(<Battle />)}/>
       </Router>
     );
   }
