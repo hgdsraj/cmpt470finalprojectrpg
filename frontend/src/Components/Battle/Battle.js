@@ -1,11 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Button,
-  Form,
-  FormGroup,
-  Input,
-  Label,
   ListGroup,
   ListGroupItem,
   Progress,
