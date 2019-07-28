@@ -56,7 +56,7 @@ class Login extends React.Component {
     }
     const body = await response.json();
     console.log(body);
-    // TODO: Redirect to home page (once it is built)
+    await this.props.handleAuthenticate();
   };
 
   // Small util function to handle clicks outside of the popover
@@ -168,7 +168,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  handleAppLogin: PropTypes.func
+  handleAuthenticate: PropTypes.func
 };
 
 export default Login;

@@ -19,10 +19,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetch(GLOBAL_URLS.GET_API_USERS_LOGGED_IN);
-    this.setState({
-      isAuthenticated: response.status !== GLOBAL_NUMBERS.HTTP_STATUS_CODE_403
-    });
+    await this.handleAuthenticate();
   }
 
   handleRenderProtectedPage = (page) => {
@@ -41,12 +38,18 @@ class App extends React.Component {
     }
   };
 
+  handleAuthenticate = async () => {
+    const response = await fetch(GLOBAL_URLS.GET_API_USERS_LOGGED_IN);
+    this.setState({
+      isAuthenticated: response.status !== GLOBAL_NUMBERS.HTTP_STATUS_CODE_403
+    });
+  };
 
   render() {
     return (
       <Router>
         <Route exact path="/" render={() => this.handleRenderProtectedPage(<Home />)}/>
-        <Route path="/login" component={() => this.handleRenderLoginOrSignupPage(<Login />)}/>
+        <Route path="/login" component={() => this.handleRenderLoginOrSignupPage(<Login handleAuthenticate={this.handleAuthenticate}/>)}/>
         <Route path="/signup" component={() => this.handleRenderLoginOrSignupPage(<Signup />)}/>
         <Route path="/createcharacter" component={() => this.handleRenderProtectedPage(<CreateCharacter />)}/>
         <Route path="/battle" component={() => this.handleRenderProtectedPage(<Battle />)}/>
