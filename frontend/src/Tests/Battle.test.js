@@ -14,14 +14,9 @@ describe('Battle component', () => {
     expect(wrapper.find(CustomNavbar).exists()).toBe(true);
   });
 
-  it('renders a character card', () => {
+  it('renders the battle card container', () => {
     const wrapper = shallow(<Battle/>);
-    expect(wrapper.find('div.battle-character-card').exists()).toBe(true);
-  });
-
-  it('renders an npc card', () => {
-    const wrapper = shallow(<Battle/>);
-    expect(wrapper.find('div.battle-npc-card').exists()).toBe(true);
+    expect(wrapper.find('div.battle-card-container').exists()).toBe(true);
   });
 
   it('renders battle buttons container', () => {
