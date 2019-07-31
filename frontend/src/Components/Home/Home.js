@@ -75,9 +75,8 @@ class Home extends React.Component {
   async componentDidMount() {
     const response = await fetch(GLOBAL_URLS.GET_API_CHARACTERS);
     const body = await response.json();
-    console.log('Found characters:', body);
     if (body) {
-      const allCharacters = body['characters'];
+      const allCharacters = body[STRINGS.HOME_CHARACTER_API_RESPONSE_INDEX];
       this.setState({
         allCharacters
       });
@@ -99,34 +98,20 @@ class Home extends React.Component {
   };
 
   renderMiniCharacterOverview = () => {
-    // TODO: fetch character data and map to mini character display component instead of using mock data
-    const mockCharacterData = {
-      name: 'Annabelle',
-      avatar: PrincessAvatar,
-      level: 1,
-      text: 'Here is some text about the character',
-      currentHealth: 25,
-      maxHealth: 25,
-      attack: 5,
-      defense: 4,
-      magicAttack: 4,
-      magicDefense: 3
-    };
-
+    const characterLevel = this.state.character.level ? this.state.character.level.toString() : null;
     return (
       <div className="mini-char-overview showcase-container container">
-        <h2>{STRINGS.HOME_MINI_CHAR_OVERVIEW_HEADER_MSG + `${mockCharacterData.name}!`}</h2>
+        <h2>{STRINGS.HOME_MINI_CHAR_OVERVIEW_HEADER_MSG + `${this.state.character.name}!`}</h2>
         <div className="mini-char-overview-content">
           <Card className="mini-char-overview-card">
             <div className="mini-char-overview-wrapper">
               <div className="mini-char-overview-intro-flex-container overview-intro-flex-container">
                 <div className="mini-char-overview-intro overview-intro">
                   <CardImg className="mini-char-overview-cardimg cardimg"
-                           src={mockCharacterData.avatar}/>
+                           src={/* TODO: Proper character avatar */ PrincessAvatar}/>
                   <CardBody className="mini-char-overview-cardbody cardbody">
-                    <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">{mockCharacterData.name}</CardTitle>
-                    <CardSubtitle className="mini-char-overview-cardsubtitle cardsubtitle">{STRINGS.HOME_LEVEL_MSG + mockCharacterData.level.toString()}</CardSubtitle>
-                    <CardText className="mini-char-overview-cardtext cardtext cardtext-color">{mockCharacterData.text}</CardText>
+                    <CardTitle className="mini-char-overview-cardtitle cardtitle cardtext-color">{this.state.character.name}</CardTitle>
+                    <CardSubtitle className="mini-char-overview-cardsubtitle cardsubtitle">{STRINGS.HOME_LEVEL_MSG + characterLevel}</CardSubtitle>
                   </CardBody>
                 </div>
               </div>
@@ -141,23 +126,23 @@ class Home extends React.Component {
                   <tbody>
                   <tr>
                     <td>{STRINGS.HOME_MINI_CHAR_OVERVIEW_HEALTH_STAT_MSG}</td>
-                    <td>{mockCharacterData.currentHealth}/{mockCharacterData.maxHealth}</td>
+                    <td>{this.state.character.health}/{this.state.character.health}</td>
                   </tr>
                   <tr>
                     <td>{STRINGS.HOME_MINI_CHAR_OVERVIEW_ATTACK_STAT_MSG}</td>
-                    <td>{mockCharacterData.attack}</td>
+                    <td>{this.state.character.attack}</td>
                   </tr>
                   <tr>
                     <td>{STRINGS.HOME_MINI_CHAR_OVERVIEW_DEFENSE_STAT_MSG}</td>
-                    <td>{mockCharacterData.defense}</td>
+                    <td>{this.state.character.defense}</td>
                   </tr>
                   <tr>
                     <td>{STRINGS.HOME_MINI_CHAR_OVERVIEW_MAGIC_ATTACK_STAT_MSG}</td>
-                    <td>{mockCharacterData.magicAttack}</td>
+                    <td>{this.state.character.magic_attack}</td>
                   </tr>
                   <tr>
                     <td>{STRINGS.HOME_MINI_CHAR_OVERVIEW_MAGIC_DEFENSE_STAT_MSG}</td>
-                    <td>{mockCharacterData.magicDefense}</td>
+                    <td>{this.state.character.magic_defense}</td>
                   </tr>
                   </tbody>
                 </Table>
