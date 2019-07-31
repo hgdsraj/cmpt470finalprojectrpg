@@ -623,7 +623,6 @@ func TestHandleUserLogin(t *testing.T) {
 		Username: user.Username,
 		Password: "",
 		FullName: user.FullName,
-
 	}
 	if eq := reflect.DeepEqual(expectedUser, responseUser); !eq {
 		t.Fatalf("expectedUser not equal to responseUser\nexpected:\n%v\ngot:\n%v\n",
@@ -777,4 +776,73 @@ func TestHandleUserCharacters(t *testing.T) {
 	testUserDoesntExist()
 
 	//TODO find a way to test that we don't get other users characters
+}
+
+func TestHandleUserLogout(t *testing.T) {
+	SetupConfig()
+	db, mock, err := sqlmock.New()
+
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+
+	// set database to be our mock db
+	Database = db
+	helpers.Database = db
+	defer func() {
+		// we make sure that all expectations were met
+		if err := mock.ExpectationsWereMet(); err != nil {
+			t.Errorf("there were unfulfilled expectations: %s", err)
+		}
+	}()
+
+	user := shared.User{
+		Id:       420,
+		Username: "ilon",
+		Password: "mask",
+		FullName: "ilonmask",
+	}
+
+	testSuccessfulLogout := func() {
+		salt := "salt"
+		sessionKey := "key"
+		passwordSaltRows := sqlmock.NewRows([]string{"passwordsalt", "id"}).AddRow("salt", user.Id)
+		hashedKey, err := bcrypt.GenerateFromPassword([]byte(sessionKey+salt), bcrypt.MinCost)
+		if err != nil {
+			t.Fatal(err)
+		}
+		sessionKeyRows := sqlmock.NewRows([]string{"sessionkey"}).AddRow(hashedKey)
+		mock.ExpectQuery("SELECT").WillReturnRows(passwordSaltRows)
+		mock.ExpectQuery("SELECT").WillReturnRows(sessionKeyRows)
+
+		req, err := http.NewRequest("POST", "/users/logout", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		rr := httptest.NewRecorder()
+		http.SetCookie(rr, &http.Cookie{Name: "username", Value: "ilon"})
+		http.SetCookie(rr, &http.Cookie{Name: "session_token", Value: sessionKey})
+		req.Header = http.Header{"Cookie": rr.HeaderMap["Set-Cookie"]}
+
+		handler := http.HandlerFunc(HandleUserLogout)
+
+		// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
+		// directly and pass in our Request and ResponseRecorder.
+		handler.ServeHTTP(rr, req)
+		// Check the status code is what we expect.
+		if status := rr.Code; status != http.StatusOK {
+			t.Errorf("wrong status code: got %v want %v", status, http.StatusCreated)
+		}
+
+		expectedBody, err := json.Marshal(shared.Response{"User logged out successfully"})
+		if err != nil {
+			t.Fatal(err)
+		}
+		if rr.Body.String() != string(expectedBody) {
+			t.Fatalf("body not equal to expected body\nexpected:\n%v\ngot:\n%v\n",
+				expectedBody, rr.Body.String())
+		}
+	}
+	testSuccessfulLogout()
 }

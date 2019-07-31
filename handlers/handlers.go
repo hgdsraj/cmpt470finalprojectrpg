@@ -110,6 +110,38 @@ func HandleUserExists(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func HandleUserLogout(w http.ResponseWriter, r *http.Request) {
+	EnableCors(&w)
+	if _, err := helpers.UserLoggedIn(r); err != nil {
+		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("User was not authenticated! error: %v", err), http.StatusForbidden)
+		return
+	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:    "session_token",
+		Value:   "",
+		Path:    "/api/",
+		Expires: time.Now().AddDate(-1, 0, 0),
+	})
+	http.SetCookie(w, &http.Cookie{
+		Name:    "username",
+		Value:   "",
+		Path:    "/api/",
+		Expires: time.Now().AddDate(-1, 0, 0),
+	})
+
+	w.WriteHeader(http.StatusOK)
+	responseToEncode := shared.Response{"User logged out successfully"}
+	encodedResponse, err := json.Marshal(responseToEncode)
+	if err != nil {
+		log.Printf(helpers.JsonEncodingErrorFormatString, err)
+	}
+	_, err = w.Write(encodedResponse)
+	if err != nil {
+		log.Printf(helpers.WritingErrorFormatString, err)
+	}
+}
+
 func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	EnableCors(&w)
 	requestUser := shared.User{}

@@ -97,6 +97,7 @@ func main() {
 	api := r.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/users/exists/{username}", handlers.HandleUserExists).Methods("GET")
 	api.HandleFunc("/users/login", handlers.HandleUserLogin).Methods("POST")
+	api.HandleFunc("/users/logout", handlers.HandleUserLogout).Methods("POST")
 	api.HandleFunc("/users/logged_in", handlers.HandleTestUserLoggedIn).Methods("GET")
 	api.HandleFunc("/users/create", handlers.HandleUserCreate).Methods("POST")
 	api.HandleFunc("/characters/create", handlers.HandleCharacterCreate).Methods("POST")
