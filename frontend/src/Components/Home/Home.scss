@@ -75,6 +75,10 @@
 
 .select-character-modal {
 
+  .select-character-modal-card-container {
+    flex-wrap: wrap;
+  }
+
   .select-character-modal-no-characters-msg {
     font-size: 22px;
     display: block;
