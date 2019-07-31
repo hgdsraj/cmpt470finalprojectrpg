@@ -405,8 +405,8 @@ func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 	characters := shared.Characters{[]shared.Character{}}
 	for rows.Next() {
 		character := shared.Character{}
-		err := rows.Scan(&character.CharacterId, &character.CharacterName, &character.Attack, &character.MagicAttack,
-			&character.MagicDefense, &character.Defense, &character.Health, &character.UserId, &character.Stamina,
+		err := rows.Scan(&character.CharacterId, &character.CharacterName, &character.Attack, &character.Defense,
+			&character.MagicAttack, &character.MagicDefense, &character.Health, &character.UserId, &character.Stamina,
 			&character.Strength, &character.Agility, &character.Wisdom, &character.Charisma)
 		if err != nil {
 			msg := fmt.Sprintf("error scanning row, aborting. error: %v", err)
