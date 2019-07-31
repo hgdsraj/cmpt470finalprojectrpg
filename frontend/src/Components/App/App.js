@@ -47,7 +47,6 @@ class App extends React.Component {
     });
   };
 
-
   handleConfirmCharacterSelection = (currentCharacterName) => {
     this.setState({
       isCharacterSelected: true,
@@ -91,13 +90,15 @@ class App extends React.Component {
         <Route
           path="/signup"
           component={() => this.handleRenderLoginOrSignupPage(<Signup
-            handleAuthenticate={this.handleAuthenticate}/>
-            )}
+            handleAuthenticate={this.handleAuthenticate}
+          />)}
         />
         <Route
           path="/createcharacter"
-          component={() => this.handleRenderProtectedPage(<CreateCharacter
+          component={props => this.handleRenderProtectedPage(<CreateCharacter
             handleUnauthenticate={this.handleUnauthenticate}
+            handleConfirmCharacterSelection={this.handleConfirmCharacterSelection}
+            {...props}
           />)}
         />
         <Route

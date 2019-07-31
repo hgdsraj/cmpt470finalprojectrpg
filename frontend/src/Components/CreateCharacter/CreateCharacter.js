@@ -236,7 +236,8 @@ class CreateCharacter extends React.Component {
     });
     const body = await response.json();
     console.log(body);
-    // TODO: redirect to home page (implement after cookies/sessions is properly hooked up)
+    this.props.handleConfirmCharacterSelection(this.state.characterName);
+    this.props.history.push('/');
   };
 
   handleChangeCharacterName = (event) => {
@@ -289,7 +290,8 @@ class CreateCharacter extends React.Component {
 }
 
 CreateCharacter.propTypes = {
-  handleUnauthenticate: PropTypes.func
+  handleUnauthenticate: PropTypes.func,
+  handleConfirmCharacterSelection: PropTypes.func
 };
 
 export default CreateCharacter;
