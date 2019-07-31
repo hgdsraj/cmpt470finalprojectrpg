@@ -1,7 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Card, CardImg, Form, FormGroup, Input, Label, Table} from 'reactstrap';
-import {MSG_STRING_CONSTANTS, NUMERIC_CONSTANTS, URL_CONSTANTS} from '../../Constants/Constants';
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Card,
+  CardImg,
+  Table
+} from 'reactstrap';
+import {
+  NUMBERS,
+  STRINGS
+} from '../../Constants/CreateCharacterConstants';
+import {
+  GLOBAL_URLS
+} from '../../Constants/GlobalConstants';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './CreateCharacter.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
@@ -20,7 +35,7 @@ function AssignStatsTable(props) {
               onClick={props.buttonOnClick}
               disabled={stat.isSubtractButtonDisabled}
             >
-              {MSG_STRING_CONSTANTS.CREATE_CHARACTER_SUBTRACT_STAT_BUTTON_MSG}
+              {STRINGS.CREATE_CHARACTER_SUBTRACT_STAT_BUTTON_MSG}
             </Button>
             {stat.value}
             <Button
@@ -30,7 +45,7 @@ function AssignStatsTable(props) {
               onClick={props.buttonOnClick}
               disabled={stat.isAddButtonDisabled}
             >
-              {MSG_STRING_CONSTANTS.CREATE_CHARACTER_ADD_STAT_BUTTON_MSG}
+              {STRINGS.CREATE_CHARACTER_ADD_STAT_BUTTON_MSG}
             </Button>
           </p>
         </td>
@@ -41,15 +56,15 @@ function AssignStatsTable(props) {
   return (
     <FormGroup className="create-character-avatar-form-group">
       <Label className="create-character-form-label form-label">
-        {`${MSG_STRING_CONSTANTS.CREATE_CHARACTER_ASSIGN_STATS_POINTS_MSG_ROOT}${props.remainingStatPoints}${MSG_STRING_CONSTANTS.CREATE_CHARACTER_ASSIGN_STATS_POINTS_MSG_END}`}
+        {`${STRINGS.CREATE_CHARACTER_ASSIGN_STATS_POINTS_MSG_ROOT}${props.remainingStatPoints}${STRINGS.CREATE_CHARACTER_ASSIGN_STATS_POINTS_MSG_END}`}
       </Label>
       <div className="create-character-assign-stats-card-wrapper">
         <Card className="create-character-assign-stats-card">
           <Table className="create-character-assign-stats-table">
             <thead>
             <tr>
-              <th>{MSG_STRING_CONSTANTS.CREATE_CHARACTER_ASSIGN_STATS_STAT_MSG}</th>
-              <th>{MSG_STRING_CONSTANTS.CREATE_CHARACTER_ASSIGN_STATS_VALUE_MSG}</th>
+              <th>{STRINGS.CREATE_CHARACTER_ASSIGN_STATS_STAT_MSG}</th>
+              <th>{STRINGS.CREATE_CHARACTER_ASSIGN_STATS_VALUE_MSG}</th>
             </tr>
             </thead>
             <tbody>
@@ -90,8 +105,7 @@ function AvatarSelect(props) {
 
   return (
     <FormGroup className="create-character-avatar-form-group" tag="avatar-select">
-      <legend
-        className="create-character-avatar-legend">{MSG_STRING_CONSTANTS.CREATE_CHARACTER_AVATAR_SELECT_AVATAR_MSG}</legend>
+      <legend className="create-character-avatar-legend">{STRINGS.CREATE_CHARACTER_AVATAR_SELECT_AVATAR_MSG}</legend>
       <div className="create-character-avatar-card-container card-container">
         {avatars}
       </div>
@@ -153,7 +167,7 @@ class CreateCharacter extends React.Component {
       });
     } else {
       stats.forEach((stat, index) => {
-        if (stat.value < NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUES[index]) {
+        if (stat.value < NUMBERS.CREATE_CHARACTER_MAX_STAT_VALUES[index]) {
           stat.isAddButtonDisabled = false;
         }
       });
@@ -166,10 +180,10 @@ class CreateCharacter extends React.Component {
   handleAddOrSubtractStat = (event) => {
     const splitTargetId = event.target.id.split('-');
     const operation = splitTargetId[0];
-    const statIndex = NUMERIC_CONSTANTS.CREATE_CHARACTER_STAT_INDEX_MAP[splitTargetId[1]];
-    if (operation === 'add') {
+    const statIndex = NUMBERS.CREATE_CHARACTER_STAT_INDEX_MAP[splitTargetId[1]];
+    if (operation === STRINGS.CREATE_CHARACTER_ADD_STAT_MSG) {
       const stat = {...this.state.stats[statIndex]};
-      if (stat.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MAX_STAT_VALUES[statIndex] - 1) {
+      if (stat.value === NUMBERS.CREATE_CHARACTER_MAX_STAT_VALUES[statIndex] - 1) {
         stat.isAddButtonDisabled = true;
       }
       stat.value++;
@@ -182,7 +196,7 @@ class CreateCharacter extends React.Component {
       }, this.handleCheckRemainingStatPoints);
     } else {
       const stat = {...this.state.stats[statIndex]};
-      if (stat.value === NUMERIC_CONSTANTS.CREATE_CHARACTER_MIN_STAT_VALUES[statIndex] + 1) {
+      if (stat.value === NUMBERS.CREATE_CHARACTER_MIN_STAT_VALUES[statIndex] + 1) {
         stat.isSubtractButtonDisabled = true;
       }
       stat.value--;
@@ -205,9 +219,7 @@ class CreateCharacter extends React.Component {
 
   handleCreateCharacter = async (event) => {
     event.preventDefault();
-    // TODO: get the username from the session cookie once it is implemented
-    // NOTE: anothernewuser is just a placeholder user name for now. REMOVE THIS ASAP!
-    const response = await fetch(`${URL_CONSTANTS.API_CHARACTERS_ROOT}/anothernewuser/${URL_CONSTANTS.POST_API_CHARACTERS_CREATE}`, {
+    const response = await fetch(`${GLOBAL_URLS.POST_API_CHARACTERS_CREATE}`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -234,33 +246,30 @@ class CreateCharacter extends React.Component {
     });
   };
 
-  // NOTE: For avatar label names, keep them to one word, no more than 10 characters
   render() {
-    // Define avatar names here
-
     return (
       <div className="create-character-page page-container">
         <CustomNavbar/>
         {/* TODO: Change CSS such that we don't need this full-viewport-with-navbar class - use flexbox page-containers instead */}
         <div className="create-character-centered-content full-viewport-with-navbar centered content container">
           <div className="create-character-viewport-width">
-            <h1 className="create-character-header-text">{MSG_STRING_CONSTANTS.CREATE_CHARACTER_HEADER_MSG}</h1>
+            <h1 className="create-character-header-text">{STRINGS.CREATE_CHARACTER_HEADER_MSG}</h1>
             <Form onSubmit={this.handleCreateCharacter}>
               <FormGroup className="create-character-form-group">
                 <Label for="charactername" className="create-character-form-label form-label">
-                  {MSG_STRING_CONSTANTS.CREATE_CHARACTER_CHARACTER_NAME_MSG}
+                  {STRINGS.CREATE_CHARACTER_CHARACTER_NAME_MSG}
                 </Label>
                 <Input type="charactername" id="charactername"
                        onChange={this.handleChangeCharacterName}/>
               </FormGroup>
               <AvatarSelect
-                avatars={MSG_STRING_CONSTANTS.CREATE_CHARACTER_AVATAR_NAMES}
+                avatars={STRINGS.CREATE_CHARACTER_AVATAR_NAMES}
                 onChange={this.handleChangeAvatarSelection}
               />
               <AssignStatsTable
                 stats={this.state.stats}
                 remainingStatPoints={this.state.remainingStatPoints}
-                statIds={MSG_STRING_CONSTANTS.CREATE_CHARACTER_STAT_IDS}
+                statIds={STRINGS.CREATE_CHARACTER_STAT_IDS}
                 buttonOnClick={this.handleAddOrSubtractStat}
               />
               <Button
@@ -269,7 +278,7 @@ class CreateCharacter extends React.Component {
                 className="create-button"
                 disabled={this.state.remainingStatPoints > 0 || !this.state.characterName || !this.state.avatarSelection}
               >
-                {MSG_STRING_CONSTANTS.CREATE_CHARACTER_CREATE_BUTTON_MSG}
+                {STRINGS.CREATE_CHARACTER_CREATE_BUTTON_MSG}
               </Button>
             </Form>
           </div>

@@ -8,32 +8,47 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"fmt"
 	"log"
 )
 
 var JsonEncodingErrorFormatString = "json encoding error: %v"
 var WritingErrorFormatString = "error writing: %v"
 var Database *sql.DB
-var Test = false
 
-func UserLoggedIn(username string, r *http.Request) bool {
-	if Test {
-		return true
+func GetUsername(r *http.Request) (string, error) {
+	c, err := r.Cookie("username")
+	if err != nil {
+		if err == http.ErrNoCookie {
+			return "", fmt.Errorf("username was not present: %v\n", err)
+		}
+		return "", fmt.Errorf("user attempted to authenticate but an error occured: %v\n", err)
 	}
-	if username == "" {
-		log.Println("No username was provided")
-		return false
-	}
+	return c.Value, nil
+}
+
+func GetSessionToken(r *http.Request) (string, error) {
 	c, err := r.Cookie("session_token")
 	if err != nil {
 		if err == http.ErrNoCookie {
-			log.Printf("user: %v was not logged in: %v\n", username, err)
-			return false
+			return "", fmt.Errorf("user was not logged in: %v\n", err)
 		}
-		log.Printf("user: %v attempted to authenticate but an error occured: %v\n", username, err)
-		return false
+		return "", fmt.Errorf("user attempted to authenticate but an error occured: %v\n", err)
 	}
-	sessionToken := c.Value
+	return c.Value, nil
+}
+
+func UserLoggedIn(r *http.Request) (bool, error) {
+
+	sessionToken, err := GetSessionToken(r)
+	if err != nil {
+		return false, err
+	}
+	username, err := GetUsername(r)
+	if err != nil {
+		return false, err
+	}
+
 	var (
 		passwordSalt       string
 		userId             string
@@ -43,23 +58,21 @@ func UserLoggedIn(username string, r *http.Request) bool {
 	row := Database.QueryRow(query, username)
 	err = row.Scan(&passwordSalt, &userId)
 	if err != nil {
-		log.Printf("err while querying for userid and salt in users: %v\n", err)
-		return false
+		return false, fmt.Errorf("err while querying for userid and salt in users: %v\n", err)
 	}
 	query = `SELECT sessionkey FROM usersessions WHERE userid = $1`
 	row = Database.QueryRow(query, userId)
 	err = row.Scan(&hashedSessionToken)
 	if err != nil {
-		log.Printf("err while querying for sessionkey in usersessions: %v\n", err)
-		return false
+		return false, fmt.Errorf("err while querying for sessionkey in usersessions: %v\n", err)
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(hashedSessionToken), []byte(sessionToken+passwordSalt))
 	if err != nil {
-		log.Printf("err while comparing hashed session token with user session token: %v\n", err)
-		return false
+		return false, fmt.Errorf("err while comparing hashed session token with user session token: %v\n", err)
+
 	}
 
-	return true
+	return true, nil
 }
 
 func LogAndSendErrorMessage(w http.ResponseWriter, message string, statusCode int) {
