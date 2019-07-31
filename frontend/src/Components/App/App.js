@@ -48,7 +48,6 @@ class App extends React.Component {
   };
 
   handleConfirmCharacterSelection = (currentCharacterName) => {
-    console.log("called");
     this.setState({
       isCharacterSelected: true,
       currentCharacterName
