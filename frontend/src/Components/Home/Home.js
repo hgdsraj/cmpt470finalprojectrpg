@@ -49,6 +49,7 @@ function SelectCharacterModal(props) {
       selectionButtonText={STRINGS.HOME_SELECT_CHARACTER_MODAL_SELECT_BUTTON_MSG}
       className="select-character-modal"
       isOpen={!props.isCharacterSelected}
+      selectButtonDisabled={!props.characterSelection}
       onSelect={() => props.handleConfirmCharacterSelection(props.characterSelection)}
     />
   );

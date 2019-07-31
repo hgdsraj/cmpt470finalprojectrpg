@@ -24,7 +24,7 @@ function CustomSelectionModal(props) {
         </div>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={props.onSelect}>{props.selectionButtonText}</Button>
+        <Button color="primary" disabled={props.selectButtonDisabled} onClick={props.onSelect}>{props.selectionButtonText}</Button>
       </ModalFooter>
     </Modal>
   );
@@ -34,6 +34,7 @@ CustomSelectionModal.propTypes = {
   modalHeader: PropTypes.element,
   modalBody: PropTypes.element,
   isOpen: PropTypes.bool,
+  selectButtonDisabled: PropTypes.bool,
   onSelect: PropTypes.func,
   selectionButtonText: PropTypes.string,
   className: PropTypes.string
