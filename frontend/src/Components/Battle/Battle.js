@@ -191,7 +191,7 @@ class Battle extends React.Component {
   };
 
   // TODO: will expand same as attack method
-  handlemagic_attack = () => {
+  handleMagicAttack = () => {
     let damage = this.state.character.magic_attack - this.state.npc.magic_defense;
     if (damage < 0) {
       damage = 0;
@@ -282,7 +282,7 @@ class Battle extends React.Component {
                 <Button
                     className="magic-button battle-button"
                     color="primary"
-                    onClick={this.handlemagic_attack}
+                    onClick={this.handleMagicAttack}
                 >
                   {STRINGS.BATTLE_BUTTON_MAGIC}
                 </Button>
