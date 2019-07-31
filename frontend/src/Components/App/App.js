@@ -32,7 +32,7 @@ class App extends React.Component {
 
   handleRenderLoginOrSignupPage = (page) => {
     if (this.state.isAuthenticated) {
-      return <Home />;
+      return <Redirect to="/"/>;
     } else {
       return page;
     }
