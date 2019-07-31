@@ -103,7 +103,7 @@ class Home extends React.Component {
     if (body) {
       const allCharacters = body[STRINGS.HOME_CHARACTER_API_RESPONSE_INDEX];
       this.setState({
-        allCharacters: []
+        allCharacters
       });
       allCharacters.forEach(character => {
         if (character.name === this.props.currentCharacterName) {
