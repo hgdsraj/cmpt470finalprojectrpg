@@ -85,6 +85,7 @@ CharacterCard.propTypes = {
 function NpcCard(props) {
   const npc = props.npc;
   const healthValue = Math.round(npc.currentHealth / npc.health * 100);
+  const npcLevel = npc.level ? npc.level.toString() : null;
   return (
     <Card className="battle-npc-card">
       <div className="char-overview-wrapper">
@@ -93,10 +94,10 @@ function NpcCard(props) {
             <div className="battle-health-label text-center">{npc.currentHealth} / {npc.health}</div>
             <Progress className="battle-npc-health-bar health-bar" value={healthValue} color="danger" />
             <CardImg className="char-overview-cardimg cardimg"
-                     src={npc.avatar}/>
+                     src={/*npc.avatar*/Goblin}/>
             <CardBody className="char-overview-cardbody cardbody">
               <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{npc.name}</CardTitle>
-              <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + npc.level.toString()}</CardSubtitle>
+              <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + npcLevel}</CardSubtitle>
             </CardBody>
           </div>
         </div>
@@ -143,35 +144,37 @@ class Battle extends React.Component {
     super(props);
     // TODO: determine this value
     this.currentCharacterId = 1;
+    this.currentNPCId = 1;
     this.state = {
       winner: '',
       character: {},
-      // TODO: fetch npc data, same method as character
-      npc: {
-        name: 'Goblin',
-        level: 1,
-        avatar: Goblin,
-        currentHealth: 25,
-        health: 25,
-        attack: 5,
-        defense: 4,
-        magic_attack: 12,
-        magic_defense: 3
-      }
+      npc: {}
     }
   };
 
   async componentDidMount() {
-    const response = await fetch(GLOBAL_URLS.GET_API_CHARACTERS);
-    console.log('Send fetch');
-    const body = await response.json();
-    console.log('Found characters:', body);
-    if (body) {
-      body['characters'].forEach(character => {
+    const responseCharacters = await fetch(GLOBAL_URLS.GET_API_CHARACTERS);
+    const responseNPCs = await fetch(GLOBAL_URLS.GET_API_NPCS);
+    const bodyCharacters = await responseCharacters.json();
+    const bodyNPCs = await responseNPCs.json();
+    console.log('Found characters:', bodyCharacters);
+    console.log('Found npcs:', bodyNPCs);
+    if (bodyCharacters) {
+      bodyCharacters['characters'].forEach(character => {
         if (character.id === this.currentCharacterId) {
           character.currentHealth = character.health;
           this.setState({
             character
+          });
+        }
+      });
+    }
+    if (bodyNPCs) {
+      bodyNPCs['npcs'].forEach(npc => {
+        if (npc.id === this.currentNPCId) {
+          npc.currentHealth = npc.health;
+          this.setState({
+            npc
           });
         }
       });

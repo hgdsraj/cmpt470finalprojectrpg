@@ -27,7 +27,8 @@ const GLOBAL_URLS = {
   POST_API_USERS_LOGOUT: '/api/users/logout',
   GET_API_USERS_EXISTS: '/api/users/exists/',
   GET_API_USERS_LOGGED_IN: '/api/users/logged_in',
-  GET_API_CHARACTERS: '/api/characters'
+  GET_API_CHARACTERS: '/api/characters',
+  GET_API_NPCS: '/api/npcs'
 };
 
 export {
