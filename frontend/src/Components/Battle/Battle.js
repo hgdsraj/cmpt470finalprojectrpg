@@ -181,6 +181,18 @@ class Battle extends React.Component {
     }
   }
 
+  handleEscape = () => {
+    const success = Math.round(Math.random()); // generates 0 or 1
+    if (success === 1) {      // allowed to escape
+      // TODO: log the action, save the battle, redirect to home
+      console.log("Escape successful!");
+    } else {                  // not allowed to escape
+      // TODO: log the action, maybe a popup saying escape failed, continue battle
+      console.log("Escape unsuccessful!");
+      this.npcAttack();
+    }
+  };
+
   // TODO: expand this method (or make more helper methods) to allow for different attack types, accuracy calculations,
   //  critical hits (this is just the basic method for now)
   handleAttack = () => {
@@ -289,8 +301,15 @@ class Battle extends React.Component {
                 >
                   {STRINGS.BATTLE_BUTTON_MAGIC}
                 </Button>
+                {/*TODO: hookup character inventory (probably just consumables) once the endpoint is created*/}
                 <Button className="inventory-button battle-button" color="success">{STRINGS.BATTLE_BUTTON_INVENTORY}</Button>{' '}
-                <Button className="escape-button battle-button" color="warning">{STRINGS.BATTLE_BUTTON_ESCAPE}</Button>{' '}
+                <Button
+                    className="escape-button battle-button"
+                    color="warning"
+                    onClick={this.handleEscape}
+                >
+                  {STRINGS.BATTLE_BUTTON_ESCAPE}
+                </Button>{' '}
               </div>
               <div className="battle-log-container container">
                 <h3 className="battle-log-container-header-text">{STRINGS.BATTLE_LOG_CONTAINER_HEADER_MSG}</h3>
