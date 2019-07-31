@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, Card, CardBody, CardImg, CardSubtitle, CardText, CardTitle, Input, Table} from 'reactstrap';
+import {Link} from 'react-router-dom';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import CustomSelectionModal from '../CustomSelectionModal/CustomSelectionModal';
 import {
@@ -18,34 +19,50 @@ import GrassMap from '../../Assets/grass_map.png';
 import BluePotion from '../../Assets/blue_potion.png';
 
 function SelectCharacterModal(props) {
-  const characterCards = props.characters.map((character, index) => {
-    const characterLevel = character.level ? character.level.toString() : null;
-    return (
-      <div className="select-character-card-wrapper" key={index}>
-        <Card className="">
-          <CardImg className="cardimg" src={PrincessAvatar} />
-          <CardBody className="cardbody">
-            <CardTitle className="cardtitle cardtext-color">{character.name}</CardTitle>
-            <CardSubtitle className="cardsubtitle">{STRINGS.HOME_LEVEL_MSG + characterLevel}</CardSubtitle>
-          </CardBody>
-        </Card>
-        <div className="select-character-label-wrapper">
-          <Input id={character.name} type="radio" name="character-select" onChange={props.handleChangeCharacterSelection}/>
+  let characters;
+  if (props.characters.length > 0) {
+    characters = props.characters.map((character, index) => {
+      const characterLevel = character.level ? character.level.toString() : null;
+      return (
+        <div className="select-character-card-wrapper" key={index}>
+          <Card className="">
+            <CardImg className="cardimg" src={PrincessAvatar} />
+            <CardBody className="cardbody">
+              <CardTitle className="cardtitle cardtext-color">{character.name}</CardTitle>
+              <CardSubtitle className="cardsubtitle">{STRINGS.HOME_LEVEL_MSG + characterLevel}</CardSubtitle>
+            </CardBody>
+          </Card>
+          <div className="select-character-label-wrapper">
+            <Input id={character.name} type="radio" name="character-select" onChange={props.handleChangeCharacterSelection}/>
+          </div>
         </div>
-      </div>
-    );
-  });
+      );
+    });
+  } else {
+    characters = <div>
+      <p className="select-character-modal-no-characters-msg">{STRINGS.HOME_SELECT_CHARACTER_MODAL_NO_CHARACTERS_MSG_PT_1}</p>
+      <p className="select-character-modal-no-characters-msg">{STRINGS.HOME_SELECT_CHARACTER_MODAL_NO_CHARACTERS_MSG_PT_2}</p>
+    </div>
+  }
 
   const modalHeader = (
     <div className="select-character-modal-header">{STRINGS.HOME_SELECT_CHARACTER_MODAL_HEADER_MSG}</div>
   );
   const modalBody = (
-    <div className="select-character-modal-card-container card-container">{characterCards}</div>
+    <div className="select-character-modal-card-container card-container">{characters}</div>
+  );
+  const modalFooter = (
+      <Link to="/createcharacter">
+        <Button color="primary" className="select-character-modal-footer-button">
+          {STRINGS.HOME_SELECT_CHARACTER_MODAL_CREATE_BUTTON_MSG}
+        </Button>
+      </Link>
   );
   return (
     <CustomSelectionModal
       modalHeader={modalHeader}
       modalBody={modalBody}
+      modalFooter={modalFooter}
       selectionButtonText={STRINGS.HOME_SELECT_CHARACTER_MODAL_SELECT_BUTTON_MSG}
       className="select-character-modal"
       isOpen={!props.isCharacterSelected}
@@ -86,7 +103,7 @@ class Home extends React.Component {
     if (body) {
       const allCharacters = body[STRINGS.HOME_CHARACTER_API_RESPONSE_INDEX];
       this.setState({
-        allCharacters
+        allCharacters: []
       });
       allCharacters.forEach(character => {
         if (character.name === this.props.currentCharacterName) {

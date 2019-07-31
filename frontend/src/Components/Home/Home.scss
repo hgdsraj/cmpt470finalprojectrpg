@@ -75,6 +75,11 @@
 
 .select-character-modal {
 
+  .select-character-modal-no-characters-msg {
+    font-size: 22px;
+    display: block;
+  }
+
   .select-character-label-wrapper {
     display: flex;
     justify-content: center;
