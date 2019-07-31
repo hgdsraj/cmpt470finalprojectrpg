@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './CustomNavbar.scss';
+import {
+  Link
+} from 'react-router-dom';
 import {
   Button,
   DropdownItem,
@@ -16,6 +18,7 @@ import {
 import {
   STRINGS
 } from '../../Constants/CustomNavbarConstants';
+import './CustomNavbar.scss';
 
 function CustomNavbar(props) {
   return (
@@ -30,7 +33,6 @@ function CustomNavbar(props) {
               </NavLink>
             </NavItem>
             <NavItem>
-              {/* TODO: Use a react-router link here instead of href prop */}
               <NavLink href="/#/battle">
                 {STRINGS.NAVBAR_NAV_BATTLE_MSG}
               </NavLink>
