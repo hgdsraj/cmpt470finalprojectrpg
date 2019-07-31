@@ -1,0 +1,7 @@
+const STRINGS = {
+
+};
+
+export {
+  STRINGS
+}
