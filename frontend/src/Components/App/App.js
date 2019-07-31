@@ -91,13 +91,14 @@ class App extends React.Component {
         <Route
           path="/signup"
           component={() => this.handleRenderLoginOrSignupPage(<Signup
-            handleAuthenticate={this.handleAuthenticate}/>
-            )}
+            handleAuthenticate={this.handleAuthenticate}
+          />)}
         />
         <Route
           path="/createcharacter"
           component={() => this.handleRenderProtectedPage(<CreateCharacter
             handleUnauthenticate={this.handleUnauthenticate}
+            handleConfirmCharacterSelection={this.handleConfirmCharacterSelection}
           />)}
         />
         <Route
