@@ -1,5 +1,9 @@
 import React from 'react';
-import {HashRouter as Router, Route} from 'react-router-dom';
+import {HashRouter as Router, Route, Redirect} from 'react-router-dom';
+import {
+  GLOBAL_NUMBERS,
+  GLOBAL_URLS
+} from '../../Constants/GlobalConstants';
 import Login from '../Login/Login';
 import Signup from '../Signup/Signup';
 import Home from '../Home/Home';
@@ -10,30 +14,45 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false
+      isAuthenticated: false
     };
   }
 
-  handleLogin = () => {
-    this.setState({
-      isLoggedIn: true
-    });
+  async componentDidMount() {
+    await this.handleAuthenticate();
+  }
+
+  handleRenderProtectedPage = (page) => {
+    if (this.state.isAuthenticated) {
+      return page;
+    } else {
+      return <Redirect to="/login"/>
+    }
   };
 
-  handleLogout = () => {
+  handleRenderLoginOrSignupPage = (page) => {
+    if (this.state.isAuthenticated) {
+      return <Redirect to="/"/>;
+    } else {
+      return page;
+    }
+  };
+
+  handleAuthenticate = async () => {
+    const response = await fetch(GLOBAL_URLS.GET_API_USERS_LOGGED_IN);
     this.setState({
-      isLoggedIn: false
+      isAuthenticated: response.status !== GLOBAL_NUMBERS.HTTP_STATUS_CODE_403
     });
   };
 
   render() {
     return (
       <Router>
-        <Route exact path="/" component={Home}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/signup" component={Signup}/>
-        <Route path="/createcharacter" component={CreateCharacter}/>
-        <Route path="/battle" component={Battle}/>
+        <Route exact path="/" component={() => this.handleRenderProtectedPage(<Home />)}/>
+        <Route path="/login" component={() => this.handleRenderLoginOrSignupPage(<Login handleAuthenticate={this.handleAuthenticate}/>)}/>
+        <Route path="/signup" component={() => this.handleRenderLoginOrSignupPage(<Signup handleAuthenticate={this.handleAuthenticate}/>)}/>
+        <Route path="/createcharacter" component={() => this.handleRenderProtectedPage(<CreateCharacter />)}/>
+        <Route path="/battle" component={() => this.handleRenderProtectedPage(<Battle />)}/>
       </Router>
     );
   }
