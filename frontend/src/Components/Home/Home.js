@@ -315,7 +315,7 @@ class Home extends React.Component {
   render() {
     return (
       <div className="home-page page-container">
-        <CustomNavbar/>
+        <CustomNavbar handleLogout={this.props.handleUnauthenticate}/>
         <div className="home-page-content content container">
           <SelectCharacterModal
             characters={this.state.allCharacters}
@@ -336,7 +336,8 @@ class Home extends React.Component {
 Home.propTypes = {
   isCharacterSelected: PropTypes.bool,
   currentCharacterName: PropTypes.string,
-  handleConfirmCharacterSelection: PropTypes.func
+  handleConfirmCharacterSelection: PropTypes.func,
+  handleUnauthenticate: PropTypes.func
 };
 
 export default Home;

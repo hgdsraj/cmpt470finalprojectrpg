@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './CustomNavbar.scss';
 import {
   Button,
@@ -16,7 +17,7 @@ import {
   STRINGS
 } from '../../Constants/CustomNavbarConstants';
 
-function CustomNavbar() {
+function CustomNavbar(props) {
   return (
     <div className="app-navbar-wrapper bg-dark">
       <div className="app-navbar container">
@@ -29,6 +30,7 @@ function CustomNavbar() {
               </NavLink>
             </NavItem>
             <NavItem>
+              {/* TODO: Use a react-router link here instead of href prop */}
               <NavLink href="/#/battle">
                 {STRINGS.NAVBAR_NAV_BATTLE_MSG}
               </NavLink>
@@ -66,7 +68,7 @@ function CustomNavbar() {
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavItem>
-              <Button className="log-out-button" color="danger">
+              <Button className="log-out-button" onClick={props.handleLogout} color="danger">
                 <NavLink href="/">
                   {STRINGS.NAVBAR_NAV_LOG_OUT_BUTTON_MSG}
                 </NavLink>
@@ -78,5 +80,9 @@ function CustomNavbar() {
     </div>
   );
 }
+
+CustomNavbar.propTypes = {
+  handleLogout: PropTypes.func
+};
 
 export default CustomNavbar;

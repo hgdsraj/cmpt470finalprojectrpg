@@ -20,6 +20,7 @@ import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './Battle.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
 import Goblin from "../../Assets/goblin.png";
+import CreateCharacter from "../CreateCharacter/CreateCharacter";
 
 function CharacterCard(props) {
   const character = props.character;
@@ -167,7 +168,7 @@ class Battle extends React.Component {
   render() {
     return (
       <div className="battle-page page-container">
-        <CustomNavbar/>
+        <CustomNavbar handleLogout={this.props.handleUnauthenticate}/>
          {/*TODO: Change CSS such that we don't need this full-viewport-with-navbar class - use flexbox page-containers instead*/}
         <div className="battle-centered-content full-viewport-with-navbar centered content container">
           <div className="battle-viewport-width">
@@ -205,5 +206,9 @@ class Battle extends React.Component {
     );
   }
 }
+
+Battle.propTypes = {
+  handleUnauthenticate: PropTypes.func
+};
 
 export default Battle;
