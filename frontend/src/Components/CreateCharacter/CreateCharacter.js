@@ -237,7 +237,7 @@ class CreateCharacter extends React.Component {
     const body = await response.json();
     console.log(body);
     this.props.handleConfirmCharacterSelection(this.state.characterName);
-    // TODO: redirect to home page (implement after cookies/sessions is properly hooked up)
+    this.props.history.push('/');
   };
 
   handleChangeCharacterName = (event) => {
