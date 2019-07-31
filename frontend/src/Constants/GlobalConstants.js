@@ -25,7 +25,8 @@ const GLOBAL_URLS = {
   POST_API_USERS_CREATE: '/api/users/create',
   POST_API_CHARACTERS_CREATE: 'api/characters/create',
   GET_API_USERS_EXISTS: '/api/users/exists/',
-  GET_API_USERS_LOGGED_IN: '/api/users/logged_in'
+  GET_API_USERS_LOGGED_IN: '/api/users/logged_in',
+  GET_API_CHARACTERS: '/api/characters'
 };
 
 export {

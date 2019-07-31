@@ -10,6 +10,7 @@
       flex-direction: column;
       min-height: 300px;
       max-width: 40%;
+      min-width: 40%;
       float: left;
 
       .overview-intro {
@@ -68,6 +69,21 @@
 
     .cardtext-color {
       color: #000000;
+    }
+  }
+}
+
+.select-character-modal {
+
+  .select-character-label-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 30px;
+
+    .form-check-input {
+      position: relative;
+      margin: 0;
     }
   }
 }

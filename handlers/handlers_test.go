@@ -658,16 +658,20 @@ func TestHandleUserCharacters(t *testing.T) {
 	character1 := shared.Character{
 		CharacterId:   1,
 		CharacterName: "elon",
-		Attack:        420,
-		Defense:       100,
+		Attack:        777,
+		Defense:       90,
+		MagicAttack:   69,
+		MagicDefense:  225,
 		Health:        100,
 		UserId:        420,
 	}
 	character2 := shared.Character{
 		CharacterId:   1,
 		CharacterName: "ilon",
-		Attack:        69,
-		Defense:       69,
+		Attack:        124,
+		Defense:       574,
+		MagicAttack:   81,
+		MagicDefense:  512,
 		Health:        69,
 		UserId:        420,
 	}
@@ -685,14 +689,16 @@ func TestHandleUserCharacters(t *testing.T) {
 		mock.ExpectQuery("SELECT").WillReturnRows(sessionKeyRows)
 
 		userRows := sqlmock.NewRows([]string{"id"}).AddRow(user.Id)
-		characterRows := sqlmock.NewRows([]string{"characterid", "charactername", "attack", "defense", "health",
-			"uid", "stamina", "strength", "agility", "wisdom", "charisma"}).
+		characterRows := sqlmock.NewRows([]string{"characterid", "charactername", "attack", "defense", "magic_attack", "magic_defense",
+			"health", "uid", "stamina", "strength", "agility", "wisdom", "charisma"}).
 			AddRow(character1.CharacterId, character1.CharacterName, character1.Attack,
-				character1.Defense, character1.Health, character1.UserId, character1.Stamina,
-				character1.Strength, character1.Agility, character1.Wisdom, character1.Charisma).
+				character1.Defense, character1.MagicAttack, character1.MagicDefense, character1.Health,
+				character1.UserId, character1.Stamina, character1.Strength, character1.Agility,
+				character1.Wisdom, character1.Charisma).
 			AddRow(character2.CharacterId, character2.CharacterName, character2.Attack,
-				character2.Defense, character2.Health, character2.UserId, character2.Stamina,
-				character2.Strength, character2.Agility, character2.Wisdom, character2.Charisma)
+				character2.Defense, character2.MagicAttack, character2.MagicDefense, character2.Health,
+				character2.UserId, character2.Stamina, character2.Strength, character2.Agility,
+				character2.Wisdom, character2.Charisma)
 		mock.ExpectQuery("SELECT").WillReturnRows(userRows)
 		mock.ExpectQuery("SELECT").WillReturnRows(characterRows)
 

@@ -14,7 +14,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: false
+      isAuthenticated: false,
+      isCharacterSelected: false,
+      currentCharacterName: ''
     };
   }
 
@@ -45,14 +47,45 @@ class App extends React.Component {
     });
   };
 
+  handleConfirmCharacterSelection = (currentCharacterName) => {
+    this.setState({
+      isCharacterSelected: true,
+      currentCharacterName
+    });
+  };
+
   render() {
     return (
       <Router>
-        <Route exact path="/" component={() => this.handleRenderProtectedPage(<Home />)}/>
-        <Route path="/login" component={() => this.handleRenderLoginOrSignupPage(<Login handleAuthenticate={this.handleAuthenticate}/>)}/>
-        <Route path="/signup" component={() => this.handleRenderLoginOrSignupPage(<Signup handleAuthenticate={this.handleAuthenticate}/>)}/>
-        <Route path="/createcharacter" component={() => this.handleRenderProtectedPage(<CreateCharacter />)}/>
-        <Route path="/battle" component={() => this.handleRenderProtectedPage(<Battle />)}/>
+        <Route
+          exact
+          path="/"
+          component={() => this.handleRenderProtectedPage(<Home
+            isCharacterSelected={this.state.isCharacterSelected}
+            currentCharacterName={this.state.currentCharacterName}
+            handleConfirmCharacterSelection={this.handleConfirmCharacterSelection}
+          />)}
+        />
+        <Route
+          path="/login"
+          component={() => this.handleRenderLoginOrSignupPage(<Login
+            handleAuthenticate={this.handleAuthenticate}
+          />)}
+        />
+        <Route
+          path="/signup"
+          component={() => this.handleRenderLoginOrSignupPage(<Signup
+            handleAuthenticate={this.handleAuthenticate}/>
+            )}
+        />
+        <Route
+          path="/createcharacter"
+          component={() => this.handleRenderProtectedPage(<CreateCharacter />)}
+        />
+        <Route
+          path="/battle"
+          component={() => this.handleRenderProtectedPage(<Battle />)}
+        />
       </Router>
     );
   }

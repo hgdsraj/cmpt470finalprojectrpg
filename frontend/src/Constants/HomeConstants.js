@@ -15,7 +15,10 @@ const STRINGS = {
   HOME_EXPLORE_SHOWCASE_SHOP_SUBTITLE_MSG: 'Or visit the shop to purchase items that you may find useful',
   HOME_EXPLORE_SHOWCASE_MAP_CARD_BUTTON_MSG: 'Explore',
   HOME_EXPLORE_SHOWCASE_SHOP_CARD_BUTTON_MSG: 'Purchase',
-  HOME_LEVEL_MSG: 'Level '
+  HOME_LEVEL_MSG: 'Level ',
+  HOME_CHARACTER_API_RESPONSE_INDEX: 'characters',
+  HOME_SELECT_CHARACTER_MODAL_SELECT_BUTTON_MSG: 'Select',
+  HOME_SELECT_CHARACTER_MODAL_HEADER_MSG: 'Select a character'
 };
 
 export {
