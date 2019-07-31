@@ -47,11 +47,26 @@ class App extends React.Component {
     });
   };
 
+
   handleConfirmCharacterSelection = (currentCharacterName) => {
     this.setState({
       isCharacterSelected: true,
       currentCharacterName
     });
+  };
+
+  handleUnauthenticate = async () => {
+    const response = await fetch(GLOBAL_URLS.POST_API_USERS_LOGOUT, {
+      method: 'POST',
+      mode: 'cors'
+    });
+    if (response.status === GLOBAL_NUMBERS.HTTP_STATUS_CODE_200) {
+      this.setState({
+        isAuthenticated: false,
+        isCharacterSelected: false,
+        currentCharacterName: ''
+      });
+    }
   };
 
   render() {
@@ -64,6 +79,7 @@ class App extends React.Component {
             isCharacterSelected={this.state.isCharacterSelected}
             currentCharacterName={this.state.currentCharacterName}
             handleConfirmCharacterSelection={this.handleConfirmCharacterSelection}
+            handleUnauthenticate={this.handleUnauthenticate}
           />)}
         />
         <Route
@@ -80,11 +96,15 @@ class App extends React.Component {
         />
         <Route
           path="/createcharacter"
-          component={() => this.handleRenderProtectedPage(<CreateCharacter />)}
+          component={() => this.handleRenderProtectedPage(<CreateCharacter
+            handleUnauthenticate={this.handleUnauthenticate}
+          />)}
         />
         <Route
           path="/battle"
-          component={() => this.handleRenderProtectedPage(<Battle />)}
+          component={() => this.handleRenderProtectedPage(<Battle
+            handleUnauthenticate={this.handleUnauthenticate}
+          />)}
         />
       </Router>
     );

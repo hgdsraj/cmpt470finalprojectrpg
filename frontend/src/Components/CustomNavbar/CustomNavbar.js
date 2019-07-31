@@ -1,5 +1,5 @@
 import React from 'react';
-import './CustomNavbar.scss';
+import PropTypes from 'prop-types';
 import {
   Button,
   DropdownItem,
@@ -15,8 +15,9 @@ import {
 import {
   STRINGS
 } from '../../Constants/CustomNavbarConstants';
+import './CustomNavbar.scss';
 
-function CustomNavbar() {
+function CustomNavbar(props) {
   return (
     <div className="app-navbar-wrapper bg-dark">
       <div className="app-navbar container">
@@ -24,7 +25,7 @@ function CustomNavbar() {
           <NavbarBrand className="nav-brand" href="/">{STRINGS.NAVBAR_NAV_BRAND_MSG}</NavbarBrand>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="/">
+              <NavLink href="/#/">
                 {STRINGS.NAVBAR_NAV_HOME_MSG}
               </NavLink>
             </NavItem>
@@ -66,7 +67,7 @@ function CustomNavbar() {
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavItem>
-              <Button className="log-out-button" color="danger">
+              <Button className="log-out-button" onClick={props.handleLogout} color="danger">
                 <NavLink href="/">
                   {STRINGS.NAVBAR_NAV_LOG_OUT_BUTTON_MSG}
                 </NavLink>
@@ -78,5 +79,9 @@ function CustomNavbar() {
     </div>
   );
 }
+
+CustomNavbar.propTypes = {
+  handleLogout: PropTypes.func
+};
 
 export default CustomNavbar;

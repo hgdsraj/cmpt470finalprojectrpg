@@ -24,6 +24,7 @@ const GLOBAL_URLS = {
   POST_API_USERS_LOGIN: '/api/users/login',
   POST_API_USERS_CREATE: '/api/users/create',
   POST_API_CHARACTERS_CREATE: 'api/characters/create',
+  POST_API_USERS_LOGOUT: '/api/users/logout',
   GET_API_USERS_EXISTS: '/api/users/exists/',
   GET_API_USERS_LOGGED_IN: '/api/users/logged_in',
   GET_API_CHARACTERS: '/api/characters'

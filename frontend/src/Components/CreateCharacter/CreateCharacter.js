@@ -249,7 +249,7 @@ class CreateCharacter extends React.Component {
   render() {
     return (
       <div className="create-character-page page-container">
-        <CustomNavbar/>
+        <CustomNavbar handleLogout={this.props.handleUnauthenticate}/>
         {/* TODO: Change CSS such that we don't need this full-viewport-with-navbar class - use flexbox page-containers instead */}
         <div className="create-character-centered-content full-viewport-with-navbar centered content container">
           <div className="create-character-viewport-width">
@@ -287,5 +287,9 @@ class CreateCharacter extends React.Component {
     );
   }
 }
+
+CreateCharacter.propTypes = {
+  handleUnauthenticate: PropTypes.func
+};
 
 export default CreateCharacter;
