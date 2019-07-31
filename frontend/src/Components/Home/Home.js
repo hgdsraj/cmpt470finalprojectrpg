@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Card, CardBody, CardImg, CardSubtitle, CardText, CardTitle, Table} from 'reactstrap';
+import {Button, Card, CardBody, CardImg, CardSubtitle, CardText, CardTitle, Input, Table} from 'reactstrap';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import CustomSelectionModal from '../CustomSelectionModal/CustomSelectionModal';
 import {
@@ -18,36 +18,43 @@ import GrassMap from '../../Assets/grass_map.png';
 import BluePotion from '../../Assets/blue_potion.png';
 
 function SelectCharacterModal(props) {
-  const characterCards = props.characters.map(character => {
+  const characterCards = props.characters.map((character, index) => {
     const characterLevel = character.level ? character.level.toString() : null;
     return (
-      <Card>
-        <CardImg className="cardimg" src={PrincessAvatar} />
-        <CardBody className="cardbody">
-          <CardTitle className="cardtitle cardtext-color">{character.name}</CardTitle>
-          <CardSubtitle>{STRINGS.HOME_LEVEL_MSG + characterLevel}</CardSubtitle>
-        </CardBody>
-      </Card>
+      <div className="select-character-card-wrapper" key={index}>
+        <Card className="">
+          <CardImg className="cardimg" src={PrincessAvatar} />
+          <CardBody className="cardbody">
+            <CardTitle className="cardtitle cardtext-color">{character.name}</CardTitle>
+            <CardSubtitle className="cardsubtitle">{STRINGS.HOME_LEVEL_MSG + characterLevel}</CardSubtitle>
+          </CardBody>
+        </Card>
+        <div className="select-character-avatar-label-wrapper">
+          <Input id={character.name} type="radio" name="character-select" onChange={props.handleChangeCharacterSelection}/>
+        </div>
+      </div>
     );
   });
 
   const modalHeader = (
-    <div>The modal header will be here</div>
+    <div className="select-character-modal-header">{STRINGS.HOME_SELECT_CHARACTER_MODAL_HEADER_MSG}</div>
   );
   const modalBody = (
-    <div>The modal header will be body</div>
+    <div className="select-character-modal-card-container card-container">{characterCards}</div>
   );
   return (
     <CustomSelectionModal
       modalHeader={modalHeader}
       modalBody={modalBody}
-      selectionButtonText={STRINGS.HOME_SELECT_CHARACTER_MODAL_SELECT_BUTTON_TEXT}
+      selectionButtonText={STRINGS.HOME_SELECT_CHARACTER_MODAL_SELECT_BUTTON_MSG}
+      className="select-character-modal"
     />
   );
 }
 
 SelectCharacterModal.propTypes = {
-  characters: PropTypes.array
+  characters: PropTypes.array,
+  handleChangeCharacterSelection: PropTypes.func
 };
 
 class Home extends React.Component {
@@ -55,7 +62,8 @@ class Home extends React.Component {
     super(props);
     this.state = {
       allCharacters: [],
-      character: {}
+      character: {},
+      characterSelection: ''
     };
   }
 
@@ -64,11 +72,13 @@ class Home extends React.Component {
     const body = await response.json();
     console.log('Found characters:', body);
     if (body) {
-      body['characters'].forEach(character => {
-        if (character.id === this.currentCharacterId) {
-          const allCharacters = body['characters'];
+      const allCharacters = body['characters'];
+      this.setState({
+        allCharacters
+      });
+      allCharacters.forEach(character => {
+        if (character.name === this.props.currentCharacterName) {
           this.setState({
-            allCharacters,
             character
           });
         }
@@ -76,6 +86,12 @@ class Home extends React.Component {
     }
   }
 
+  handleChangeCharacterSelection = (event) => {
+    const characterSelection = event.target.id;
+    this.setState({
+      characterSelection
+    });
+  };
 
   renderMiniCharacterOverview = () => {
     // TODO: fetch character data and map to mini character display component instead of using mock data
@@ -302,7 +318,7 @@ class Home extends React.Component {
       <div className="home-page page-container">
         <CustomNavbar/>
         <div className="home-page-content content container">
-
+          <SelectCharacterModal characters={this.state.allCharacters} handleChangeCharacterSelection={this.handleChangeCharacterSelection}/>
           {this.renderMiniCharacterOverview()}
           {this.renderBattleShowcase()}
           {this.renderExploreShowcase()}
@@ -313,7 +329,8 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  isCharacterSelected: PropTypes.bool
+  isCharacterSelected: PropTypes.bool,
+  currentCharacterName: PropTypes.string
 };
 
 export default Home;
