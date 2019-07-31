@@ -16,6 +16,9 @@ import {
 import {
   STRINGS
 } from '../../Constants/BattleConstants';
+import {
+  GLOBAL_URLS
+} from '../../Constants/GlobalConstants';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './Battle.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
@@ -24,7 +27,8 @@ import CreateCharacter from "../CreateCharacter/CreateCharacter";
 
 function CharacterCard(props) {
   const character = props.character;
-  const healthValue = Math.round(character.currentHealth / character.maxHealth * 100);
+  const healthValue = Math.round(character.currentHealth / character.health * 100);
+  const characterLevel = character.level ? character.level.toString() : null;
   return (
     <Card className="battle-character-card">
       <div className="char-overview-wrapper">
@@ -32,10 +36,10 @@ function CharacterCard(props) {
           <div className="char-overview-intro overview-intro">
             <Progress className="battle-char-health-bar health-bar" value={healthValue} color="danger" />
             <CardImg className="char-overview-cardimg cardimg"
-                     src={character.avatar}/>
+                     src={/*character.avatar*/PrincessAvatar}/>
             <CardBody className="char-overview-cardbody cardbody">
               <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{character.name}</CardTitle>
-              <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + character.level.toString()}</CardSubtitle>
+              <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + characterLevel}</CardSubtitle>
               <CardText className="char-overview-cardtext cardtext cardtext-color">{character.text}</CardText>
             </CardBody>
           </div>
@@ -59,11 +63,11 @@ function CharacterCard(props) {
             </tr>
             <tr>
               <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
-              <td>{character.magicAttack}</td>
+              <td>{character.magic_attack}</td>
             </tr>
             <tr>
               <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
-              <td>{character.magicDefense}</td>
+              <td>{character.magic_defense}</td>
             </tr>
             </tbody>
           </Table>
@@ -115,11 +119,11 @@ function NpcCard(props) {
             </tr>
             <tr>
               <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
-              <td>{npc.magicAttack}</td>
+              <td>{npc.magic_attack}</td>
             </tr>
             <tr>
               <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
-              <td>{npc.magicDefense}</td>
+              <td>{npc.magic_defense}</td>
             </tr>
             </tbody>
           </Table>
@@ -137,22 +141,12 @@ NpcCard.propTypes = {
 class Battle extends React.Component {
   constructor(props) {
     super(props);
+    this.currentCharacterId = 1;
     this.state = {
       winner: '',
-      // TODO: get character and npc data and assign it (mock data for now)
-      CharacterData: {
-        name: 'Annabelle',
-        avatar: PrincessAvatar,
-        level: 2,
-        text: 'Here is some text about the character',
-        currentHealth: 25,
-        maxHealth: 25,
-        attack: 8,
-        defense: 4,
-        magicAttack: 7,
-        magicDefense: 7
-      },
-      NPCData: {
+      character: {},
+      // TODO: fetch npc data, same method as character
+      npc: {
         name: 'Goblin',
         level: 1,
         text: 'Here is some text about the Goblin',
@@ -161,16 +155,33 @@ class Battle extends React.Component {
         maxHealth: 25,
         attack: 5,
         defense: 4,
-        magicAttack: 12,
-        magicDefense: 3
+        magic_attack: 12,
+        magic_defense: 3
       }
     }
   };
 
+  async componentDidMount() {
+    const response = await fetch(GLOBAL_URLS.GET_API_CHARACTERS);
+    console.log('Send fetch');
+    const body = await response.json();
+    console.log('Found characters:', body);
+    if (body) {
+      body['characters'].forEach(character => {
+        if (character.id === this.currentCharacterId) {
+          character.currentHealth = character.health;
+          this.setState({
+            character
+          });
+        }
+      });
+    }
+  }
+
   // TODO: expand this method (or make more helper methods) to allow for different attack types, accuracy calculations,
   //  critical hits (this is just the basic method for now)
   handleAttack = () => {
-    let damage = this.state.CharacterData.attack - this.state.NPCData.defense;
+    let damage = this.state.character.attack - this.state.npc.defense;
     if (damage < 0) {
       damage = 0;
     }
@@ -180,8 +191,8 @@ class Battle extends React.Component {
   };
 
   // TODO: will expand same as attack method
-  handleMagicAttack = () => {
-    let damage = this.state.CharacterData.magicAttack - this.state.NPCData.magicDefense;
+  handlemagic_attack = () => {
+    let damage = this.state.character.magic_attack - this.state.npc.magic_defense;
     if (damage < 0) {
       damage = 0;
     }
@@ -194,9 +205,9 @@ class Battle extends React.Component {
     const attackType = Math.round(Math.random()); // generates 0 or 1
     let damage = 0;
     if (attackType === 0) {   // Normal attack
-      damage = this.state.NPCData.attack - this.state.CharacterData.defense;
+      damage = this.state.npc.attack - this.state.character.defense;
     } else {                  // Magic attack
-      damage = this.state.NPCData.magicAttack - this.state.CharacterData.magicDefense;
+      damage = this.state.npc.magic_attack - this.state.character.magic_defense;
     }
     if (damage < 0) {
       damage = 0;
@@ -205,19 +216,19 @@ class Battle extends React.Component {
   };
 
   calculateAndSetNewNPCHealth = (damage) => {
-    let newNPCHealth = this.state.NPCData.currentHealth - damage;
+    let newNPCHealth = this.state.npc.currentHealth - damage;
     if (newNPCHealth < 0) {
       newNPCHealth = 0;
     }
     this.setState(prevState => ({
-      NPCData: {
-        ...prevState.NPCData,     // keep all other key-value pairs
+      npc: {
+        ...prevState.npc,     // keep all other key-value pairs
         currentHealth: newNPCHealth
       }
     }));
     if (newNPCHealth === 0) {
       this.setState(prevState => ({
-        winner: prevState.CharacterData.name
+        winner: prevState.character.name
       }));
     }
     // TODO: create battle log component and log stuff like this in there
@@ -225,19 +236,19 @@ class Battle extends React.Component {
   };
 
   calculateAndSetNewCharacterHealth = (damage) => {
-    let newCharacterHealth = this.state.CharacterData.currentHealth - damage;
+    let newCharacterHealth = this.state.character.currentHealth - damage;
     if (newCharacterHealth < 0) {
       newCharacterHealth = 0;
     }
     this.setState(prevState => ({
-      CharacterData: {
-        ...prevState.CharacterData,     // keep all other key-value pairs
+      character: {
+        ...prevState.character,     // keep all other key-value pairs
         currentHealth: newCharacterHealth
       }
     }));
     if (newCharacterHealth === 0) {
       this.setState(prevState => ({
-        winner: prevState.NPCData.name
+        winner: prevState.npc.name
       }));
     }
     // TODO: create battle log component and log stuff like this in there
@@ -254,8 +265,8 @@ class Battle extends React.Component {
             <h1 className="battle-header-text">{STRINGS.BATTLE_HEADER_MSG}</h1>
             <div className="battle-container container">
               <div className="battle-card-container container">
-                <CharacterCard character={this.state.CharacterData}/>
-                <NpcCard npc={this.state.NPCData}/>
+                <CharacterCard character={this.state.character}/>
+                <NpcCard npc={this.state.npc}/>
               </div>
               <h3 className="battle-container-header-text">{STRINGS.BATTLE_CONTAINER_HEADER_MSG}</h3>
               <div className="battle-buttons-container container">
@@ -271,7 +282,7 @@ class Battle extends React.Component {
                 <Button
                     className="magic-button battle-button"
                     color="primary"
-                    onClick={this.handleMagicAttack}
+                    onClick={this.handlemagic_attack}
                 >
                   {STRINGS.BATTLE_BUTTON_MAGIC}
                 </Button>

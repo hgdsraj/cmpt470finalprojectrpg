@@ -388,8 +388,8 @@ func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rows, err := Database.Query(`SELECT characterid, charactername, attack, defense, magic_attack, magic_defense,
-       									health, userid, stamina, strength, agility, wisdom, charisma
+	rows, err := Database.Query(`SELECT characterid, charactername, characterlevel, attack, defense, magic_attack, 
+										magic_defense, health, userid, stamina, strength, agility, wisdom, charisma
 										FROM characters WHERE userid = $1`, userId)
 	if err != nil {
 		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("error querying rows: %v", err), http.StatusInternalServerError)
@@ -405,9 +405,9 @@ func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 	characters := shared.Characters{[]shared.Character{}}
 	for rows.Next() {
 		character := shared.Character{}
-		err := rows.Scan(&character.CharacterId, &character.CharacterName, &character.Attack, &character.Defense,
-			&character.MagicAttack, &character.MagicDefense, &character.Health, &character.UserId, &character.Stamina,
-			&character.Strength, &character.Agility, &character.Wisdom, &character.Charisma)
+		err := rows.Scan(&character.CharacterId, &character.CharacterName, &character.Level, &character.Attack,
+			&character.Defense, &character.MagicAttack, &character.MagicDefense, &character.Health, &character.UserId,
+			&character.Stamina, &character.Strength, &character.Agility, &character.Wisdom, &character.Charisma)
 		if err != nil {
 			msg := fmt.Sprintf("error scanning row, aborting. error: %v", err)
 			helpers.LogAndSendErrorMessage(w, msg, http.StatusInternalServerError)
