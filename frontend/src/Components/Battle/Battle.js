@@ -11,7 +11,6 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
-  CardText
 } from 'reactstrap';
 import {
   STRINGS
@@ -34,13 +33,14 @@ function CharacterCard(props) {
       <div className="char-overview-wrapper">
         <div className="char-overview-intro-flex-container overview-intro-flex-container">
           <div className="char-overview-intro overview-intro">
+            <div className="battle-health-label text-center">{character.currentHealth} / {character.health}</div>
             <Progress className="battle-char-health-bar health-bar" value={healthValue} color="danger" />
             <CardImg className="char-overview-cardimg cardimg"
+                     // TODO: add a method to determine correct avatar based on character type
                      src={/*character.avatar*/PrincessAvatar}/>
             <CardBody className="char-overview-cardbody cardbody">
               <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{character.name}</CardTitle>
               <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + characterLevel}</CardSubtitle>
-              <CardText className="char-overview-cardtext cardtext cardtext-color">{character.text}</CardText>
             </CardBody>
           </div>
         </div>
@@ -84,19 +84,19 @@ CharacterCard.propTypes = {
 
 function NpcCard(props) {
   const npc = props.npc;
-  const healthValue = Math.round(npc.currentHealth / npc.maxHealth * 100);
+  const healthValue = Math.round(npc.currentHealth / npc.health * 100);
   return (
     <Card className="battle-npc-card">
       <div className="char-overview-wrapper">
         <div className="char-overview-intro-flex-container overview-intro-flex-container">
           <div className="char-overview-intro overview-intro">
+            <div className="battle-health-label text-center">{npc.currentHealth} / {npc.health}</div>
             <Progress className="battle-npc-health-bar health-bar" value={healthValue} color="danger" />
             <CardImg className="char-overview-cardimg cardimg"
                      src={npc.avatar}/>
             <CardBody className="char-overview-cardbody cardbody">
               <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{npc.name}</CardTitle>
               <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + npc.level.toString()}</CardSubtitle>
-              <CardText className="char-overview-cardtext cardtext cardtext-color">{npc.text}</CardText>
             </CardBody>
           </div>
         </div>
@@ -141,6 +141,7 @@ NpcCard.propTypes = {
 class Battle extends React.Component {
   constructor(props) {
     super(props);
+    // TODO: determine this value
     this.currentCharacterId = 1;
     this.state = {
       winner: '',
@@ -149,10 +150,9 @@ class Battle extends React.Component {
       npc: {
         name: 'Goblin',
         level: 1,
-        text: 'Here is some text about the Goblin',
         avatar: Goblin,
         currentHealth: 25,
-        maxHealth: 25,
+        health: 25,
         attack: 5,
         defense: 4,
         magic_attack: 12,

@@ -32,8 +32,12 @@
               max-width: 90%;
               min-width: 90%;
 
-              .health-bar {
+              .battle-health-label {
                 margin-top: 15px;
+                color: black;
+              }
+
+              .health-bar {
                 margin-right: 15px;
                 margin-left: 15px;
               }
