@@ -1,10 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Button, Card, CardBody, CardImg, CardSubtitle, CardText, CardTitle, Table} from 'reactstrap';
-import './Home.scss';
-import CustomNavbar from "../CustomNavbar/CustomNavbar";
+import CustomNavbar from '../CustomNavbar/CustomNavbar';
+import CustomSelectionModal from '../CustomSelectionModal/CustomSelectionModal';
 import {
   STRINGS
 } from '../../Constants/HomeConstants';
+import {
+  GLOBAL_URLS
+} from '../../Constants/GlobalConstants';
+import './Home.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
 import Goblin from '../../Assets/goblin.png';
 import Zombie from '../../Assets/zombie.png';
@@ -12,7 +17,65 @@ import Imp from '../../Assets/imp.png';
 import GrassMap from '../../Assets/grass_map.png';
 import BluePotion from '../../Assets/blue_potion.png';
 
+function SelectCharacterModal(props) {
+  const characterCards = props.characters.map(character => {
+    const characterLevel = character.level ? character.level.toString() : null;
+    return (
+      <Card>
+        <CardImg className="cardimg" src={PrincessAvatar} />
+        <CardBody className="cardbody">
+          <CardTitle className="cardtitle cardtext-color">{character.name}</CardTitle>
+          <CardSubtitle>{STRINGS.HOME_LEVEL_MSG + characterLevel}</CardSubtitle>
+        </CardBody>
+      </Card>
+    );
+  });
+
+  const modalHeader = (
+    <div>The modal header will be here</div>
+  );
+  const modalBody = (
+    <div>The modal header will be body</div>
+  );
+  return (
+    <CustomSelectionModal
+      modalHeader={modalHeader}
+      modalBody={modalBody}
+      selectionButtonText={STRINGS.HOME_SELECT_CHARACTER_MODAL_SELECT_BUTTON_TEXT}
+    />
+  );
+}
+
+SelectCharacterModal.propTypes = {
+  characters: PropTypes.array
+};
+
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      allCharacters: [],
+      character: {}
+    };
+  }
+
+  async componentDidMount() {
+    const response = await fetch(GLOBAL_URLS.GET_API_CHARACTERS);
+    const body = await response.json();
+    console.log('Found characters:', body);
+    if (body) {
+      body['characters'].forEach(character => {
+        if (character.id === this.currentCharacterId) {
+          const allCharacters = body['characters'];
+          this.setState({
+            allCharacters,
+            character
+          });
+        }
+      });
+    }
+  }
+
 
   renderMiniCharacterOverview = () => {
     // TODO: fetch character data and map to mini character display component instead of using mock data
@@ -239,6 +302,7 @@ class Home extends React.Component {
       <div className="home-page page-container">
         <CustomNavbar/>
         <div className="home-page-content content container">
+
           {this.renderMiniCharacterOverview()}
           {this.renderBattleShowcase()}
           {this.renderExploreShowcase()}
@@ -247,5 +311,9 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  isCharacterSelected: PropTypes.bool
+};
 
 export default Home;

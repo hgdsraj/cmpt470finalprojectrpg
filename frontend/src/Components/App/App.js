@@ -14,7 +14,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: false
+      isAuthenticated: false,
+      isCharacterSelected: false,
+      currentCharacterId: null
     };
   }
 
@@ -42,6 +44,13 @@ class App extends React.Component {
     const response = await fetch(GLOBAL_URLS.GET_API_USERS_LOGGED_IN);
     this.setState({
       isAuthenticated: response.status !== GLOBAL_NUMBERS.HTTP_STATUS_CODE_403
+    });
+  };
+
+  handleSelectCharacter = (currentCharacterId) => {
+    this.setState({
+      isCharacterSelected: true,
+      currentCharacterId
     });
   };
 

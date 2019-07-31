@@ -1,7 +1,0 @@
-const STRINGS = {
-
-};
-
-export {
-  STRINGS
-}
