@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, Card, CardBody, CardImg, CardSubtitle, CardText, CardTitle, Input, Table} from 'reactstrap';
+import {Link} from 'react-router-dom';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import CustomSelectionModal from '../CustomSelectionModal/CustomSelectionModal';
 import {
@@ -42,10 +43,18 @@ function SelectCharacterModal(props) {
   const modalBody = (
     <div className="select-character-modal-card-container card-container">{characterCards}</div>
   );
+  const modalFooter = (
+      <Link to="/createcharacter">
+        <Button color="primary" className="select-character-modal-footer-button">
+          {STRINGS.HOME_SELECT_CHARACTER_MODAL_CREATE_BUTTON_MSG}
+        </Button>
+      </Link>
+  );
   return (
     <CustomSelectionModal
       modalHeader={modalHeader}
       modalBody={modalBody}
+      modalFooter={modalFooter}
       selectionButtonText={STRINGS.HOME_SELECT_CHARACTER_MODAL_SELECT_BUTTON_MSG}
       className="select-character-modal"
       isOpen={!props.isCharacterSelected}
