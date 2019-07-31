@@ -60,11 +60,13 @@ class App extends React.Component {
       method: 'POST',
       mode: 'cors'
     });
-    const body = await response.json();
-    console.log(body);
-    this.setState({
-      isAuthenticated: response.status === GLOBAL_NUMBERS.HTTP_STATUS_CODE_200
-    });
+    if (response.status === GLOBAL_NUMBERS.HTTP_STATUS_CODE_200) {
+      this.setState({
+        isAuthenticated: false,
+        isCharacterSelected: false,
+        currentCharacterName: ''
+      });
+    }
   };
 
   render() {
