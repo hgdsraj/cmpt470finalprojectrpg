@@ -67,7 +67,15 @@ class Home extends React.Component {
     super(props);
     this.state = {
       allCharacters: [],
-      character: {},
+      character: {
+        name: '',
+        level: null,
+        health: null,
+        attack: null,
+        defense: null,
+        magic_attack: null,
+        magic_defense: null
+      },
       characterSelection: ''
     };
   }
@@ -98,10 +106,11 @@ class Home extends React.Component {
   };
 
   renderMiniCharacterOverview = () => {
+    const miniCharOverviewHeader = this.state.character.name ? STRINGS.HOME_MINI_CHAR_OVERVIEW_HEADER_MSG + `${this.state.character.name}!` : null;
     const characterLevel = this.state.character.level ? this.state.character.level.toString() : null;
     return (
       <div className="mini-char-overview showcase-container container">
-        <h2>{STRINGS.HOME_MINI_CHAR_OVERVIEW_HEADER_MSG + `${this.state.character.name}!`}</h2>
+        <h2>{miniCharOverviewHeader}</h2>
         <div className="mini-char-overview-content">
           <Card className="mini-char-overview-card">
             <div className="mini-char-overview-wrapper">
