@@ -428,3 +428,45 @@ func HandleUserCharacters(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func HandleGetNPCs(w http.ResponseWriter, r *http.Request) {
+		EnableCors(&w)
+		rows, err := Database.Query(`SELECT id, name, type, level, description, attack, 
+										defense, health, magic_attack, magic_defense
+										FROM npcs`)
+		if err != nil {
+				helpers.LogAndSendErrorMessage(w, fmt.Sprintf("error querying rows: %v", err), http.StatusInternalServerError)
+				return
+		}
+		defer func() {
+				err := rows.Close()
+				if err != nil {
+						log.Println("error closing rows in HandleGetNPCs: ", err)
+				}
+		}()
+
+		// TODO: change to npcs
+		npcs := shared.NPCs{[]shared.NPC{}}
+		for rows.Next() {
+				npc := shared.NPC{}
+				err := rows.Scan(&npc.Id, &npc.Name, &npc.Type, &npc.Level, &npc.Description, &npc.Attack, &npc.Defense,
+						&npc.Health, &npc.MagicAttack, &npc.MagicDefense)
+				if err != nil {
+						msg := fmt.Sprintf("error scanning row, aborting. error: %v", err)
+						helpers.LogAndSendErrorMessage(w, msg, http.StatusInternalServerError)
+						return
+				}
+				npcs.NPCs = append(npcs.NPCs, npc)
+		}
+
+		resp, err := json.Marshal(npcs)
+		if err != nil {
+				helpers.LogAndSendErrorMessage(w, "Could not marshal JSON body!", http.StatusInternalServerError)
+				return
+		}
+
+		_, err = w.Write(resp)
+		if err != nil {
+				log.Printf(helpers.WritingErrorFormatString, err)
+		}
+}
