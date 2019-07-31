@@ -143,7 +143,7 @@ class Battle extends React.Component {
   constructor(props) {
     super(props);
     // TODO: determine this value
-    this.currentCharacterId = 1;
+    this.currentCharacterId = 2;
     this.currentNPCId = 1;
     this.state = {
       winner: '',

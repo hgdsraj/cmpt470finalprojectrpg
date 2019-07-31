@@ -445,7 +445,6 @@ func HandleGetNPCs(w http.ResponseWriter, r *http.Request) {
 				}
 		}()
 
-		// TODO: change to npcs
 		npcs := shared.NPCs{[]shared.NPC{}}
 		for rows.Next() {
 				npc := shared.NPC{}
