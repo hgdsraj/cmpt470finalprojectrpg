@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Link
-} from 'react-router-dom';
-import {
   Button,
   DropdownItem,
   DropdownMenu,
@@ -28,7 +25,7 @@ function CustomNavbar(props) {
           <NavbarBrand className="nav-brand" href="/">{STRINGS.NAVBAR_NAV_BRAND_MSG}</NavbarBrand>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="/">
+              <NavLink href="/#/">
                 {STRINGS.NAVBAR_NAV_HOME_MSG}
               </NavLink>
             </NavItem>
