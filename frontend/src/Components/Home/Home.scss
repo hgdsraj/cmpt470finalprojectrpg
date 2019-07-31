@@ -73,7 +73,11 @@
 }
 
 .select-character-modal {
-  .select-character-avatar-label-wrapper {
+  .select-character-label-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 30px;
     .form-check-input {
       position: relative;
       margin: 0;

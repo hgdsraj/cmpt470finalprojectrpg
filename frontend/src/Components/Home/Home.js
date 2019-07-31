@@ -29,7 +29,7 @@ function SelectCharacterModal(props) {
             <CardSubtitle className="cardsubtitle">{STRINGS.HOME_LEVEL_MSG + characterLevel}</CardSubtitle>
           </CardBody>
         </Card>
-        <div className="select-character-avatar-label-wrapper">
+        <div className="select-character-label-wrapper">
           <Input id={character.name} type="radio" name="character-select" onChange={props.handleChangeCharacterSelection}/>
         </div>
       </div>
@@ -48,13 +48,17 @@ function SelectCharacterModal(props) {
       modalBody={modalBody}
       selectionButtonText={STRINGS.HOME_SELECT_CHARACTER_MODAL_SELECT_BUTTON_MSG}
       className="select-character-modal"
+      isOpen={!props.isCharacterSelected}
+      onSelect={() => props.handleConfirmCharacterSelection(props.characterSelection)}
     />
   );
 }
 
 SelectCharacterModal.propTypes = {
   characters: PropTypes.array,
-  handleChangeCharacterSelection: PropTypes.func
+  characterSelection: PropTypes.string,
+  handleChangeCharacterSelection: PropTypes.func,
+  handleConfirmCharacterSelection: PropTypes.func
 };
 
 class Home extends React.Component {
@@ -318,7 +322,13 @@ class Home extends React.Component {
       <div className="home-page page-container">
         <CustomNavbar/>
         <div className="home-page-content content container">
-          <SelectCharacterModal characters={this.state.allCharacters} handleChangeCharacterSelection={this.handleChangeCharacterSelection}/>
+          <SelectCharacterModal
+            characters={this.state.allCharacters}
+            characterSelection={this.state.characterSelection}
+            isCharacterSelected={this.props.isCharacterSelected}
+            handleChangeCharacterSelection={this.handleChangeCharacterSelection}
+            handleConfirmCharacterSelection={this.props.handleConfirmCharacterSelection}
+          />
           {this.renderMiniCharacterOverview()}
           {this.renderBattleShowcase()}
           {this.renderExploreShowcase()}
@@ -330,7 +340,8 @@ class Home extends React.Component {
 
 Home.propTypes = {
   isCharacterSelected: PropTypes.bool,
-  currentCharacterName: PropTypes.string
+  currentCharacterName: PropTypes.string,
+  handleConfirmCharacterSelection: PropTypes.func
 };
 
 export default Home;

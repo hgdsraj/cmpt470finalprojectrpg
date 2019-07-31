@@ -47,10 +47,11 @@ class App extends React.Component {
     });
   };
 
-  handleSelectCharacter = (currentCharacterId) => {
+  handleConfirmCharacterSelection = (currentCharacterName) => {
+    console.log("called");
     this.setState({
       isCharacterSelected: true,
-      currentCharacterId
+      currentCharacterName
     });
   };
 
@@ -63,6 +64,7 @@ class App extends React.Component {
           component={() => this.handleRenderProtectedPage(<Home
             isCharacterSelected={this.state.isCharacterSelected}
             currentCharacterName={this.state.currentCharacterName}
+            handleConfirmCharacterSelection={this.handleConfirmCharacterSelection}
           />)}
         />
         <Route

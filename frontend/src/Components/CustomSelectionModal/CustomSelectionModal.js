@@ -9,45 +9,32 @@ import {
 } from 'reactstrap';
 import './CustomSelectionModal.scss';
 
-class CustomSelectionModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: true
-    }
-  }
-
-  handleClose = () => {
-    this.setState({
-      isOpen: false
-    });
-  };
-
-  render () {
-    const className = 'custom-selection-modal ' + this.props.className;
-    return (
-      <Modal isOpen={this.state.isOpen} toggle={this.handleClose} className={className}>
-        <ModalHeader>
-          <div className="custom-selection-modal-modal-header">
-            {this.props.modalHeader}
-          </div>
-        </ModalHeader>
-        <ModalBody>
-          <div className="custom-selection-modal-modal-body">
-            {this.props.modalBody}
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={this.handleClose}>{this.props.selectionButtonText}</Button>
-        </ModalFooter>
-      </Modal>
-    );
-  }
+function CustomSelectionModal(props) {
+  const className = 'custom-selection-modal ' + props.className;
+  return (
+    <Modal isOpen={props.isOpen} className={className}>
+      <ModalHeader>
+        <div className="custom-selection-modal-modal-header">
+          {props.modalHeader}
+        </div>
+      </ModalHeader>
+      <ModalBody>
+        <div className="custom-selection-modal-modal-body">
+          {props.modalBody}
+        </div>
+      </ModalBody>
+      <ModalFooter>
+        <Button color="primary" onClick={props.onSelect}>{props.selectionButtonText}</Button>
+      </ModalFooter>
+    </Modal>
+  );
 }
 
 CustomSelectionModal.propTypes = {
   modalHeader: PropTypes.element,
   modalBody: PropTypes.element,
+  isOpen: PropTypes.bool,
+  onSelect: PropTypes.func,
   selectionButtonText: PropTypes.string,
   className: PropTypes.string
 };
