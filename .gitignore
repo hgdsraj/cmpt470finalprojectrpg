@@ -20,7 +20,7 @@ server
 db/dbconf.yml
 db/prod.yml
 .idea
-
+user_scripts/
 ### Frontend stuff
 # dependencies
 frontend/node_modules

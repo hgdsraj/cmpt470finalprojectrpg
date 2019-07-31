@@ -19,9 +19,16 @@
   - Test the app: `go test ./...`
 - Voila! You are ready to build with either docker or go build
 
-### Build the app with docker (CURRENTLY NOT WORKING, IGNORE THIS)
-- Ensure you have docker installed (`brew install docker` or `sudo apt-get install docker`)
-- Run `sudo sh scripts/docker.sh`
+### Build the app with docker
+- Ensure you have docker (and compose) installed 
+        (`brew install docker` or `sudo apt-get install docker`)
+- Run:
+```
+docker-compose down -v --rmi all --remove-orphans
+docker-compose build
+docker-compose up app
+```
+- Wait for migrations to run (2-3 mins)
 - Visit localhost:8000 in your browser. Voila!
 
 ### To build and run the app locally (using go build, recommended for development)

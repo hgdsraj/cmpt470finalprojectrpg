@@ -59,7 +59,7 @@ func HandleConfig(w http.ResponseWriter, r *http.Request) {
 func TestDatabase(w http.ResponseWriter, r *http.Request) {
 	_, err := Database.Query("SELECT 1 FROM Users")
 	if err != nil {
-		helpers.LogAndSendErrorMessage(w, "Database is not connected!", http.StatusInternalServerError)
+		helpers.LogAndSendErrorMessage(w, fmt.Sprintf("Database is not connected! error %v", err), http.StatusInternalServerError)
 		return
 	}
 	responseToEncode := shared.Response{"Database is connected!!"}
