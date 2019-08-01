@@ -20,12 +20,6 @@ type NPC struct {
 	MagicDefense int    `json:"magic_defense"`
 }
 
-type NPCs struct {
-	NPCs []NPC `json:"npcs"`
-}
-
-var npcs = NPCs{[]NPC{}}
-
 var npc1 = NPC{
 	Id:           1,
 	Name:         "Goblin",
@@ -65,18 +59,13 @@ var npc3 = NPC{
 	MagicDefense: 8,
 }
 
-func AppendNPCs() {
-	npcs.NPCs = append(npcs.NPCs, npc1)
-	npcs.NPCs = append(npcs.NPCs, npc2)
-	npcs.NPCs = append(npcs.NPCs, npc3)
-}
+var npcs = []NPC{npc1, npc2, npc3}
 
 // Up is executed when this migration is applied
 func Up_20190731194603(txn *sql.Tx) {
-	AppendNPCs()
 	sqlStatement := `INSERT INTO npcs(name, type, level, description, attack, defense, health, magic_attack, magic_defense)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
-	for _, npc := range npcs.NPCs {
+	for _, npc := range npcs {
 		_, err := txn.Exec(sqlStatement, npc.Name, npc.Type, npc.Level, npc.Description, npc.Attack,
 			npc.Defense, npc.Health, npc.MagicAttack, npc.MagicDefense)
 
@@ -88,9 +77,8 @@ func Up_20190731194603(txn *sql.Tx) {
 
 // Down is executed when this migration is rolled back
 func Down_20190731194603(txn *sql.Tx) {
-	AppendNPCs()
 	sqlStatement := `DELETE FROM npcs WHERE name = $1;`
-	for _, npc := range npcs.NPCs {
+	for _, npc := range npcs {
 		_, err := txn.Exec(sqlStatement, npc.Name)
 
 		if err != nil {
