@@ -61,10 +61,11 @@ func PopulateNPCsTable() {
 	npcs.NPCs = append(npcs.NPCs, npc2)
 	npcs.NPCs = append(npcs.NPCs, npc3)
 
-	for _, npc := range npcs.NPCs {
-		sqlStatement := `
+	sqlStatement := `
 		INSERT INTO npcs(name, type, level, description, attack, defense, health, magic_attack, magic_defense)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
+
+	for _, npc := range npcs.NPCs {
 		_, err := Database.Exec(sqlStatement, npc.Name, npc.Type, npc.Level, npc.Description, npc.Attack, 
 			npc.Defense, npc.Health, npc.MagicAttack, npc.MagicDefense)
 		if err != nil {
