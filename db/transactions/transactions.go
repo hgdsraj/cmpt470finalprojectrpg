@@ -14,12 +14,6 @@ func RunTransactions() {
 	PopulateNPCsTable()
 }
 
-func handleError(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
 func PopulateNPCsTable() {
 	// More NPCs can be added later
 	npcs := shared.NPCs{[]shared.NPC{}}
