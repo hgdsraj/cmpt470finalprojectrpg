@@ -5,7 +5,6 @@ import (
 	h "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/db"
-	"sfu.ca/apruner/cmpt470finalprojectrpg/db/transactions"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/handlers"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
 
@@ -74,7 +73,6 @@ func main() {
 	database := db.OpenDb()
 	handlers.Database = database
 	helpers.Database = database
-	transactions.Database = database
 	r := mux.NewRouter()
 	r.PathPrefix("/").HandlerFunc(healthCheckHandler)
 	srv := getServer(r)
@@ -115,7 +113,6 @@ func main() {
 	//go handlers.HandleMessages()
 
 	handlers.SetupConfig()
-	transactions.RunTransactions()
 
 	// Configure websocket route
 	srv = getServer(r)
