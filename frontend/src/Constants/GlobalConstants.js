@@ -17,7 +17,9 @@ const GLOBAL_STRINGS = {
   UNEXPECTED_ERROR_MSG: 'An unexpected error occurred',
   USERNAME_LABEL_MSG: 'Username',
   PASSWORD_LABEL_MSG: 'Password',
-  FULL_NAME_LABEL: 'Full name'
+  FULL_NAME_LABEL: 'Full name',
+  CHARACTER_API_RESPONSE_INDEX: 'characters',
+  NPC_API_RESPONSE_INDEX: 'npcs'
 };
 
 const GLOBAL_URLS = {
@@ -27,7 +29,8 @@ const GLOBAL_URLS = {
   POST_API_USERS_LOGOUT: '/api/users/logout',
   GET_API_USERS_EXISTS: '/api/users/exists/',
   GET_API_USERS_LOGGED_IN: '/api/users/logged_in',
-  GET_API_CHARACTERS: '/api/characters'
+  GET_API_CHARACTERS: '/api/characters',
+  GET_API_NPCS: '/api/npcs'
 };
 
 export {

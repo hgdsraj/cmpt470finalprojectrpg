@@ -32,8 +32,12 @@
               max-width: 90%;
               min-width: 90%;
 
-              .health-bar {
+              .battle-health-label {
                 margin-top: 15px;
+                color: #000000;
+              }
+
+              .health-bar {
                 margin-right: 15px;
                 margin-left: 15px;
               }
@@ -49,13 +53,13 @@
 
           .battle-button {
             min-width: 20%;
-            color: black;
+            color: #000000;
           }
         }
 
         .battle-log-container {
           .battle-log {
-            color: black;
+            color: #000000;
           }
         }
       }

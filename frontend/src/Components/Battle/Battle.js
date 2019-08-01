@@ -11,11 +11,15 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
-  CardText
 } from 'reactstrap';
 import {
-  STRINGS
+  STRINGS,
+  NUMBERS
 } from '../../Constants/BattleConstants';
+import {
+  GLOBAL_STRINGS,
+  GLOBAL_URLS
+} from '../../Constants/GlobalConstants';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
 import './Battle.scss';
 import PrincessAvatar from '../../Assets/princess_avatar.png';
@@ -24,19 +28,21 @@ import CreateCharacter from "../CreateCharacter/CreateCharacter";
 
 function CharacterCard(props) {
   const character = props.character;
-  const healthValue = Math.round(character.currentHealth / character.maxHealth * 100);
+  const healthValue = Math.round(character.currentHealth / character.health * NUMBERS.BATTLE_HEALTH_MULTIPLIER);
+  const characterLevel = character.level ? character.level.toString() : null;
   return (
     <Card className="battle-character-card">
       <div className="char-overview-wrapper">
         <div className="char-overview-intro-flex-container overview-intro-flex-container">
           <div className="char-overview-intro overview-intro">
+            <div className="battle-health-label text-center">{character.currentHealth} / {character.health}</div>
             <Progress className="battle-char-health-bar health-bar" value={healthValue} color="danger" />
             <CardImg className="char-overview-cardimg cardimg"
-                     src={character.avatar}/>
+                     // TODO: add a method to determine correct avatar based on character type
+                     src={/*character.avatar*/PrincessAvatar}/>
             <CardBody className="char-overview-cardbody cardbody">
               <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{character.name}</CardTitle>
-              <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + character.level.toString()}</CardSubtitle>
-              <CardText className="char-overview-cardtext cardtext cardtext-color">{character.text}</CardText>
+              <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + characterLevel}</CardSubtitle>
             </CardBody>
           </div>
         </div>
@@ -59,11 +65,11 @@ function CharacterCard(props) {
             </tr>
             <tr>
               <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
-              <td>{character.magicAttack}</td>
+              <td>{character.magic_attack}</td>
             </tr>
             <tr>
               <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
-              <td>{character.magicDefense}</td>
+              <td>{character.magic_defense}</td>
             </tr>
             </tbody>
           </Table>
@@ -80,19 +86,20 @@ CharacterCard.propTypes = {
 
 function NpcCard(props) {
   const npc = props.npc;
-  const healthValue = Math.round(npc.currentHealth / npc.maxHealth * 100);
+  const healthValue = Math.round(npc.currentHealth / npc.health * NUMBERS.BATTLE_HEALTH_MULTIPLIER);
+  const npcLevel = npc.level ? npc.level.toString() : null;
   return (
     <Card className="battle-npc-card">
       <div className="char-overview-wrapper">
         <div className="char-overview-intro-flex-container overview-intro-flex-container">
           <div className="char-overview-intro overview-intro">
+            <div className="battle-health-label text-center">{npc.currentHealth} / {npc.health}</div>
             <Progress className="battle-npc-health-bar health-bar" value={healthValue} color="danger" />
             <CardImg className="char-overview-cardimg cardimg"
-                     src={npc.avatar}/>
+                     src={/*npc.avatar*/Goblin}/>
             <CardBody className="char-overview-cardbody cardbody">
               <CardTitle className="char-overview-cardtitle cardtitle cardtext-color">{npc.name}</CardTitle>
-              <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + npc.level.toString()}</CardSubtitle>
-              <CardText className="char-overview-cardtext cardtext cardtext-color">{npc.text}</CardText>
+              <CardSubtitle className="char-overview-cardsubtitle cardsubtitle">{STRINGS.BATTLE_LEVEL_MSG + npcLevel}</CardSubtitle>
             </CardBody>
           </div>
         </div>
@@ -115,11 +122,11 @@ function NpcCard(props) {
             </tr>
             <tr>
               <td>{STRINGS.BATTLE_MAGIC_ATTACK_STAT_MSG}</td>
-              <td>{npc.magicAttack}</td>
+              <td>{npc.magic_attack}</td>
             </tr>
             <tr>
               <td>{STRINGS.BATTLE_MAGIC_DEFENSE_STAT_MSG}</td>
-              <td>{npc.magicDefense}</td>
+              <td>{npc.magic_defense}</td>
             </tr>
             </tbody>
           </Table>
@@ -137,32 +144,128 @@ NpcCard.propTypes = {
 class Battle extends React.Component {
   constructor(props) {
     super(props);
+    this.currentNPCName = 'Imp';
+    this.state = {
+      winner: '',
+      character: {},
+      npc: {}
+    }
   };
 
-  mockNPCData = {
-    name: 'Goblin',
-    level: 1,
-    text: 'Here is some text about the Goblin',
-    avatar: Goblin,
-    currentHealth: 15,
-    maxHealth: 25,
-    attack: 5,
-    defense: 4,
-    magicAttack: 4,
-    magicDefense: 3
+  async componentDidMount() {
+    const responseCharacters = await fetch(GLOBAL_URLS.GET_API_CHARACTERS);
+    const responseNPCs = await fetch(GLOBAL_URLS.GET_API_NPCS);
+    const bodyCharacters = await responseCharacters.json();
+    const bodyNPCs = await responseNPCs.json();
+    console.log('Found characters:', bodyCharacters);
+    console.log('Found npcs:', bodyNPCs);
+    if (bodyCharacters) {
+      bodyCharacters[GLOBAL_STRINGS.CHARACTER_API_RESPONSE_INDEX].forEach(character => {
+        if (character.name === this.props.currentCharacterName) {
+          character.currentHealth = character.health;
+          this.setState({
+            character
+          });
+        }
+      });
+    }
+    if (bodyNPCs) {
+      bodyNPCs[GLOBAL_STRINGS.NPC_API_RESPONSE_INDEX].forEach(npc => {
+        if (npc.name === this.currentNPCName) {
+          npc.currentHealth = npc.health;
+          this.setState({
+            npc
+          });
+        }
+      });
+    }
+  }
+
+  handleEscape = () => {
+    const success = Math.round(Math.random()); // generates 0 or 1
+    if (success === NUMBERS.BATTLE_ESCAPE_SUCCESS_1) {      // allowed to escape
+      // TODO: log the action, save the battle, redirect to home
+      console.log("Escape successful!");
+    } else {                  // not allowed to escape
+      // TODO: log the action, maybe a popup saying escape failed, continue battle
+      console.log("Escape unsuccessful!");
+      this.npcAttack();
+    }
   };
 
-  mockCharacterData = {
-    name: 'Annabelle',
-    avatar: PrincessAvatar,
-    level: 1,
-    text: 'Here is some text about the character',
-    currentHealth: 22,
-    maxHealth: 25,
-    attack: 5,
-    defense: 4,
-    magicAttack: 4,
-    magicDefense: 3
+  // TODO: expand this method (or make more helper methods) to allow for different attack types, accuracy calculations,
+  //  critical hits (this is just the basic method for now)
+  handleAttack = () => {
+    let damage = this.state.character.attack - this.state.npc.defense;
+    if (damage < NUMBERS.BATTLE_DAMAGE_0) {
+      damage = NUMBERS.BATTLE_DAMAGE_0;
+    }
+    this.calculateAndSetNewNPCHealth(damage);
+    // TODO: add delay
+    this.npcAttack();
+  };
+
+  // TODO: will expand same as attack method
+  handleMagicAttack = () => {
+    let damage = this.state.character.magic_attack - this.state.npc.magic_defense;
+    if (damage < NUMBERS.BATTLE_DAMAGE_0) {
+      damage = NUMBERS.BATTLE_DAMAGE_0;
+    }
+    this.calculateAndSetNewNPCHealth(damage);
+    // TODO: add delay
+    this.npcAttack();
+  };
+
+  npcAttack = () => {
+    const attackType = Math.round(Math.random()); // generates 0 or 1
+    let damage;
+    if (attackType === NUMBERS.BATTLE_ATTACK_TYPE_0) {   // Normal attack
+      damage = this.state.npc.attack - this.state.character.defense;
+    } else {                  // Magic attack
+      damage = this.state.npc.magic_attack - this.state.character.magic_defense;
+    }
+    if (damage < NUMBERS.BATTLE_DAMAGE_0) {
+      damage = NUMBERS.BATTLE_DAMAGE_0;
+    }
+    this.calculateAndSetNewCharacterHealth(damage);
+  };
+
+  calculateAndSetNewNPCHealth = (damage) => {
+    let newNPCHealth = this.state.npc.currentHealth - damage;
+    if (newNPCHealth < 0) {
+      newNPCHealth = 0;
+    }
+    this.setState(prevState => ({
+      npc: {
+        ...prevState.npc,     // keep all other key-value pairs
+        currentHealth: newNPCHealth
+      }
+    }));
+    if (newNPCHealth === 0) {
+      this.setState(prevState => ({
+        winner: prevState.character.name
+      }));
+    }
+    // TODO: create battle log component and log stuff in there
+  };
+
+  calculateAndSetNewCharacterHealth = (damage) => {
+    let newCharacterHealth = this.state.character.currentHealth - damage;
+    if (newCharacterHealth < 0) {
+      newCharacterHealth = 0;
+    }
+    this.setState(prevState => ({
+      character: {
+        ...prevState.character,     // keep all other key-value pairs
+        currentHealth: newCharacterHealth
+      }
+    }));
+    if (newCharacterHealth === 0) {
+      this.setState(prevState => ({
+        winner: prevState.npc.name
+      }));
+    }
+    // TODO: create battle log component and log stuff in there
   };
 
   render() {
@@ -175,17 +278,36 @@ class Battle extends React.Component {
             <h1 className="battle-header-text">{STRINGS.BATTLE_HEADER_MSG}</h1>
             <div className="battle-container container">
               <div className="battle-card-container container">
-                <CharacterCard character={this.mockCharacterData}/>
-                <NpcCard npc={this.mockNPCData}/>
+                <CharacterCard character={this.state.character}/>
+                <NpcCard npc={this.state.npc}/>
               </div>
               <h3 className="battle-container-header-text">{STRINGS.BATTLE_CONTAINER_HEADER_MSG}</h3>
               <div className="battle-buttons-container container">
                 {/*TODO: maybe make these into dropdowns, each with their own respective selections*/}
                 {/*TODO: OR make these into modals that contain all available attacks or items or whatever*/}
-                <Button className="attack-button battle-button" color="danger">{STRINGS.BATTLE_BUTTON_ATTACK}</Button>{' '}
-                <Button className="magic-button battle-button" color="primary">{STRINGS.BATTLE_BUTTON_MAGIC}</Button>{' '}
+                <Button
+                    className="attack-button battle-button"
+                    color="danger"
+                    onClick={this.handleAttack}
+                >
+                  {STRINGS.BATTLE_BUTTON_ATTACK}
+                </Button>
+                <Button
+                    className="magic-button battle-button"
+                    color="primary"
+                    onClick={this.handleMagicAttack}
+                >
+                  {STRINGS.BATTLE_BUTTON_MAGIC}
+                </Button>
+                {/*TODO: hookup character inventory (probably just consumables) once the endpoint is created*/}
                 <Button className="inventory-button battle-button" color="success">{STRINGS.BATTLE_BUTTON_INVENTORY}</Button>{' '}
-                <Button className="escape-button battle-button" color="warning">{STRINGS.BATTLE_BUTTON_ESCAPE}</Button>{' '}
+                <Button
+                    className="escape-button battle-button"
+                    color="warning"
+                    onClick={this.handleEscape}
+                >
+                  {STRINGS.BATTLE_BUTTON_ESCAPE}
+                </Button>{' '}
               </div>
               <div className="battle-log-container container">
                 <h3 className="battle-log-container-header-text">{STRINGS.BATTLE_LOG_CONTAINER_HEADER_MSG}</h3>
@@ -208,7 +330,8 @@ class Battle extends React.Component {
 }
 
 Battle.propTypes = {
-  handleUnauthenticate: PropTypes.func
+  handleUnauthenticate: PropTypes.func,
+  currentCharacterName: PropTypes.string
 };
 
 export default Battle;
