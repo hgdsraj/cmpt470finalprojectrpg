@@ -106,12 +106,14 @@ func main() {
 	if os.Getenv("DISABLE_STATIC_FILE_SERVER") != "true" {
 		r.PathPrefix("").Handler(http.StripPrefix("", http.FileServer(http.Dir(STATIC))))
 	}
+
 	// r.PathPrefix("/").Handler(http.FileServer(http.Dir("." + STATIC)))
 
 	// Start listening for incoming chat messages
 	//go handlers.HandleMessages()
 
 	handlers.SetupConfig()
+
 	// Configure websocket route
 	srv = getServer(r)
 
