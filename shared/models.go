@@ -69,23 +69,6 @@ var MaxNewCharacter = Character{
 
 var MAX_NEW_CHARACTER_ATTRIBUTE_SUM = 64
 
-type NPC struct {
-	Id           int    `json:"id"`
-	Name         string `json:"name"`
-	Type         string `json:"type"`
-	Level        int    `json:"level"`
-	Description  string `json:"description"`
-	Attack       int    `json:"attack"`
-	Defense      int    `json:"defense"`
-	Health       int    `json:"health"`
-	MagicAttack  int    `json:"magic_attack"`
-	MagicDefense int    `json:"magic_defense"`
-}
-
-type NPCs struct {
-	NPCs []NPC `json:"npcs"`
-}
-
 func (c *Character) CalculateStats() {
 	c.Health = c.Stamina * 2
 	c.Attack = int(math.Round(float64(c.Strength) / 3))
