@@ -17,7 +17,9 @@ const GLOBAL_STRINGS = {
   UNEXPECTED_ERROR_MSG: 'An unexpected error occurred',
   USERNAME_LABEL_MSG: 'Username',
   PASSWORD_LABEL_MSG: 'Password',
-  FULL_NAME_LABEL: 'Full name'
+  FULL_NAME_LABEL: 'Full name',
+  CHARACTER_API_RESPONSE_INDEX: 'characters',
+  NPC_API_RESPONSE_INDEX: 'npcs'
 };
 
 const GLOBAL_URLS = {

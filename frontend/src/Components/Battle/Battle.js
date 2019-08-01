@@ -16,6 +16,7 @@ import {
   STRINGS
 } from '../../Constants/BattleConstants';
 import {
+  GLOBAL_STRINGS,
   GLOBAL_URLS
 } from '../../Constants/GlobalConstants';
 import CustomNavbar from '../CustomNavbar/CustomNavbar';
@@ -142,7 +143,7 @@ NpcCard.propTypes = {
 class Battle extends React.Component {
   constructor(props) {
     super(props);
-    this.currentNPCId = 1;
+    this.currentNPCName = 'Imp';
     this.state = {
       winner: '',
       character: {},
@@ -158,7 +159,7 @@ class Battle extends React.Component {
     console.log('Found characters:', bodyCharacters);
     console.log('Found npcs:', bodyNPCs);
     if (bodyCharacters) {
-      bodyCharacters['characters'].forEach(character => {
+      bodyCharacters[GLOBAL_STRINGS.CHARACTER_API_RESPONSE_INDEX].forEach(character => {
         if (character.name === this.props.currentCharacterName) {
           character.currentHealth = character.health;
           this.setState({
@@ -168,8 +169,8 @@ class Battle extends React.Component {
       });
     }
     if (bodyNPCs) {
-      bodyNPCs['npcs'].forEach(npc => {
-        if (npc.id === this.currentNPCId) {
+      bodyNPCs[GLOBAL_STRINGS.NPC_API_RESPONSE_INDEX].forEach(npc => {
+        if (npc.name === this.currentNPCName) {
           npc.currentHealth = npc.health;
           this.setState({
             npc
