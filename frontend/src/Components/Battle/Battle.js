@@ -13,7 +13,8 @@ import {
   CardSubtitle,
 } from 'reactstrap';
 import {
-  STRINGS
+  STRINGS,
+  NUMBERS
 } from '../../Constants/BattleConstants';
 import {
   GLOBAL_STRINGS,
@@ -27,7 +28,7 @@ import CreateCharacter from "../CreateCharacter/CreateCharacter";
 
 function CharacterCard(props) {
   const character = props.character;
-  const healthValue = Math.round(character.currentHealth / character.health * 100);
+  const healthValue = Math.round(character.currentHealth / character.health * NUMBERS.BATTLE_HEALTH_MULTIPLIER);
   const characterLevel = character.level ? character.level.toString() : null;
   return (
     <Card className="battle-character-card">
@@ -85,7 +86,7 @@ CharacterCard.propTypes = {
 
 function NpcCard(props) {
   const npc = props.npc;
-  const healthValue = Math.round(npc.currentHealth / npc.health * 100);
+  const healthValue = Math.round(npc.currentHealth / npc.health * NUMBERS.BATTLE_HEALTH_MULTIPLIER);
   const npcLevel = npc.level ? npc.level.toString() : null;
   return (
     <Card className="battle-npc-card">
@@ -182,7 +183,7 @@ class Battle extends React.Component {
 
   handleEscape = () => {
     const success = Math.round(Math.random()); // generates 0 or 1
-    if (success === 1) {      // allowed to escape
+    if (success === NUMBERS.BATTLE_ESCAPE_SUCCESS_1) {      // allowed to escape
       // TODO: log the action, save the battle, redirect to home
       console.log("Escape successful!");
     } else {                  // not allowed to escape
@@ -196,8 +197,8 @@ class Battle extends React.Component {
   //  critical hits (this is just the basic method for now)
   handleAttack = () => {
     let damage = this.state.character.attack - this.state.npc.defense;
-    if (damage < 0) {
-      damage = 0;
+    if (damage < NUMBERS.BATTLE_DAMAGE_0) {
+      damage = NUMBERS.BATTLE_DAMAGE_0;
     }
     this.calculateAndSetNewNPCHealth(damage);
     // TODO: add delay
@@ -207,8 +208,8 @@ class Battle extends React.Component {
   // TODO: will expand same as attack method
   handleMagicAttack = () => {
     let damage = this.state.character.magic_attack - this.state.npc.magic_defense;
-    if (damage < 0) {
-      damage = 0;
+    if (damage < NUMBERS.BATTLE_DAMAGE_0) {
+      damage = NUMBERS.BATTLE_DAMAGE_0;
     }
     this.calculateAndSetNewNPCHealth(damage);
     // TODO: add delay
@@ -217,14 +218,14 @@ class Battle extends React.Component {
 
   npcAttack = () => {
     const attackType = Math.round(Math.random()); // generates 0 or 1
-    let damage = 0;
-    if (attackType === 0) {   // Normal attack
+    let damage;
+    if (attackType === NUMBERS.BATTLE_ATTACK_TYPE_0) {   // Normal attack
       damage = this.state.npc.attack - this.state.character.defense;
     } else {                  // Magic attack
       damage = this.state.npc.magic_attack - this.state.character.magic_defense;
     }
-    if (damage < 0) {
-      damage = 0;
+    if (damage < NUMBERS.BATTLE_DAMAGE_0) {
+      damage = NUMBERS.BATTLE_DAMAGE_0;
     }
     this.calculateAndSetNewCharacterHealth(damage);
   };
@@ -245,8 +246,7 @@ class Battle extends React.Component {
         winner: prevState.character.name
       }));
     }
-    // TODO: create battle log component and log stuff like this in there
-    console.log('You hit the npc for ', damage, ' damage leaving them with ', newNPCHealth, ' health');
+    // TODO: create battle log component and log stuff in there
   };
 
   calculateAndSetNewCharacterHealth = (damage) => {
@@ -265,8 +265,7 @@ class Battle extends React.Component {
         winner: prevState.npc.name
       }));
     }
-    // TODO: create battle log component and log stuff like this in there
-    console.log('The npc hit you for ', damage, ' damage leaving you with ', newCharacterHealth, ' health');
+    // TODO: create battle log component and log stuff in there
   };
 
   render() {
