@@ -3,6 +3,7 @@ package handlers
 
 import (
 	"database/sql"
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
 	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
