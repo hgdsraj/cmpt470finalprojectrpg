@@ -853,89 +853,106 @@ func TestHandleUserLogout(t *testing.T) {
 	testSuccessfulLogout()
 }
 
-// TODO: uncomment this test and adjust npc1 and npc2 once NPCS table is populated
-//func TestHandleGetNPCs(t *testing.T) {
-//		SetupConfig()
-//		db, mock, err := sqlmock.New()
-//		if err != nil {
-//			t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
-//		}
-//
-//		// set database to be our mock db
-//		Database = db
-//		helpers.Database = db
-//		defer func() {
-//			// we make sure that all expectations were met
-//			if err := mock.ExpectationsWereMet(); err != nil {
-//					t.Errorf("there were unfulfilled expectations: %s", err)
-//			}
-//		}()
-//
-//		npc1 := shared.NPC{
-//			Id:           1,
-//			Name:         "test",
-//			Type:         "Goblin",
-//			Level:        99,
-//			Description:  "A goblin",
-//			Attack:       99,
-//			Defense:      99,
-//			Health:       99,
-//			MagicAttack:  99,
-//			MagicDefense: 99,
-//		}
-//		npc2 := shared.NPC{
-//			Id:           2,
-//			Name:         "test2",
-//			Type:         "Imp",
-//			Level:        99,
-//			Description:  "An Imp",
-//			Attack:       99,
-//			Defense:      99,
-//			Health:       99,
-//			MagicAttack:  99,
-//			MagicDefense: 99,
-//		}
-//
-//		testGetNPCs := func() {
-//			npcRows := sqlmock.NewRows([]string{"id", "name", "type", "level", "description",
-//				"attack", "defense", "health", "magic_attack", "magic_defense"}).
-//				AddRow(npc1.Id, npc1.Name, npc1.Type,
-//					npc1.Level, npc1.Description, npc1.Attack, npc1.Defense,
-//					npc1.Health, npc1.MagicAttack, npc1.MagicDefense).
-//				AddRow(npc2.Id, npc2.Name, npc2.Type,
-//					npc2.Level, npc2.Description, npc2.Attack, npc2.Defense,
-//					npc2.Health, npc2.MagicAttack, npc2.MagicDefense)
-//			mock.ExpectQuery("SELECT").WillReturnRows(npcRows)
-//
-//			req, err := http.NewRequest("GET", "/npcs/", nil)
-//			if err != nil {
-//				t.Fatal(err)
-//			}
-//
-//			rr := httptest.NewRecorder()
-//
-//			handler := http.HandlerFunc(HandleGetNPCs)
-//			handler.ServeHTTP(rr, req)
-//
-//			// Check the status code is what we expect.
-//			if status := rr.Code; status != http.StatusOK {
-//				t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
-//			}
-//
-//			responseNPCs := shared.NPCs{[]shared.NPC{}}
-//			err = json.Unmarshal(rr.Body.Bytes(), &responseNPCs)
-//			if err != nil {
-//				t.Fatalf("error unmarshalling npcs response: %v\n", err)
-//			}
-//
-//			expectedNPCs := shared.NPCs{
-//				NPCs: []shared.NPC{npc1, npc2},
-//			}
-//			if eq := reflect.DeepEqual(expectedNPCs, responseNPCs); !eq {
-//				t.Fatalf("expectedNPCs not equal to responseNPCs\nexpected:\n%v\ngot:\n%v\n",
-//					expectedNPCs, responseNPCs)
-//			}
-//		}
-//
-//	testGetNPCs()
-//}
+func TestHandleGetNPCs(t *testing.T) {
+	SetupConfig()
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+
+	// set database to be our mock db
+	Database = db
+	helpers.Database = db
+	defer func() {
+		// we make sure that all expectations were met
+		if err := mock.ExpectationsWereMet(); err != nil {
+				t.Errorf("there were unfulfilled expectations: %s", err)
+		}
+	}()
+
+	// Same entries as initial population migration
+	npc1 := shared.NPC{
+		Id:           1,
+		Name:         "Goblin",
+		Type:         "Monster",
+		Level:        1,
+		Description:  "A goblin",
+		Attack:       5,
+		Defense:      4,
+		Health:       20,
+		MagicAttack:  6,
+		MagicDefense: 3,
+	}
+
+	npc2 := shared.NPC{
+		Id:           1,
+		Name:         "Zombie",
+		Type:         "Monster",
+		Level:        2,
+		Description:  "A Zombie",
+		Attack:       7,
+		Defense:      6,
+		Health:       25,
+		MagicAttack:  6,
+		MagicDefense: 6,
+	}
+
+	 npc3 := shared.NPC{
+		Id:           1,
+		Name:         "Imp",
+		Type:         "Monster",
+		Level:        3,
+		Description:  "An Imp",
+		Attack:       7,
+		Defense:      8,
+		Health:       30,
+		MagicAttack:  10,
+		MagicDefense: 8,
+	}
+
+	testGetNPCs := func() {
+		npcRows := sqlmock.NewRows([]string{"id", "name", "type", "level", "description",
+			"attack", "defense", "health", "magic_attack", "magic_defense"}).
+			AddRow(npc1.Id, npc1.Name, npc1.Type,
+				npc1.Level, npc1.Description, npc1.Attack, npc1.Defense,
+				npc1.Health, npc1.MagicAttack, npc1.MagicDefense).
+			AddRow(npc2.Id, npc2.Name, npc2.Type,
+				npc2.Level, npc2.Description, npc2.Attack, npc2.Defense,
+				npc2.Health, npc2.MagicAttack, npc2.MagicDefense).
+			AddRow(npc3.Id, npc3.Name, npc3.Type,
+				npc3.Level, npc3.Description, npc3.Attack, npc3.Defense,
+				npc3.Health, npc3.MagicAttack, npc3.MagicDefense)
+		mock.ExpectQuery("SELECT").WillReturnRows(npcRows)
+
+		req, err := http.NewRequest("GET", "/npcs/", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		rr := httptest.NewRecorder()
+
+		handler := http.HandlerFunc(HandleGetNPCs)
+		handler.ServeHTTP(rr, req)
+
+		// Check the status code is what we expect.
+		if status := rr.Code; status != http.StatusOK {
+			t.Errorf("wrong status code: got %v want %v", status, http.StatusOK)
+		}
+
+		responseNPCs := shared.NPCs{[]shared.NPC{}}
+		err = json.Unmarshal(rr.Body.Bytes(), &responseNPCs)
+		if err != nil {
+			t.Fatalf("error unmarshalling npcs response: %v\n", err)
+		}
+
+		expectedNPCs := shared.NPCs{
+			NPCs: []shared.NPC{npc1, npc2, npc3},
+		}
+		if eq := reflect.DeepEqual(expectedNPCs, responseNPCs); !eq {
+			t.Fatalf("expectedNPCs not equal to responseNPCs\nexpected:\n%v\ngot:\n%v\n",
+				expectedNPCs, responseNPCs)
+		}
+	}
+
+	testGetNPCs()
+}
