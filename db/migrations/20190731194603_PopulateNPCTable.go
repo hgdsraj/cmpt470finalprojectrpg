@@ -81,7 +81,7 @@ func Up_20190731194603(txn *sql.Tx) {
 			npc.Defense, npc.Health, npc.MagicAttack, npc.MagicDefense)
 
 		if err != nil {
-			log.Fatalf("fatal error while running consumables migration %v", err)
+			log.Fatalf("fatal error while running npc populations migration %v", err)
 		}
 	}
 }
@@ -94,7 +94,7 @@ func Down_20190731194603(txn *sql.Tx) {
 		_, err := txn.Exec(sqlStatement, npc.Name)
 
 		if err != nil {
-			log.Fatalf("fatal error while running consumables migration %v", err)
+			log.Fatalf("fatal error while running npc populations migration %v", err)
 		}
 	}
 }
