@@ -2,19 +2,19 @@
 package handlers
 
 import (
-		"database/sql"
-		"github.com/gorilla/mux"
-		"golang.org/x/crypto/bcrypt"
-		"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
-		"sfu.ca/apruner/cmpt470finalprojectrpg/shared"
+	"database/sql"
+	"github.com/gorilla/mux"
+	"golang.org/x/crypto/bcrypt"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/helpers"
+	"sfu.ca/apruner/cmpt470finalprojectrpg/shared"
 
-		"encoding/json"
-		"net/http"
-		"net/http/httptest"
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
 
-		"bytes"
-		"reflect"
-		"testing"
+	"bytes"
+	"reflect"
+	"testing"
 )
 
 func TestHandleConfig(t *testing.T) {
