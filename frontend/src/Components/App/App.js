@@ -105,6 +105,7 @@ class App extends React.Component {
           path="/battle"
           component={() => this.handleRenderProtectedPage(<Battle
             handleUnauthenticate={this.handleUnauthenticate}
+            currentCharacterName={this.state.currentCharacterName}
           />)}
         />
       </Router>

@@ -142,8 +142,6 @@ NpcCard.propTypes = {
 class Battle extends React.Component {
   constructor(props) {
     super(props);
-    // TODO: determine this value
-    this.currentCharacterId = 2;
     this.currentNPCId = 1;
     this.state = {
       winner: '',
@@ -161,7 +159,7 @@ class Battle extends React.Component {
     console.log('Found npcs:', bodyNPCs);
     if (bodyCharacters) {
       bodyCharacters['characters'].forEach(character => {
-        if (character.id === this.currentCharacterId) {
+        if (character.name === this.props.currentCharacterName) {
           character.currentHealth = character.health;
           this.setState({
             character
@@ -332,7 +330,8 @@ class Battle extends React.Component {
 }
 
 Battle.propTypes = {
-  handleUnauthenticate: PropTypes.func
+  handleUnauthenticate: PropTypes.func,
+  currentCharacterName: PropTypes.string
 };
 
 export default Battle;
